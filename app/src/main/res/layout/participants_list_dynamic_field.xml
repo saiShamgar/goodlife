@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_below="@+id/eventdateLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginTop="15dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Spinner
+        android:id="@+id/participaintsSpinner"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+    </Spinner>
+
+    <EditText
+        android:id="@+id/num_men"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:id="@+id/num_women"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/num_child"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content" />
+
+    <ImageButton
+        android:id="@+id/delete_button_participaints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_delete"
+        android:background="@color/white"
+        android:layout_marginStart="5dp"/>
+
+
+</LinearLayout>

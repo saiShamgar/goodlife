@@ -104,19 +104,21 @@
         android:layout_marginBottom="5dp">
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginBottom="55dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                
+
             //events dates
               <LinearLayout
                   android:id="@+id/eventdateLayout"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:orientation="vertical"
-                  android:layout_marginTop="15dp">
+                  android:layout_marginTop="15dp"
+                  android:visibility="gone">
 
                   <LinearLayout
                       android:layout_width="match_parent"
@@ -160,11 +162,13 @@
         //participants list
 
             <LinearLayout
+                android:id="@+id/participantMain"
                 android:layout_below="@+id/eventdateLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="15dp">
+                android:layout_marginTop="15dp"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -195,6 +199,51 @@
                     android:layout_height="wrap_content"
                     android:scrollbars="none">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp">
+
+                    <TextView
+                        android:layout_width="130dp"
+                        android:layout_height="wrap_content"
+                        android:text="Participaints list"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        android:layout_marginStart="8dp"/>
+                    <TextView
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:text="men"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        android:gravity="center"/>
+                    <TextView
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:text="women"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:text="child"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        android:gravity="center"/>
+
+                </LinearLayout>
+
+                </HorizontalScrollView>
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -205,9 +254,238 @@
 
             </LinearLayout>
 
+                //Finance Layout
+
+               <LinearLayout
+                   android:id="@+id/financeLayout"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:orientation="vertical"
+                   android:visibility="gone">
+
+                   <TextView
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:text="Finance details"
+                       android:textSize="16sp"
+                       android:textColor="@color/colorPrimaryDark"
+                       android:textStyle="bold"
+                       android:layout_margin="15sp"
+                       android:gravity="center"/>
+
+                   <EditText
+                       android:id="@+id/financeExpenditure"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:layout_margin="10dp"
+                       android:textSize="14sp"
+                       android:hint="Enter Expenditure Description"
+                       android:imeOptions="actionNext"
+                       android:inputType="text"/>
+
+                   <TextView
+                       android:id="@+id/finance_add_one_more_vendor"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                      android:text="Add one more Vendor"
+                       android:background="@drawable/stroke_background_gray"
+                       android:padding="10dp"
+                       android:layout_gravity="end"
+                       android:layout_marginEnd="8dp"
+                       android:textColor="@color/colorPrimaryDark"/>
+                   <TextView
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:text="Vendor Details"
+                       android:textSize="16sp"
+                       android:textColor="@color/colorPrimaryDark"
+                       android:textStyle="bold"
+                       android:layout_marginStart="15dp"/>
+
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="horizontal">
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:textSize="14sp"
+                       android:text="Company name: "
+                      android:textColor="@android:color/black"
+                       android:layout_margin="5dp"
+                       android:textStyle="bold"/>
+
+                       <EditText
+                           android:id="@+id/financeCompanyname"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:textSize="14sp"
+                           android:textColor="@android:color/black"
+                           android:layout_margin="5dp"
+                           android:textStyle="bold"
+                           android:inputType="text"
+                           android:imeOptions="actionNext"/>
+                   </LinearLayout>
+
+
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="horizontal">
+                       <TextView
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:textSize="14sp"
+                           android:text="Location            : "
+                           android:textColor="@android:color/black"
+                           android:layout_margin="5dp"
+                           android:textStyle="bold"/>
+
+                       <EditText
+                           android:id="@+id/financeCompanyLocation"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:textSize="14sp"
+                           android:textColor="@android:color/black"
+                           android:layout_margin="5dp"
+                           android:textStyle="bold"
+                           android:inputType="text"
+                           android:imeOptions="actionNext"/>
+                   </LinearLayout>
+
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="horizontal">
+                       <TextView
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:textSize="14sp"
+                           android:text="Phone                 : "
+                           android:textColor="@android:color/black"
+                           android:layout_margin="5dp"
+                           android:textStyle="bold"/>
+
+                       <EditText
+                           android:id="@+id/financeCompanyPhone"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:textSize="14sp"
+                           android:textColor="@android:color/black"
+                           android:layout_margin="5dp"
+                           android:textStyle="bold"
+                           android:inputType="number"
+                           android:imeOptions="actionNext"/>
+                   </LinearLayout>
+
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="horizontal">
+                       <TextView
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:textSize="14sp"
+                           android:text="Total Amount bidding: "
+                           android:textColor="@android:color/black"
+                           android:layout_margin="5dp"
+                           android:textStyle="bold"/>
+
+                       <EditText
+                           android:id="@+id/financeTotalBidding"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:textSize="14sp"
+                           android:textColor="@android:color/black"
+                           android:layout_margin="5dp"
+                           android:textStyle="bold"
+                           android:inputType="numberDecimal"
+                           android:imeOptions="actionNext"/>
+                   </LinearLayout>
+
+
+
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="horizontal">
+                       <TextView
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:textSize="14sp"
+                           android:text="Bank A/c number : "
+                           android:textColor="@android:color/black"
+                           android:layout_margin="5dp"
+                           android:textStyle="bold"/>
+
+                       <EditText
+                           android:id="@+id/financeCompanyBankNum"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:textSize="14sp"
+                           android:textColor="@android:color/black"
+                           android:layout_margin="5dp"
+                           android:textStyle="bold"
+                           android:inputType="number"
+                           android:imeOptions="actionNext"/>
+                   </LinearLayout>
+
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="horizontal">
+                       <TextView
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:textSize="14sp"
+                           android:text="Bank Ifsc code   : "
+                           android:textColor="@android:color/black"
+                           android:layout_margin="5dp"
+                           android:textStyle="bold" />
+
+                       <EditText
+                           android:id="@+id/financeCompanyBankIfsc"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:textSize="14sp"
+                           android:textColor="@android:color/black"
+                           android:layout_margin="5dp"
+                           android:textStyle="bold"
+                           android:inputType="text"
+                           android:imeOptions="actionDone"/>
+                   </LinearLayout>
+
+               </LinearLayout>
+
+
             </RelativeLayout>
 
         </ScrollView>
+        <Button
+            android:id="@+id/nextButtomToGoToFinance"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="15sp"
+            android:layout_marginEnd="20dp"
+            android:text="Next"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:layout_gravity="bottom|end"
+            android:background="@drawable/solid_background_primary" />
+
+        <ImageButton
+            android:id="@+id/finance_back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_keyboard_backspace_black_24dp"
+            android:layout_gravity="bottom"
+            android:background="@color/white"
+            android:layout_marginStart="15sp"
+            android:layout_marginBottom="20sp"
+            android:visibility="gone"/>
+
+
 
     </android.support.v7.widget.CardView>
 </android.support.constraint.ConstraintLayout>

@@ -16,51 +16,56 @@
         android:textColor="#000" />
     <TextView
         android:id="@+id/selectStartTime"
-        android:layout_width="100dp"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="From Time "
         android:textStyle="bold"
         android:textColor="#000"
-        android:gravity="center"
-        android:drawableEnd="@drawable/ic_access_time_black_24dp"/>
-
-    <TextView
-        android:id="@+id/selectEndTime"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="To Time"
-        android:textStyle="bold"
-        android:textColor="#000"
-        android:gravity="center"
-        android:drawableEnd="@drawable/ic_access_time_black_24dp"/>
+        android:gravity="center" />
     <Spinner
+        android:id="@+id/spinnerStartTimeEvent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_gravity="center"
+        android:entries="@array/time"/>
+
+    <TextView
+        android:id="@+id/selectEndTime"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:text="To Time"
+        android:textStyle="bold"
+        android:textColor="#000"
+        android:gravity="center" />
+    <Spinner
+        android:id="@+id/spinnerEndTimeEvent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:entries="@array/time">
 
     </Spinner>
 
-    <Button
+    <ImageButton
         android:id="@+id/delete_button"
-        android:layout_width="40dp"
-        android:layout_height="30dp"
-        android:background="@android:drawable/ic_delete"
-        android:layout_gravity="center" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_delete"
+        android:background="@color/white"/>
 
-    </LinearLayout>
+
+</LinearLayout>
 
     <!--<View-->
         <!--android:layout_width="match_parent"-->
