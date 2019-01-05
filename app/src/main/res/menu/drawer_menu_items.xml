@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <group android:checkableBehavior="single">
+
     <item android:id="@+id/menu_event_form"
-        android:title="Program Application"
+        android:title="VBS Program Application"
         android:icon="@drawable/ic_event_black_24dp"/>
+
+    <item android:id="@+id/menu_finance_application"
+        android:title="Finance Application"
+        android:icon="@drawable/ic_event_note_black_24dp"/>
+
+   <item android:id="@+id/menu_transport_application"
+       android:title="Transport Application"
+       android:icon="@drawable/ic_airport_shuttle_black_24dp"/>
+
     <item android:id="@+id/menu_report_form"
         android:title="Report Application"
         android:icon="@drawable/ic_group_work_black_24dp"/>
+    </group>
+
 
 </menu>

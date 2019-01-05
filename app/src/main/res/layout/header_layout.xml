@@ -9,9 +9,9 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:src="@mipmap/ic_launcher"
+        android:src="@drawable/g"
         android:layout_marginTop="40dp"
-        android:layout_marginStart="20dp"/>
+        android:layout_marginStart="20dp" />
 
     <TextView
         android:layout_width="match_parent"
@@ -22,7 +22,4 @@
         android:text="Good Life"
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"/>
-
-
-
 </LinearLayout>

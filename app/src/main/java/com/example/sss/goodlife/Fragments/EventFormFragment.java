@@ -35,8 +35,8 @@ public class EventFormFragment extends Fragment {
 
     private EditText financeExpenditure,financeCompanyname,financeCompanyLocation,financeCompanyPhone
             ,financeTotalBidding,financeCompanyBankNum,financeCompanyBankIfsc;
-    private ImageButton addEventDateColumn,addPaticipantsList,delete_button_participaints,delete_button,finance_back_button;
-    private LinearLayout parentLinearLayout,parentLinearLayout2,eventdateLayout,participantMain,financeLayout;
+    private ImageButton addEventDateColumn,delete_button,finance_back_button;
+    private LinearLayout parentLinearLayout,eventdateLayout,financeLayout;
     private Spinner spinnerStartTimeEvent,spinnerEndTimeEvent,spinnerParticipaintsList;
     private Button nextButtomToGoToFinance;
     int year;
@@ -77,12 +77,9 @@ public class EventFormFragment extends Fragment {
         // Date Picker
 
         addEventDateColumn=view.findViewById(R.id.addEventDateColumn);
-        addPaticipantsList=view.findViewById(R.id.addPaticipantsList);
         parentLinearLayout=view.findViewById(R.id.parentLinearLayout);
-        parentLinearLayout2=view.findViewById(R.id.parentLinearLayout2);
         nextButtomToGoToFinance=view.findViewById(R.id.nextButtomToGoToFinance);
         eventdateLayout=view.findViewById(R.id.eventdateLayout);
-        participantMain=view.findViewById(R.id.participantMain);
         financeLayout=view.findViewById(R.id.financeLayout);
         finance_add_one_more_vendor=view.findViewById(R.id.finance_add_one_more_vendor);
         finance_back_button=view.findViewById(R.id.finance_back_button);
@@ -98,7 +95,6 @@ public class EventFormFragment extends Fragment {
 
 
         eventdateLayout.setVisibility(View.VISIBLE);
-        participantMain.setVisibility(View.VISIBLE);
 
         //addEventDate dynamic
         addEventDateColumn.setOnClickListener(new View.OnClickListener() {
@@ -123,6 +119,21 @@ public class EventFormFragment extends Fragment {
                         Toast.makeText(getActivity(),"please fill details first",Toast.LENGTH_LONG).show();
                         return;
                     }
+                    if (TextUtils.isEmpty(participaints_num_men.getText().toString())){
+                        Toast.makeText(getActivity(),"please fill details first",Toast.LENGTH_LONG).show();
+                        participaints_num_men.setError("field cannot be blank");
+                        return;
+                    }
+                    if (TextUtils.isEmpty(participaints_num_women.getText().toString())){
+                        Toast.makeText(getActivity(),"please fill details first",Toast.LENGTH_LONG).show();
+                        participaints_num_women.setError("field cannot be blank");
+                        return;
+                    }
+                    if (TextUtils.isEmpty(participaints_num_child.getText().toString())){
+                        Toast.makeText(getActivity(),"please fill details first",Toast.LENGTH_LONG).show();
+                        participaints_num_child.setError("field cannot be blank");
+                        return;
+                    }
                     parentLinearLayout.addView(rowView);
                 }
                 selectDateTxt=(TextView) rowView.findViewById(R.id.selectDateTxt);
@@ -131,10 +142,17 @@ public class EventFormFragment extends Fragment {
                 selectEndTime=(TextView)rowView.findViewById(R.id.selectEndTime);
                 spinnerStartTimeEvent=(Spinner)rowView.findViewById(R.id.spinnerStartTimeEvent);
                 spinnerEndTimeEvent=(Spinner)rowView.findViewById(R.id.spinnerEndTimeEvent);
+                participaints_num_men=rowView.findViewById(R.id.num_men);
+                participaints_num_women=rowView.findViewById(R.id.num_women);
+                participaints_num_child=rowView.findViewById(R.id.num_child);
+                spinnerParticipaintsList=rowView.findViewById(R.id.participaintsSpinner);
 
                 selectedEventDates.add(selectDateTxt);
                 selectedEventStartTime.add(selectStartTime);
                 selectedEventEndTime.add(selectEndTime);
+                selectedNumOfMen.add(participaints_num_men);
+                selectedNumOfWomen.add(participaints_num_women);
+                selectedNumOfChild.add(participaints_num_child);
 
                 //spinner data from time
                 spinnerStartTimeEvent.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -190,6 +208,9 @@ public class EventFormFragment extends Fragment {
                         selectedEventDates.remove(selectDateTxt);
                         selectedEventStartTime.remove(selectStartTime);
                         selectedEventEndTime.remove(selectEndTime);
+                        selectedNumOfMen.remove(participaints_num_men);
+                        selectedNumOfWomen.remove(participaints_num_women);
+                        selectedNumOfChild.remove(participaints_num_child);
                     }
                 });
 
@@ -264,80 +285,48 @@ public class EventFormFragment extends Fragment {
             }
         });
 
-        addPaticipantsList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                final View rowView = inflater.inflate(R.layout.participants_list_dynamic_field, null);
-                // Add the new row before the add field button.
-
-                if (parentLinearLayout2.getChildCount()==0){
-                    parentLinearLayout2.addView(rowView);
-                }else {
-                    if (TextUtils.isEmpty(participaints_num_men.getText().toString())){
-                        Toast.makeText(getActivity(),"please fill details first",Toast.LENGTH_LONG).show();
-                        participaints_num_men.setError("field cannot be blank");
-                        return;
-                    }
-                    if (TextUtils.isEmpty(participaints_num_women.getText().toString())){
-                        Toast.makeText(getActivity(),"please fill details first",Toast.LENGTH_LONG).show();
-                        participaints_num_women.setError("field cannot be blank");
-                        return;
-                    }
-                    if (TextUtils.isEmpty(participaints_num_child.getText().toString())){
-                        Toast.makeText(getActivity(),"please fill details first",Toast.LENGTH_LONG).show();
-                        participaints_num_child.setError("field cannot be blank");
-                        return;
-                    }
-                    parentLinearLayout2.addView(rowView);
-                }
-
-                //initializing dynamic participaints list
-                delete_button_participaints=rowView.findViewById(R.id.delete_button_participaints);
-                participaints_num_men=rowView.findViewById(R.id.num_men);
-                participaints_num_women=rowView.findViewById(R.id.num_women);
-                participaints_num_child=rowView.findViewById(R.id.num_child);
-                spinnerParticipaintsList=rowView.findViewById(R.id.participaintsSpinner);
-
-                selectedNumOfMen.add(participaints_num_men);
-                selectedNumOfWomen.add(participaints_num_women);
-                selectedNumOfChild.add(participaints_num_child);
-
-                delete_button_participaints.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        parentLinearLayout2.removeView((View) v.getParent());
-                        selectedNumOfMen.remove(participaints_num_men);
-                        selectedNumOfWomen.remove(participaints_num_women);
-                        selectedNumOfChild.remove(participaints_num_child);
-                    }
-                });
-            }
-        });
-
         nextButtomToGoToFinance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                participantMain.setVisibility(View.GONE);
+
+                if (parentLinearLayout.getChildCount()==0){
+                    Toast.makeText(getActivity(),"please add event dates",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (selectDateTxt.getText().toString().contains("Select Date")){
+                    Toast.makeText(getActivity(),"please fill details first",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (selectStartTime.getText().toString().contains("Click")){
+                    Toast.makeText(getActivity(),"please fill details first",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (selectEndTime.getText().toString().contains("Click")){
+                    Toast.makeText(getActivity(),"please fill details first",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (TextUtils.isEmpty(participaints_num_men.getText().toString())){
+                    Toast.makeText(getActivity(),"please fill details first",Toast.LENGTH_SHORT).show();
+                    participaints_num_men.setError("field cannot be blank");
+                    return;
+                }
+                if (TextUtils.isEmpty(participaints_num_women.getText().toString())){
+                    Toast.makeText(getActivity(),"please fill details first",Toast.LENGTH_SHORT).show();
+                    participaints_num_women.setError("field cannot be blank");
+                    return;
+                }
+                if (TextUtils.isEmpty(participaints_num_child.getText().toString())){
+                    Toast.makeText(getActivity(),"please fill details first",Toast.LENGTH_SHORT).show();
+                    participaints_num_child.setError("field cannot be blank");
+                    return;
+                }
+
                 eventdateLayout.setVisibility(View.GONE);
 
                 financeLayout.setVisibility(View.VISIBLE);
                 nextButtomToGoToFinance.setText("Submit ");
 
-                if (selectedEventDates.size()!=0){
-                    for (int i=0;i<selectedEventDates.size();i++){
-                        Log.e("dates",selectedEventDates.get(i).getText().toString());
-                        Log.e("startTime",selectedEventStartTime.get(i).getText().toString()+selectedItemStartEvent);
-                        Log.e("endTime",selectedEventDates.get(i).getText().toString()+selectedEventEndTime);
-                    }
-                }
-                if (selectedNumOfMen.size()!=0){
-                    for (int i=0;i<selectedNumOfMen.size();i++){
-                        Log.e("dates",selectedNumOfMen.get(i).getText().toString());
-                        Log.e("startTime",selectedNumOfWomen.get(i).getText().toString());
-                        Log.e("endTime",selectedNumOfChild.get(i).getText().toString());
-                    }
-                }
+
                 if (nextButtomToGoToFinance.getText().toString().contains("Submit")){
                     if (TextUtils.isEmpty(financeExpenditure.getText().toString())){
                         financeExpenditure.setError("fields Cannot be Empty");
@@ -367,25 +356,57 @@ public class EventFormFragment extends Fragment {
                         financeCompanyBankIfsc.setError("fields Cannot be Empty");
                         return;
                     }
-                    selectedFinanceExpenditure.add(financeExpenditure.getText().toString());
-                    selectedFinanceCompanyName.add(financeCompanyname.getText().toString());
-                    selectedFinanceCompanyLocation.add(financeCompanyLocation.getText().toString());
-                    selectedFinanceCompanyPhone.add(financeCompanyPhone.getText().toString());
-                    selectedFinanceCompanyTotalBidding.add(financeTotalBidding.getText().toString());
-                    selectedFinanceCompanyBankNum.add(financeCompanyBankNum.getText().toString());
-                    selectedFinanceCompanyBankIfsc.add(financeCompanyBankIfsc.getText().toString());
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("Final submission")
+                            .setCancelable(false)
+                            .setMessage("Submitting Your Program Application ")
+                            // Set the action buttons
+                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int id) {
+                                    Toast.makeText(getActivity(), "Your form is submitted" , Toast.LENGTH_SHORT).show();
+                                    selectedFinanceExpenditure.add(financeExpenditure.getText().toString());
+                                    selectedFinanceCompanyName.add(financeCompanyname.getText().toString());
+                                    selectedFinanceCompanyLocation.add(financeCompanyLocation.getText().toString());
+                                    selectedFinanceCompanyPhone.add(financeCompanyPhone.getText().toString());
+                                    selectedFinanceCompanyTotalBidding.add(financeTotalBidding.getText().toString());
+                                    selectedFinanceCompanyBankNum.add(financeCompanyBankNum.getText().toString());
+                                    selectedFinanceCompanyBankIfsc.add(financeCompanyBankIfsc.getText().toString());
+                                    if (selectedEventDates.size()!=0){
+                                        for (int i=0;i<selectedEventDates.size();i++){
+                                            Log.e("dates",selectedEventDates.get(i).getText().toString());
+                                            Log.e("startTime",selectedEventStartTime.get(i).getText().toString()+selectedItemStartEvent);
+                                            Log.e("endTime",selectedEventEndTime.get(i).getText().toString()+selectedItemEndEvent);
+                                            Log.e("men",selectedNumOfMen.get(i).getText().toString());
+                                            Log.e("Women",selectedNumOfWomen.get(i).getText().toString());
+                                            Log.e("Child",selectedNumOfChild.get(i).getText().toString());
+                                        }
+                                    }
+                                    if (selectedFinanceExpenditure.size()>0){
+                                        for (int i=0;i<selectedFinanceExpenditure.size();i++){
+                                            Log.e("FinanceExpenditure",selectedFinanceExpenditure.get(i));
+                                            Log.e("financeCompanyname",selectedFinanceCompanyName.get(i));
+                                            Log.e("financeCompanyLocation",selectedFinanceCompanyLocation.get(i));
+                                            Log.e("financeCompanyPhone",selectedFinanceCompanyPhone.get(i));
+                                            Log.e("financeTotalBidding",selectedFinanceCompanyTotalBidding.get(i));
+                                            Log.e("financeCompanyBankNum",selectedFinanceCompanyBankNum.get(i));
+                                            Log.e("financeCompanyBankIfsc",selectedFinanceCompanyBankIfsc.get(i));
+                                        }
+                                    }
+                                    dialog.dismiss();
+                                }
+                            })
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int id) {
+                                    Toast.makeText(getActivity(), "Please fill required fields", Toast.LENGTH_SHORT).show();
+                                    dialog.cancel();
 
-                    if (selectedFinanceExpenditure.size()>0){
-                        for (int i=0;i<selectedFinanceExpenditure.size();i++){
-                            Log.e("FinanceExpenditure",selectedFinanceExpenditure.get(i));
-                            Log.e("financeCompanyname",selectedFinanceCompanyName.get(i));
-                            Log.e("financeCompanyLocation",selectedFinanceCompanyLocation.get(i));
-                            Log.e("financeCompanyPhone",selectedFinanceCompanyPhone.get(i));
-                            Log.e("financeTotalBidding",selectedFinanceCompanyTotalBidding.get(i));
-                            Log.e("financeCompanyBankNum",selectedFinanceCompanyBankNum.get(i));
-                            Log.e("financeCompanyBankIfsc",selectedFinanceCompanyBankIfsc.get(i));
-                        }
-                    }
+                                }
+                            });
+                    builder.create();
+                    builder.show();
+
                 }
             }
         });
@@ -422,7 +443,7 @@ public class EventFormFragment extends Fragment {
                     financeCompanyBankIfsc.setError("fields Cannot be Empty");
                     return;
                 }
-               // finance_back_button.setVisibility(View.VISIBLE);
+                finance_back_button.setVisibility(View.VISIBLE);
                 financeExpenditure.setText("");
                 financeCompanyname.setText("");
                 financeCompanyLocation.setText("");
@@ -430,37 +451,35 @@ public class EventFormFragment extends Fragment {
                 financeTotalBidding.setText("");
                 financeCompanyBankNum.setText("");
                 financeCompanyBankIfsc.setText("");
-
             }
         });
         finance_back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (selectedFinanceExpenditure.size()>0){
-                    for (int i=0;i<selectedFinanceExpenditure.size();i++){
-                        financeExpenditure.setText(selectedFinanceExpenditure.get(0));
-                        financeCompanyname.setText(selectedFinanceCompanyName.get(0));
-                        financeCompanyLocation.setText(selectedFinanceCompanyLocation.get(0));
-                        financeCompanyPhone.setText(selectedFinanceCompanyPhone.get(0));
-                        financeTotalBidding.setText(selectedFinanceCompanyTotalBidding.get(0));
-                        financeCompanyBankNum.setText(selectedFinanceCompanyBankNum.get(0));
-                        financeCompanyBankIfsc.setText(selectedFinanceCompanyBankIfsc.get(0));
-                    }
-//                    selectedFinanceExpenditure.remove(financeExpenditure);
-//                    selectedFinanceCompanyName.remove(financeCompanyname);
-//                    selectedFinanceCompanyLocation.remove(financeCompanyLocation);
-//                    selectedFinanceCompanyPhone.remove(financeCompanyPhone);
-//                    selectedFinanceCompanyTotalBidding.remove(financeTotalBidding);
-//                    selectedFinanceCompanyBankNum.remove(financeCompanyBankNum);
-//                    selectedFinanceCompanyBankIfsc.remove(financeCompanyBankIfsc);
-                }
+                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Final submission")
+                        .setCancelable(false)
+                        .setMessage("Submitting form without adding another vendor details")
+                        // Set the action buttons
+                        .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                Toast.makeText(getActivity(), "Your form is submitted" , Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                Toast.makeText(getActivity(), "Please fill required fields", Toast.LENGTH_SHORT).show();
+                                dialog.cancel();
+
+                            }
+                        });
+                builder.create();
+                builder.show();
             }
         });
-
-
-
-
-
         return view;
     }
 }

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SplashScreenActivity"
+    android:gravity="center"
+    android:orientation="vertical">
+
+   <ImageView
+       android:layout_width="200dp"
+       android:layout_height="wrap_content"
+         android:src="@drawable/goodlife_logo"
+       android:gravity="center"/>
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:orientation="vertical"
+       android:gravity="bottom">
+      <ProgressBar
+          android:layout_width="match_parent"
+          android:layout_height="40dp"
+          android:layout_marginBottom="30dp"/>
+
+   <TextView
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:text="\u00A9 CopyRights To GoodLife,Developed By Shamgar"
+       android:gravity="center"
+       android:textColor="#000"
+       android:layout_marginBottom="10dp"
+       android:layout_gravity="bottom"/>
+   </LinearLayout>
+
+
+</LinearLayout>

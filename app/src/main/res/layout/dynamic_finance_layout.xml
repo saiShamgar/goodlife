@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/financeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:visibility="visible"
+    android:layout_marginBottom="10dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginTop="10dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:focusableInTouchMode="true">
+        <TextView
+            android:id="@+id/vendorDeleteVbs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"
+            android:layout_margin="15sp"
+            android:layout_gravity="right"
+            android:drawableEnd="@android:drawable/ic_delete"/>
+
+        <EditText
+            android:id="@+id/financeExpenditure"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textSize="14sp"
+            android:hint="Enter Expenditure Description"
+            android:imeOptions="actionNext"
+            android:inputType="text"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Vendor Details"
+            android:textSize="16sp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"
+            android:layout_marginStart="15dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="Company name:"
+                android:textColor="@android:color/black"
+                android:layout_margin="5dp"
+                android:textStyle="bold"
+                android:layout_weight="1"/>
+
+            <EditText
+                android:id="@+id/financeCompanyname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:layout_margin="5dp"
+                android:textStyle="bold"
+                android:inputType="text"
+                android:imeOptions="actionNext"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="Owner name:"
+            android:textColor="@android:color/black"
+            android:layout_margin="5dp"
+            android:textStyle="bold"
+            android:layout_weight="1"/>
+
+        <EditText
+            android:id="@+id/financeOwnername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@android:color/black"
+            android:layout_margin="5dp"
+            android:textStyle="bold"
+            android:inputType="text"
+            android:imeOptions="actionNext"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="Location:"
+                android:textColor="@android:color/black"
+                android:layout_margin="5dp"
+                android:textStyle="bold"
+                android:layout_weight="1"/>
+
+            <AutoCompleteTextView
+                android:id="@+id/financeCompanyLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:layout_margin="5dp"
+                android:textStyle="bold"
+                android:inputType="text"
+                android:imeOptions="actionNext"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="Phone:"
+                android:textColor="@android:color/black"
+                android:layout_margin="5dp"
+                android:textStyle="bold"
+                android:layout_weight="1"/>
+
+            <EditText
+                android:id="@+id/financeCompanyPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:layout_margin="5dp"
+                android:textStyle="bold"
+                android:inputType="number"
+                android:imeOptions="actionNext"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="Total Amount bidding:"
+                android:textColor="@android:color/black"
+                android:layout_margin="5dp"
+                android:textStyle="bold"
+                android:layout_weight="1"/>
+
+            <EditText
+                android:id="@+id/financeTotalBidding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:layout_margin="5dp"
+                android:textStyle="bold"
+                android:inputType="numberDecimal"
+                android:imeOptions="actionNext"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+               android:weightSum="2">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:text="Account Type:"
+                    android:textColor="@android:color/black"
+                    android:layout_margin="5dp"
+                    android:textStyle="bold"
+                    android:layout_weight="1"/>
+
+                <Spinner
+                    android:id="@+id/financeAccountType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
+                    android:layout_margin="5dp"
+                    android:textStyle="bold"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+        android:weightSum="2">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="Payment Process:"
+                android:textColor="@android:color/black"
+                android:layout_margin="5dp"
+                android:textStyle="bold"
+                android:layout_weight="1"/>
+
+            <Spinner
+                android:id="@+id/financePaymentProcess"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:layout_margin="5dp"
+                android:entries="@array/paymentOptions"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="Bank A/c number:"
+                android:textColor="@android:color/black"
+                android:layout_margin="5dp"
+                android:textStyle="bold"
+                android:layout_weight="1"/>
+
+            <EditText
+                android:id="@+id/financeCompanyBankNum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:layout_margin="5dp"
+                android:textStyle="bold"
+                android:inputType="number"
+                android:imeOptions="actionNext"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="Bank Ifsc code:"
+                android:textColor="@android:color/black"
+                android:layout_margin="5dp"
+                android:textStyle="bold"
+                android:layout_weight="1"/>
+
+            <EditText
+                android:id="@+id/financeCompanyBankIfsc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:layout_margin="5dp"
+                android:textStyle="bold"
+                android:inputType="text"
+                android:imeOptions="actionDone"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Upload Quotation Image:"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_margin="10dp"
+        android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/vbs_upload_quotation_image"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:scaleType="fitXY"
+                android:background="@drawable/stroke_background_gray"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"/>
+
+            <Button
+                android:id="@+id/vbs_quotation_upload_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Upload"
+                android:textAllCaps="false"
+                android:gravity="center"
+                android:layout_marginTop="50dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+

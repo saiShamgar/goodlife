@@ -118,7 +118,7 @@
                   android:layout_height="wrap_content"
                   android:orientation="vertical"
                   android:layout_marginTop="15dp"
-                  android:visibility="gone">
+                  android:visibility="visible">
 
                   <LinearLayout
                       android:layout_width="match_parent"
@@ -149,110 +149,116 @@
                       android:layout_height="wrap_content"
                       android:scrollbars="none">
 
-                  <LinearLayout
+                      <LinearLayout
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:orientation="vertical">
+
+                         <LinearLayout
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:orientation="horizontal">
+
+                          <TextView
+                              android:layout_width="80dp"
+                              android:layout_height="wrap_content"
+                              android:layout_marginBottom="8dp"
+                              android:layout_marginEnd="8dp"
+                              android:layout_marginStart="8dp"
+                              android:text="Date"
+                              android:textStyle="bold"
+                              android:textColor="#000" />
+                          <TextView
+                              android:layout_width="80dp"
+                              android:layout_height="wrap_content"
+                              android:layout_marginBottom="8dp"
+                              android:layout_marginStart="16dp"
+                              android:text="From Time "
+                              android:textStyle="bold"
+                              android:textColor="#000"
+                              android:gravity="center" />
+                          <TextView
+                              android:layout_width="100dp"
+                              android:layout_height="wrap_content"
+                              android:layout_marginBottom="8dp"
+                              android:layout_marginEnd="8dp"
+                              android:layout_marginStart="8dp"
+                              android:text="Am/pm"
+                              android:textStyle="bold"
+                              android:textColor="#000" />
+
+                          <TextView
+                              android:layout_width="80dp"
+                              android:layout_height="wrap_content"
+                              android:layout_marginBottom="8dp"
+                              android:text="To Time"
+                              android:textStyle="bold"
+                              android:textColor="#000"
+                              android:gravity="center" />
+                          <TextView
+                              android:layout_width="100dp"
+                              android:layout_height="wrap_content"
+                              android:layout_marginBottom="8dp"
+                              android:layout_marginEnd="8dp"
+                              android:layout_marginStart="8dp"
+                              android:text="Am/pm"
+                              android:textStyle="bold"
+                              android:textColor="#000" />
+
+
+                          <TextView
+                              android:layout_width="130dp"
+                              android:layout_height="wrap_content"
+                              android:layout_marginBottom="8dp"
+                              android:layout_marginEnd="8dp"
+                              android:layout_marginStart="8dp"
+                              android:layout_marginTop="5dp"
+                              android:layout_gravity="center"
+                              android:text="Participants type"
+                              android:textStyle="bold"
+                              android:textColor="#000"
+                              android:gravity="center">
+                          </TextView>
+
+                          <TextView
+                              android:layout_width="70dp"
+                              android:layout_height="wrap_content"
+                              android:text="Men"
+                              android:textStyle="bold"
+                              android:textColor="#000"
+                              android:gravity="center"
+                              android:layout_marginTop="2dp"/>
+                          <TextView
+                              android:layout_width="70dp"
+                              android:layout_height="wrap_content"
+                              android:text="Women"
+                              android:textStyle="bold"
+                              android:textColor="#000"
+                              android:gravity="center"
+                              android:layout_marginTop="2dp"/>
+
+                          <TextView
+                              android:layout_width="70dp"
+                              android:layout_height="wrap_content"
+                              android:text="Child"
+                              android:textStyle="bold"
+                              android:textColor="#000"
+                              android:gravity="center"
+                              android:layout_marginTop="2dp"/>
+
+                      </LinearLayout>
+                         <LinearLayout
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:orientation="vertical"
                       android:id="@+id/parentLinearLayout">
-                  </LinearLayout>
+                     </LinearLayout>
+                      </LinearLayout>
+
                   </HorizontalScrollView>
 
               </LinearLayout>
 
-        //participants list
-
-            <LinearLayout
-                android:id="@+id/participantMain"
-                android:layout_below="@+id/eventdateLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="15dp"
-                android:visibility="gone">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Participants List"
-                        android:layout_gravity="center"
-                        android:textSize="16sp"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textStyle="bold"
-                        android:layout_marginStart="15sp"/>
-
-                    <ImageButton
-                        android:id="@+id/addPaticipantsList"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_marginStart="170dp"
-                        android:src="@android:drawable/ic_input_add"
-                        android:background="@color/white"/>
-
-                </LinearLayout>
-
-                <HorizontalScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scrollbars="none">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="5dp">
-
-                    <TextView
-                        android:layout_width="130dp"
-                        android:layout_height="wrap_content"
-                        android:text="Participaints list"
-                        android:textColor="@android:color/black"
-                        android:textStyle="bold"
-                        android:layout_marginStart="8dp"/>
-                    <TextView
-                        android:layout_width="70dp"
-                        android:layout_height="wrap_content"
-                        android:text="men"
-                        android:textColor="@android:color/black"
-                        android:textStyle="bold"
-                        android:gravity="center"/>
-                    <TextView
-                        android:layout_width="70dp"
-                        android:layout_height="wrap_content"
-                        android:text="women"
-                        android:textColor="@android:color/black"
-                        android:textStyle="bold"
-                        android:gravity="center"/>
-
-                    <TextView
-                        android:layout_width="70dp"
-                        android:layout_height="wrap_content"
-                        android:text="child"
-                        android:textColor="@android:color/black"
-                        android:textStyle="bold"
-                        android:gravity="center"/>
-
-                </LinearLayout>
-
-                </HorizontalScrollView>
-
-                <HorizontalScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scrollbars="none">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:id="@+id/parentLinearLayout2">
-                    </LinearLayout>
-                </HorizontalScrollView>
-
-            </LinearLayout>
 
                 //Finance Layout
 
@@ -403,6 +409,28 @@
                            android:imeOptions="actionNext"/>
                    </LinearLayout>
 
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="horizontal">
+                       <TextView
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:textSize="14sp"
+                           android:text="Payment Process: "
+                           android:textColor="@android:color/black"
+                           android:layout_margin="5dp"
+                           android:textStyle="bold" />
+
+                       <Spinner
+                           android:id="@+id/financePaymentProcess"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:textColor="@android:color/black"
+                           android:layout_margin="5dp"
+                           android:entries="@array/paymentOptions"/>
+                   </LinearLayout>
+
 
 
                    <LinearLayout
@@ -454,6 +482,9 @@
                            android:inputType="text"
                            android:imeOptions="actionDone"/>
                    </LinearLayout>
+
+
+
 
                </LinearLayout>
 

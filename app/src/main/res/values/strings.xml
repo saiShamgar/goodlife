@@ -25,4 +25,11 @@
         <item>11</item>
         <item>12</item>
     </string-array>
+    <string-array name="paymentOptions">
+        <item>Cheque</item>
+        <item>Cash</item>
+        <item>Online</item>
+    </string-array>
+
+    <string name="places_api_key">AIzaSyCKWcTivXnvmWkik7YXrHoHedLL4N2UCCw</string>
 </resources>

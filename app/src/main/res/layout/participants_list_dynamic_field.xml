@@ -5,28 +5,80 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:layout_marginTop="15dp"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:focusableInTouchMode="true">
+
+    <TextView
+        android:id="@+id/participaintDate"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Select Date"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"/>
 
     <Spinner
         android:id="@+id/participaintsSpinner"
-        android:layout_width="130dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
         android:layout_gravity="center">
     </Spinner>
 
     <EditText
+        android:id="@+id/participaintsName"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:imeOptions="actionNext"
+        android:hint="optional"
+        android:gravity="center">
+    </EditText>
+
+    <EditText
+        android:id="@+id/participaintsPhone"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:imeOptions="actionNext"
+        android:hint="optional"
+        android:gravity="center">
+    </EditText>
+
+    <EditText
+        android:id="@+id/participaintsDescription"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:imeOptions="actionNext"
+        android:hint="optional"
+        android:gravity="center">
+    </EditText>
+
+    <EditText
         android:id="@+id/num_men"
-        android:layout_width="70dp"
-        android:layout_height="wrap_content" />
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:imeOptions="actionNext"/>
     <EditText
         android:id="@+id/num_women"
-        android:layout_width="70dp"
-        android:layout_height="wrap_content" />
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:imeOptions="actionNext"/>
 
     <EditText
         android:id="@+id/num_child"
-        android:layout_width="70dp"
-        android:layout_height="wrap_content" />
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:imeOptions="actionDone"/>
 
     <ImageButton
         android:id="@+id/delete_button_participaints"

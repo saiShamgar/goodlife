@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="visible"
+    android:orientation="vertical"
+    android:layout_marginBottom="10dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginTop="10dp"
+    android:focusableInTouchMode="true">
+
+    <TextView
+        android:id="@+id/TransportDeleteVbs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        android:layout_margin="15sp"
+        android:layout_gravity="right"
+        android:drawableEnd="@android:drawable/ic_delete"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="Type of Vehical:"
+            android:textColor="@android:color/black"
+            android:layout_margin="5dp"
+            android:textStyle="bold"
+            android:layout_weight="1"/>
+
+        <Spinner
+            android:id="@+id/transportTypeOfVehical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:layout_margin="5dp"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="Others"
+            android:textColor="@android:color/black"
+            android:layout_margin="5dp"
+            android:textStyle="bold"
+            android:layout_weight="1"/>
+
+        <EditText
+            android:id="@+id/transprotOthers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@android:color/black"
+            android:layout_margin="5dp"
+            android:textStyle="bold"
+            android:inputType="text"
+            android:imeOptions="actionNext"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="Reg Number:"
+            android:textColor="@android:color/black"
+            android:layout_margin="5dp"
+            android:textStyle="bold"
+            android:layout_weight="1"/>
+
+        <EditText
+            android:id="@+id/transportRegNum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@android:color/black"
+            android:layout_margin="5dp"
+            android:textStyle="bold"
+            android:inputType="text"
+            android:imeOptions="actionNext"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="Driver name:"
+            android:textColor="@android:color/black"
+            android:layout_margin="5dp"
+            android:textStyle="bold"
+            android:layout_weight="1"/>
+
+        <EditText
+            android:id="@+id/transportDriverName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@android:color/black"
+            android:layout_margin="5dp"
+            android:textStyle="bold"
+            android:inputType="text"
+            android:imeOptions="actionNext"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="Licence Id:"
+            android:textColor="@android:color/black"
+            android:layout_margin="5dp"
+            android:textStyle="bold"
+            android:layout_weight="1"/>
+
+        <EditText
+            android:id="@+id/transportLicenseId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@android:color/black"
+            android:layout_margin="5dp"
+            android:textStyle="bold"
+            android:inputType="text"
+            android:imeOptions="actionNext"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="No of People Capacity:"
+            android:textColor="@android:color/black"
+            android:layout_margin="5dp"
+            android:textStyle="bold"
+            android:layout_weight="1"/>
+
+        <EditText
+            android:id="@+id/transportNumPeople"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@android:color/black"
+            android:layout_margin="5dp"
+            android:textStyle="bold"
+            android:inputType="number"
+            android:imeOptions="actionNext"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="From Location:"
+            android:textColor="@android:color/black"
+            android:layout_margin="5dp"
+            android:textStyle="bold" />
+
+        <AutoCompleteTextView
+            android:id="@+id/transportFromLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@android:color/black"
+            android:layout_margin="5dp"
+            android:textStyle="bold"
+            android:inputType="text"
+            android:imeOptions="actionNext" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="To Location:      "
+            android:textColor="@android:color/black"
+            android:layout_margin="5dp"
+            android:textStyle="bold" />
+
+        <AutoCompleteTextView
+            android:id="@+id/transportToLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@android:color/black"
+            android:layout_margin="5dp"
+            android:textStyle="bold"
+            android:inputType="text"
+            android:imeOptions="actionNext" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+        <TextView
+            android:id="@+id/clickToGetDistance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="Click here to Get Google distance:"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_margin="5dp"
+            android:textStyle="bold"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/transportDistanceFromGoogle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@android:color/black"
+            android:layout_margin="5dp"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:gravity="center"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="Manual distance:"
+            android:textColor="@android:color/black"
+            android:layout_margin="5dp"
+            android:textStyle="bold"
+            android:layout_weight="1"/>
+
+        <EditText
+            android:id="@+id/transportDistanceManual"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@android:color/black"
+            android:layout_margin="5dp"
+            android:textStyle="bold"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+</LinearLayout>

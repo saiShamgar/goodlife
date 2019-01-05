@@ -1,6 +1,8 @@
 package com.example.sss.goodlife;
 
 import android.content.res.Configuration;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.graphics.Color;
@@ -9,13 +11,19 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.sss.goodlife.Fragments.EventFormFragment;
 import com.example.sss.goodlife.Fragments.HomeFragment;
+import com.example.sss.goodlife.Fragments.VBSProgramApplication;
+import com.example.sss.goodlife.Fragments.VbsFinanceApplication;
+import com.example.sss.goodlife.Fragments.VbsTransportApplication;
 
 public class MainActivity extends AppCompatActivity {
     private TextView EventFormTxt,ReportFormTxt;
@@ -23,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawer_layout;
     private ActionBarDrawerToggle mToggle;
     private Toolbar toolbarDrawer;
+    private NavigationView nav_view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,12 +43,59 @@ public class MainActivity extends AppCompatActivity {
         framContainer=findViewById(R.id.frameContainer);
         drawer_layout=findViewById(R.id.drawer_layout);
         toolbarDrawer=findViewById(R.id.toolbarDrawer);
+        nav_view=findViewById(R.id.nav_view);
+        nav_view.bringToFront();
         mToggle=new ActionBarDrawerToggle(this,drawer_layout,R.string.open,R.string.close);
         drawer_layout.addDrawerListener(mToggle);
         setSupportActionBar(toolbarDrawer);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id=item.getItemId();
+                item.setChecked(true);
+                drawer_layout.closeDrawers();
+                if (id==R.id.menu_finance_application)
+                {
+                    Toast.makeText(getApplicationContext(),"dfdf",Toast.LENGTH_SHORT).show();
+                    FragmentManager manager = getSupportFragmentManager();
+                    FragmentTransaction transaction = manager.beginTransaction();
+                    VbsFinanceApplication fragment=new VbsFinanceApplication();
+                    transaction.replace(R.id.frameContainer, fragment);
+                    transaction.commit();
+                }
+                if (id==R.id.menu_event_form)
+                {
+
+                    FragmentManager manager = getSupportFragmentManager();
+                    FragmentTransaction transaction = manager.beginTransaction();
+                    VBSProgramApplication fragment=new VBSProgramApplication();
+                    transaction.replace(R.id.frameContainer, fragment);
+                    transaction.commit();
+                }
+                if (id==R.id.menu_report_form)
+                {
+
+                    FragmentManager manager = getSupportFragmentManager();
+                    FragmentTransaction transaction = manager.beginTransaction();
+                    HomeFragment fragment=new HomeFragment();
+                    transaction.replace(R.id.frameContainer, fragment);
+                    transaction.commit();
+                }
+                if (id==R.id.menu_transport_application)
+                {
+
+                    FragmentManager manager = getSupportFragmentManager();
+                    FragmentTransaction transaction = manager.beginTransaction();
+                    VbsTransportApplication fragment=new VbsTransportApplication();
+                    transaction.replace(R.id.frameContainer, fragment);
+                    transaction.commit();
+                }
+                return true;
+            }
+        });
 
         EventFormTxt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
 
                 FragmentManager manager = getSupportFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
-                EventFormFragment fragment=new EventFormFragment();
+                VBSProgramApplication fragment=new VBSProgramApplication();
                 transaction.replace(R.id.frameContainer, fragment);
                 transaction.commit();
 
@@ -89,4 +145,6 @@ public class MainActivity extends AppCompatActivity {
         super.onConfigurationChanged(newConfig);
         mToggle.onConfigurationChanged(newConfig);
     }
+
+
 }
