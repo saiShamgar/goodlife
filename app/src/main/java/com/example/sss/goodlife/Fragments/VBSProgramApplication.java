@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -26,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sss.goodlife.Adapters.PlaceAutocompleteAdapter;
+import com.example.sss.goodlife.MainActivity;
 import com.example.sss.goodlife.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -44,25 +46,13 @@ import java.util.Calendar;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class VBSProgramApplication extends Fragment implements GoogleApiClient.OnConnectionFailedListener {
-
-    //location variables
-    private static final LatLngBounds LAT_LNG_BOUNDS=new LatLngBounds(
-            new LatLng(-40,-168),new LatLng(71,136));
-    private PlaceAutocompleteAdapter autocompleteAdapter;
-    private static final String TAG = "MapActivity";
-    private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
-    private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
-    private static final int LOCATION_PERMISSION_REQUESTED_CODE = 1234;
-    private GoogleApiClient googleApiClient;
-    private Boolean mlocation_permission_granted = false;
-    private AutoCompleteTextView mSearchText;
+public class VBSProgramApplication extends Fragment{
 
     //Widgents
     private LinearLayout VbsEventparentLinearLayout,VbsParentLinearLayout2;
     private ImageButton VbsAddEventDateColumn,delete_button,VbsAddParticipaintsColumn,delete_button_participaints;
     private TextView selectDateTxt,selectStartTime,selectEndTime,participaintDate;
-    private Spinner spinnerStartTimeEvent,spinnerEndTimeEvent,spinnerParticipaintsList;
+    private Spinner spinnerStartTimeEvent,spinnerEndTimeEvent,spinnerParticipaintsList,location;
     private EditText participaints_num_men,participaints_num_women,participaints_num_child,participaintsName,participaintsPhone,participaintsDescription,VbsProgramAim;
     private Button VbsApplicationSubmit;
 
@@ -77,6 +67,9 @@ public class VBSProgramApplication extends Fragment implements GoogleApiClient.O
     private ArrayList<EditText> selectedPar_phone=new ArrayList<>();
     private ArrayList<EditText> selectedPar_des=new ArrayList<>();
     private ArrayList<TextView> participantDates=new ArrayList<>();
+
+    ArrayList<String> state = new ArrayList<String>();
+    private ArrayAdapter adapter;
 
     int year;
     int month;
@@ -95,21 +88,10 @@ public class VBSProgramApplication extends Fragment implements GoogleApiClient.O
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        ((MainActivity)getActivity()).getSupportActionBar().setTitle("Program Application");
         View view= inflater.inflate(R.layout.fragment_vbsprogram_application, container, false);
 
-        //Initializing google api client
-        googleApiClient = new GoogleApiClient
-                .Builder(getActivity())
-                .addApi(Places.GEO_DATA_API)
-                .addApi(Places.PLACE_DETECTION_API)
-                .enableAutoManage(getActivity(), this)
-                .build();
-
-        mSearchText = (AutoCompleteTextView)view.findViewById(R.id.VbsLocation);
-        mSearchText.setOnItemClickListener(mAutoCompleteListener);
-        autocompleteAdapter = new PlaceAutocompleteAdapter(getActivity(), googleApiClient, LAT_LNG_BOUNDS, null);
-        mSearchText.setAdapter(autocompleteAdapter);
-
+        location = (Spinner) view.findViewById(R.id.VbsLocation);
 
         //initializing widgets
         VbsEventparentLinearLayout=(LinearLayout)view.findViewById(R.id.VbsEventparentLinearLayout);
@@ -118,6 +100,9 @@ public class VBSProgramApplication extends Fragment implements GoogleApiClient.O
         VbsAddParticipaintsColumn=view.findViewById(R.id.VbsAddParticipaintsColumn);
         VbsProgramAim=view.findViewById(R.id.VbsProgramAim);
         VbsApplicationSubmit=view.findViewById(R.id.VbsApplicationSubmit);
+
+        adapter= new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,state);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 
 
@@ -378,11 +363,7 @@ public class VBSProgramApplication extends Fragment implements GoogleApiClient.O
         VbsApplicationSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (TextUtils.isEmpty(mSearchText.getText().toString())){
-                    mSearchText.setError("please add location");
-                    Toast.makeText(getActivity(),"please add location",Toast.LENGTH_SHORT).show();
-                    return;
-                }
+
                 if (TextUtils.isEmpty(VbsProgramAim.getText().toString())){
                     VbsProgramAim.setError("please add Program aim");
                     Toast.makeText(getActivity(),"please add Program aim",Toast.LENGTH_SHORT).show();
@@ -425,7 +406,7 @@ public class VBSProgramApplication extends Fragment implements GoogleApiClient.O
                     return;
                 }
 
-                Log.e("Location",mSearchText.getText().toString());
+
                 Log.e("Aim",VbsProgramAim.getText().toString());
                 if (selectedEventDates.size()!=0){
                     for (int i=0;i<selectedEventDates.size();i++){
@@ -449,48 +430,4 @@ public class VBSProgramApplication extends Fragment implements GoogleApiClient.O
         });
         return view;
     }
-
-    //setting location places to editText
-    private AdapterView.OnItemClickListener mAutoCompleteListener=new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            final AutocompletePrediction item=autocompleteAdapter.getItem(i);
-            final String placeId=item.getPlaceId();
-            PendingResult<PlaceBuffer> placeResult= Places.GeoDataApi
-                    .getPlaceById(googleApiClient,placeId);
-            placeResult.setResultCallback(mUpdatePlaceDetailsCallBack);
-        }
-    };
-
-    private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallBack=new ResultCallback<PlaceBuffer>() {
-        @Override
-        public void onResult(@NonNull PlaceBuffer places) {
-            if (!places.getStatus().isSuccess()) {
-                Log.d(TAG,"onresult : place Query did not complete Successfully  "+places.getStatus().toString());
-
-                //you can use lat with qLoc.latitude;
-                //and long with qLoc.longitude;
-
-                places.release();
-                return;
-            }
-            final Place mPlace = places.get(0);
-            LatLng qLoc = mPlace.getLatLng();
-            Toast.makeText(getActivity(),"location "+qLoc,Toast.LENGTH_LONG).show();
-            places.release();
-        }
-    };
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        googleApiClient.stopAutoManage(getActivity());
-        googleApiClient.disconnect();
-    }
-
 }

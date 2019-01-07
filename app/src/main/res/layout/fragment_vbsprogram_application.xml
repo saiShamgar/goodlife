@@ -10,7 +10,7 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <AutoCompleteTextView
+    <Spinner
         android:id="@+id/VbsLocation"
         android:layout_width="0dp"
         android:layout_height="45dp"

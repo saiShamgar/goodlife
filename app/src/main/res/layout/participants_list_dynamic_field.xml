@@ -66,6 +66,7 @@
         android:layout_height="wrap_content"
         android:inputType="number"
         android:imeOptions="actionNext"/>
+
     <EditText
         android:id="@+id/num_women"
         android:layout_width="100dp"
@@ -87,6 +88,4 @@
         android:src="@android:drawable/ic_delete"
         android:background="@color/white"
         android:layout_marginStart="5dp"/>
-
-
 </LinearLayout>

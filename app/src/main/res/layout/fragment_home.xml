@@ -1,14 +1,153 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.HomeFragment">
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="200dp">
+        </android.support.v4.view.ViewPager>
+    <me.relex.circleindicator.CircleIndicator
+        android:id="@+id/indicator"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignBottom="@+id/pager"/>
+
+    <Button
+        android:id="@+id/btn_home_vbsPro_app"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pager"
+        android:text="VBS Program Application"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/solid_background_primary"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textAllCaps="false"/>
+
+    <Button
+        android:id="@+id/btn_home_vbsVendor_enroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_home_vbsPro_app"
+        android:text="VBS Vendor Enroll"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/solid_background_primary"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textAllCaps="false"/>
+
+    <Button
+        android:id="@+id/btn_home_vbsTransport_enroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_home_vbsVendor_enroll"
+        android:text="VBS Transport Enroll"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/solid_background_primary"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textAllCaps="false"/>
+
+    <Button
+        android:id="@+id/btn_home_vbs_Reports"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_home_vbsTransport_enroll"
+        android:text="VBS Reports"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/solid_background_primary"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textAllCaps="false"/>
+
+    <Button
+        android:id="@+id/btn_home_vbs_program_report"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_home_vbs_Reports"
+        android:text="Day Wise Program Report"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/solid_background_primary"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:visibility="gone"
+        android:textAllCaps="false"/>
+
+    <Button
+        android:id="@+id/btn_home_vbs_finance_report"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_home_vbs_program_report"
+        android:text="Finance Report"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/solid_background_primary"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:visibility="gone"
+        android:textAllCaps="false"/>
+
+    <Button
+        android:id="@+id/btn_home_vbs_reviews"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_home_vbs_finance_report"
+        android:text="VBS Reviews"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/solid_background_primary"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:visibility="gone"
+        android:textAllCaps="false"/>
+
+    <TextView
+        android:id="@+id/btn_home_vbs_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_home_vbs_reviews"
+        android:text="Back"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/stroke_background"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+      android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"
+        android:textAllCaps="false"/>
+
+
+
+
+
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
-</FrameLayout>
+</RelativeLayout>
+</ScrollView>

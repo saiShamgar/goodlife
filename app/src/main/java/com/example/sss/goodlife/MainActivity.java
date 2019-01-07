@@ -19,10 +19,13 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.sss.goodlife.Fragments.DayWiseReportFragment;
 import com.example.sss.goodlife.Fragments.EventFormFragment;
 import com.example.sss.goodlife.Fragments.HomeFragment;
+import com.example.sss.goodlife.Fragments.ReviewsFragment;
 import com.example.sss.goodlife.Fragments.VBSProgramApplication;
 import com.example.sss.goodlife.Fragments.VbsFinanceApplication;
+import com.example.sss.goodlife.Fragments.VbsFinanceReport;
 import com.example.sss.goodlife.Fragments.VbsTransportApplication;
 
 public class MainActivity extends AppCompatActivity {
@@ -38,8 +41,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        EventFormTxt=findViewById(R.id.EventFormTxt);
-        ReportFormTxt=findViewById(R.id.ReportFormTxt);
+//        EventFormTxt=findViewById(R.id.EventFormTxt);
+//        ReportFormTxt=findViewById(R.id.ReportFormTxt);
         framContainer=findViewById(R.id.frameContainer);
         drawer_layout=findViewById(R.id.drawer_layout);
         toolbarDrawer=findViewById(R.id.toolbarDrawer);
@@ -50,6 +53,15 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbarDrawer);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        HomeFragment fragment=new HomeFragment();
+        transaction.replace(R.id.frameContainer, fragment);
+        transaction.commit();
+
+
 
         nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -75,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                     transaction.replace(R.id.frameContainer, fragment);
                     transaction.commit();
                 }
-                if (id==R.id.menu_report_form)
+                if (id==R.id.menu_event_Home)
                 {
 
                     FragmentManager manager = getSupportFragmentManager();
@@ -93,36 +105,63 @@ public class MainActivity extends AppCompatActivity {
                     transaction.replace(R.id.frameContainer, fragment);
                     transaction.commit();
                 }
+                if (id==R.id.menu_report_form)
+                {
+
+                    FragmentManager manager = getSupportFragmentManager();
+                    FragmentTransaction transaction = manager.beginTransaction();
+                    DayWiseReportFragment fragment=new DayWiseReportFragment();
+                    transaction.replace(R.id.frameContainer, fragment);
+                    transaction.commit();
+                }
+                if (id==R.id.menu_finance_reprot_form)
+                {
+
+                    FragmentManager manager = getSupportFragmentManager();
+                    FragmentTransaction transaction = manager.beginTransaction();
+                    VbsFinanceReport fragment=new VbsFinanceReport();
+                    transaction.replace(R.id.frameContainer, fragment);
+                    transaction.commit();
+                }
+                if (id==R.id.menu_review_submit)
+                {
+
+                    FragmentManager manager = getSupportFragmentManager();
+                    FragmentTransaction transaction = manager.beginTransaction();
+                    ReviewsFragment fragment=new ReviewsFragment();
+                    transaction.replace(R.id.frameContainer, fragment);
+                    transaction.commit();
+                }
                 return true;
             }
         });
 
-        EventFormTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EventFormTxt.setTextColor(Color.CYAN);
-                ReportFormTxt.setTextColor(Color.WHITE);
-
-                FragmentManager manager = getSupportFragmentManager();
-                FragmentTransaction transaction = manager.beginTransaction();
-                VBSProgramApplication fragment=new VBSProgramApplication();
-                transaction.replace(R.id.frameContainer, fragment);
-                transaction.commit();
-
-            }
-        });
-        ReportFormTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EventFormTxt.setTextColor(Color.WHITE);
-                ReportFormTxt.setTextColor(Color.CYAN);
-                FragmentManager manager = getSupportFragmentManager();
-                FragmentTransaction transaction = manager.beginTransaction();
-                HomeFragment fragment=new HomeFragment();
-                transaction.replace(R.id.frameContainer, fragment);
-                transaction.commit();
-            }
-        });
+//        EventFormTxt.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                EventFormTxt.setTextColor(Color.CYAN);
+//                ReportFormTxt.setTextColor(Color.WHITE);
+//
+//                FragmentManager manager = getSupportFragmentManager();
+//                FragmentTransaction transaction = manager.beginTransaction();
+//                VBSProgramApplication fragment=new VBSProgramApplication();
+//                transaction.replace(R.id.frameContainer, fragment);
+//                transaction.commit();
+//
+//            }
+//        });
+//        ReportFormTxt.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                EventFormTxt.setTextColor(Color.WHITE);
+//                ReportFormTxt.setTextColor(Color.CYAN);
+//                FragmentManager manager = getSupportFragmentManager();
+//                FragmentTransaction transaction = manager.beginTransaction();
+//                HomeFragment fragment=new HomeFragment();
+//                transaction.replace(R.id.frameContainer, fragment);
+//                transaction.commit();
+//            }
+//        });
     }
 
     @Override

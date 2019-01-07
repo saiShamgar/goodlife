@@ -102,6 +102,7 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        ((MainActivity)getActivity()).getSupportActionBar().setTitle("Vendor Enroll");
         View view=inflater.inflate(R.layout.fragment_vbs_finance_application, container, false);
 
         //Initializing google api client

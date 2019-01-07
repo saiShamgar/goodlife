@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sss.goodlife.Adapters.PlaceAutocompleteAdapter;
+import com.example.sss.goodlife.MainActivity;
 import com.example.sss.goodlife.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -86,6 +87,7 @@ public class VbsTransportApplication extends Fragment implements GoogleApiClient
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        ((MainActivity)getActivity()).getSupportActionBar().setTitle("Transport Enroll");
         View view= inflater.inflate(R.layout.fragment_vbs_transport_application, container, false);
 
         //Initializing google api client
