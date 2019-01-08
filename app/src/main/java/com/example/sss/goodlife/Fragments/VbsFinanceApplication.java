@@ -2,6 +2,7 @@ package com.example.sss.goodlife.Fragments;
 
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,11 +26,20 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.sss.goodlife.Adapters.LocationAdapter;
 import com.example.sss.goodlife.Adapters.PlaceAutocompleteAdapter;
+import com.example.sss.goodlife.Adapters.ProgramsIdAdapter;
+import com.example.sss.goodlife.Api.APIUrl;
+import com.example.sss.goodlife.Api.ApiService;
 import com.example.sss.goodlife.MainActivity;
+import com.example.sss.goodlife.Models.Locations;
+import com.example.sss.goodlife.Models.ProgramIds;
+import com.example.sss.goodlife.Models.ProgramIdsStatus;
+import com.example.sss.goodlife.Models.Status;
 import com.example.sss.goodlife.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -54,6 +64,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Callback;
+import retrofit2.Response;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -62,11 +75,12 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
     //Widgets
     private ImageButton VbsAddFinanceLayout;
     private TextView vendorDeleteVbs;
-    private LinearLayout dynamicFinanceLayout;
+    private LinearLayout dynamicFinanceLayout,addMoreLayout;
     private EditText financeExpenditure,financeCompanyname,financeCompanyPhone
             ,financeTotalBidding,financeCompanyBankNum,financeCompanyBankIfsc;
     private Button submitVbsfinanceApplication,vbs_quotation_upload_button,addMoreVendorDetails;
     private ImageView vbs_upload_quotation_image;
+    private Spinner finance_program_spinner;
 
     private ArrayList<EditText> selectedFinanceExpenditure=new ArrayList<>();
     private ArrayList<EditText> selectedFinanceCompanyName=new ArrayList<>();
@@ -93,6 +107,13 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
     private Boolean mlocation_permission_granted = false;
     private AutoCompleteTextView financeCompanyLocation;
 
+    //Api calls
+    private ApiService apiService;
+    private List<ProgramIds> programIds;
+    private String programId;
+    private ProgramsIdAdapter programidsAdapter;
+    private ProgressDialog progressDialog,financeSubmissionDialog;
+
 
     public VbsFinanceApplication() {
         // Required empty public constructor
@@ -104,6 +125,16 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
         // Inflate the layout for this fragment
         ((MainActivity)getActivity()).getSupportActionBar().setTitle("Vendor Enroll");
         View view=inflater.inflate(R.layout.fragment_vbs_finance_application, container, false);
+        progressDialog=new ProgressDialog(getActivity());
+        progressDialog.setTitle("Getting Data");
+        progressDialog.setMessage("Please wait...,");
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
+
+        financeSubmissionDialog=new ProgressDialog(getActivity());
+        financeSubmissionDialog.setTitle("Applying Program application");
+        financeSubmissionDialog.setMessage("Please wait, while we are submitting your details ");
+        financeSubmissionDialog.setCanceledOnTouchOutside(false);
 
         //Initializing google api client
         googleApiClient = new GoogleApiClient
@@ -121,6 +152,51 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
         addMoreVendorDetails=view.findViewById(R.id.addMoreVendorDetails);
         dynamicFinanceLayout=view.findViewById(R.id.dynamicFinanceLayout);
         submitVbsfinanceApplication=view.findViewById(R.id.submitVbsfinanceApplication);
+        finance_program_spinner=view.findViewById(R.id.finance_program_spinner);
+        addMoreLayout=view.findViewById(R.id.addMoreLayout);
+
+
+
+        //Spinner Dropdown for location
+        apiService= APIUrl.getApiClient().create(ApiService.class);
+        final retrofit2.Call<ProgramIdsStatus> call=apiService.getProgramids();
+        call.enqueue(new Callback<ProgramIdsStatus>() {
+            @Override
+            public void onResponse(retrofit2.Call<ProgramIdsStatus> call, Response<ProgramIdsStatus> response) {
+                if (response.body().getMessage().size()!=0) {
+                    programIds = response.body().getMessage();
+                    finance_program_spinner.setPrompt("Select Location");
+                    programidsAdapter = new ProgramsIdAdapter(getActivity(), (ArrayList<ProgramIds>) programIds);
+                    finance_program_spinner.setAdapter(programidsAdapter);
+                    progressDialog.dismiss();
+
+                    finance_program_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            programId= String.valueOf(programidsAdapter.getItem(position).getProgram_id());
+                            addMoreLayout.setVisibility(View.VISIBLE);
+                            addMoreVendorDetails.setVisibility(View.VISIBLE);
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+                }
+                else {
+                  progressDialog.dismiss();
+                  Toast.makeText(getActivity(),"Programs not forund",Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(retrofit2.Call<ProgramIdsStatus> call, Throwable t) {
+                Toast.makeText(getActivity(),"error",Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
+            }
+        });
+
+
 
         addMoreVendorDetails.setOnClickListener(new View.OnClickListener() {
             @Override

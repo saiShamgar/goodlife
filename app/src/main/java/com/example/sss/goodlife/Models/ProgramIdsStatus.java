@@ -4,14 +4,15 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Status {
+public class ProgramIdsStatus {
+
     @SerializedName("status")
     String Status;
 
     @SerializedName("message")
-    List<Locations> Message;
+    List<ProgramIds> Message;
 
-    public Status(String status, List<Locations> message) {
+    public ProgramIdsStatus(String status, List<ProgramIds> message) {
         Status = status;
         Message = message;
     }
@@ -24,11 +25,11 @@ public class Status {
         Status = status;
     }
 
-    public List<Locations> getMessage() {
+    public List<ProgramIds> getMessage() {
         return Message;
     }
 
-    public void setMessage(List<Locations> message) {
+    public void setMessage(List<ProgramIds> message) {
         Message = message;
     }
 }

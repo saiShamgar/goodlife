@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:hmkcode="http://schemas.android.com/apk/res-auto"
+    tools:context=".MainActivity">
+
+    <item android:id="@+id/menu_Logout"
+        android:title="Log out"
+        hmkcode:showAsAction="never|withText"/>
+
+    <item android:id="@+id/menu_profile"
+        android:title="Profile"
+        hmkcode:showAsAction="never|withText"/>
+
+    <item android:id="@+id/menu_About_us"
+        android:title="About Us"
+        hmkcode:showAsAction="never|withText"/>
+
+</menu>

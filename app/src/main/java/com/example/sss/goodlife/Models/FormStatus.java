@@ -2,16 +2,15 @@ package com.example.sss.goodlife.Models;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
+public class FormStatus {
 
-public class Status {
     @SerializedName("status")
     String Status;
 
     @SerializedName("message")
-    List<Locations> Message;
+    String Message;
 
-    public Status(String status, List<Locations> message) {
+    public FormStatus(String status, String message) {
         Status = status;
         Message = message;
     }
@@ -24,11 +23,11 @@ public class Status {
         Status = status;
     }
 
-    public List<Locations> getMessage() {
+    public String getMessage() {
         return Message;
     }
 
-    public void setMessage(List<Locations> message) {
+    public void setMessage(String message) {
         Message = message;
     }
 }

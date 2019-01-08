@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme"
         android:hardwareAccelerated="true">
         <activity android:name=".MainActivity"
-            android:theme="@style/AppTheme1">
+            android:theme="@style/AppTheme">
 
         </activity>
         <activity android:name=".SplashScreenActivity"

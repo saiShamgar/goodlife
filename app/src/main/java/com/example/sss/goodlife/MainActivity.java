@@ -28,12 +28,13 @@ import com.example.sss.goodlife.Fragments.VbsFinanceApplication;
 import com.example.sss.goodlife.Fragments.VbsFinanceReport;
 import com.example.sss.goodlife.Fragments.VbsTransportApplication;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity {
     private TextView EventFormTxt,ReportFormTxt;
     private FrameLayout framContainer;
     private DrawerLayout drawer_layout;
     private ActionBarDrawerToggle mToggle;
-    private Toolbar toolbarDrawer;
     private NavigationView nav_view;
 
     @Override
@@ -45,12 +46,12 @@ public class MainActivity extends AppCompatActivity {
 //        ReportFormTxt=findViewById(R.id.ReportFormTxt);
         framContainer=findViewById(R.id.frameContainer);
         drawer_layout=findViewById(R.id.drawer_layout);
-        toolbarDrawer=findViewById(R.id.toolbarDrawer);
+
         nav_view=findViewById(R.id.nav_view);
         nav_view.bringToFront();
         mToggle=new ActionBarDrawerToggle(this,drawer_layout,R.string.open,R.string.close);
         drawer_layout.addDrawerListener(mToggle);
-        setSupportActionBar(toolbarDrawer);
+
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -163,6 +164,15 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_activity_menu_items, menu);
+        return  super.onCreateOptionsMenu(menu);
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

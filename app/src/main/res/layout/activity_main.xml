@@ -16,19 +16,10 @@ android:fitsSystemWindows="true">
         app:itemTextColor="#000"
         app:itemIconTint="#000"
         app:menu="@menu/drawer_menu_items"
-        android:layout_gravity="start">
+        android:layout_gravity="start"
+        android:layout_marginTop="72dp">
 
     </android.support.design.widget.NavigationView>
-
-
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-   <include layout="@layout/app_bar" />
-
-
 
     <FrameLayout
         android:id="@+id/frameContainer"
@@ -43,5 +34,4 @@ android:fitsSystemWindows="true">
 
     </FrameLayout>
 
-</LinearLayout>
 </android.support.v4.widget.DrawerLayout>
