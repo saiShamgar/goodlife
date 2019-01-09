@@ -12,23 +12,31 @@
     tools:context=".Fragments.ReviewsFragment">
 
     <!-- TODO: Update blank fragment layout -->
-   <Spinner
-       android:id="@+id/review_spinner_program_id"
-       android:layout_width="match_parent"
-       android:layout_height="40dp"
-       android:layout_margin="15sp"
-       android:background="@color/white">
-   </Spinner>
+
+    <LinearLayout
+        android:id="@+id/reviewSpinnerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_margin="15sp">
+        <Spinner
+            android:id="@+id/review_spinner_program_id"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+        </Spinner>
+
+    </LinearLayout>
+
 
     <EditText
         android:id="@+id/review_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/review_spinner_program_id"
+        android:layout_below="@+id/reviewSpinnerLayout"
         android:layout_marginStart="15sp"
         android:layout_marginEnd="15sp"
         android:background="@color/white"
-        android:hint="Enter Email"
+        android:hint="Enter Email(optional)"
         android:textSize="14sp"
         android:padding="10dp"/>
 

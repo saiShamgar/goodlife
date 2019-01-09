@@ -1,11 +1,13 @@
 package com.example.sss.goodlife.Models;
 
+import java.util.ArrayList;
+
 public class FinanceApplication {
 
-    String vendor_name,location,phone,total_amount,account_name,payment_type,
+    ArrayList<String> vendor_name,location,phone,total_amount,account_name,payment_type,
             bank_acno,bank_ifsc_code,expenditure_desc,quation_image;
 
-    public FinanceApplication(String vendor_name, String location, String phone, String total_amount, String account_name, String payment_type, String bank_acno, String bank_ifsc_code, String expenditure_desc, String quation_image) {
+    public FinanceApplication(ArrayList<String> vendor_name, ArrayList<String> location, ArrayList<String> phone, ArrayList<String> total_amount, ArrayList<String> account_name, ArrayList<String> payment_type, ArrayList<String> bank_acno, ArrayList<String> bank_ifsc_code, ArrayList<String> expenditure_desc, ArrayList<String> quation_image) {
         this.vendor_name = vendor_name;
         this.location = location;
         this.phone = phone;
@@ -18,83 +20,83 @@ public class FinanceApplication {
         this.quation_image = quation_image;
     }
 
-    public String getVendor_name() {
+    public ArrayList<String> getVendor_name() {
         return vendor_name;
     }
 
-    public void setVendor_name(String vendor_name) {
+    public void setVendor_name(ArrayList<String> vendor_name) {
         this.vendor_name = vendor_name;
     }
 
-    public String getLocation() {
+    public ArrayList<String> getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(ArrayList<String> location) {
         this.location = location;
     }
 
-    public String getPhone() {
+    public ArrayList<String> getPhone() {
         return phone;
     }
 
-    public void setPhone(String phone) {
+    public void setPhone(ArrayList<String> phone) {
         this.phone = phone;
     }
 
-    public String getTotal_amount() {
+    public ArrayList<String> getTotal_amount() {
         return total_amount;
     }
 
-    public void setTotal_amount(String total_amount) {
+    public void setTotal_amount(ArrayList<String> total_amount) {
         this.total_amount = total_amount;
     }
 
-    public String getAccount_name() {
+    public ArrayList<String> getAccount_name() {
         return account_name;
     }
 
-    public void setAccount_name(String account_name) {
+    public void setAccount_name(ArrayList<String> account_name) {
         this.account_name = account_name;
     }
 
-    public String getPayment_type() {
+    public ArrayList<String> getPayment_type() {
         return payment_type;
     }
 
-    public void setPayment_type(String payment_type) {
+    public void setPayment_type(ArrayList<String> payment_type) {
         this.payment_type = payment_type;
     }
 
-    public String getBank_acno() {
+    public ArrayList<String> getBank_acno() {
         return bank_acno;
     }
 
-    public void setBank_acno(String bank_acno) {
+    public void setBank_acno(ArrayList<String> bank_acno) {
         this.bank_acno = bank_acno;
     }
 
-    public String getBank_ifsc_code() {
+    public ArrayList<String> getBank_ifsc_code() {
         return bank_ifsc_code;
     }
 
-    public void setBank_ifsc_code(String bank_ifsc_code) {
+    public void setBank_ifsc_code(ArrayList<String> bank_ifsc_code) {
         this.bank_ifsc_code = bank_ifsc_code;
     }
 
-    public String getExpenditure_desc() {
+    public ArrayList<String> getExpenditure_desc() {
         return expenditure_desc;
     }
 
-    public void setExpenditure_desc(String expenditure_desc) {
+    public void setExpenditure_desc(ArrayList<String> expenditure_desc) {
         this.expenditure_desc = expenditure_desc;
     }
 
-    public String getQuation_image() {
+    public ArrayList<String> getQuation_image() {
         return quation_image;
     }
 
-    public void setQuation_image(String quation_image) {
+    public void setQuation_image(ArrayList<String> quation_image) {
         this.quation_image = quation_image;
     }
 }

@@ -37,13 +37,15 @@
             android:textStyle="bold"
             android:layout_weight="1"/>
 
-        <Spinner
+        <EditText
             android:id="@+id/transportTypeOfVehical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
             android:layout_margin="5dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:inputType="text"
+            android:imeOptions="actionNext"/>
     </LinearLayout>
 
     <LinearLayout
@@ -287,7 +289,9 @@
             android:textColor="@android:color/black"
             android:layout_margin="5dp"
             android:textStyle="bold"
-            android:layout_weight="1"/>
+            android:inputType="number"
+            android:layout_weight="1"
+            android:imeOptions="actionDone"/>
     </LinearLayout>
 
 </LinearLayout>

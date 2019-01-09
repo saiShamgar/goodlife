@@ -2,17 +2,21 @@ package com.example.sss.goodlife.Fragments;
 
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,8 +26,18 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.sss.goodlife.Adapters.BankAccountAdapter;
 import com.example.sss.goodlife.Adapters.PlaceAutocompleteAdapter;
+import com.example.sss.goodlife.Adapters.ProgramsIdAdapter;
+import com.example.sss.goodlife.Api.APIUrl;
+import com.example.sss.goodlife.Api.ApiService;
 import com.example.sss.goodlife.MainActivity;
+import com.example.sss.goodlife.Models.BankAccountIdStatus;
+import com.example.sss.goodlife.Models.BankAccountIds;
+import com.example.sss.goodlife.Models.FormStatus;
+import com.example.sss.goodlife.Models.ProgramIds;
+import com.example.sss.goodlife.Models.ProgramIdsStatus;
+import com.example.sss.goodlife.Models.TransPortApplication;
 import com.example.sss.goodlife.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -35,8 +49,14 @@ import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -45,10 +65,10 @@ public class VbsTransportApplication extends Fragment implements GoogleApiClient
 
     //widgets
     private ImageButton VbsTransportLayout;
-    private LinearLayout dynamicVbsTransport;
+    private LinearLayout dynamicVbsTransport,addlayoutImageTransport;
     private Button submitVbsTransportApplication,VbsTransportAddMoreVendorDetails;
-    private Spinner transportTypeOfVehical;
-    private EditText transprotOthers,transportRegNum,transportDriverName,transportLicenseId,transportNumPeople,transportDistanceManual;
+    private Spinner transportProgramIdSpinner;
+    private EditText transportTypeOfVehical,transportRegNum,transportDriverName,transportLicenseId,transportNumPeople,transportDistanceManual;
     private AutoCompleteTextView transportFromLocation,transportToLocation;
     private TextView transportDistanceFromGoogle,TransportDeleteVbs,clickToGetDistance;
 
@@ -63,7 +83,7 @@ public class VbsTransportApplication extends Fragment implements GoogleApiClient
     private GoogleApiClient googleApiClient;
     private Boolean mlocation_permission_granted = false;
 
-    private ArrayList<EditText> selectedTransportOthers=new ArrayList<>();
+
     private ArrayList<EditText> selectedTransportRegNum=new ArrayList<>();
     private ArrayList<EditText> selectedTransportDriverName=new ArrayList<>();
     private ArrayList<EditText> selectedTransportLicenceId=new ArrayList<>();
@@ -71,12 +91,31 @@ public class VbsTransportApplication extends Fragment implements GoogleApiClient
     private ArrayList<EditText> selectedTransportDistanceManual=new ArrayList<>();
     private ArrayList<AutoCompleteTextView> selectedTransportFromLocation=new ArrayList<>();
     private ArrayList<AutoCompleteTextView> selectedTransportToLocation=new ArrayList<>();
+    private ArrayList<EditText> selectedTransportTypeOfVehicals=new ArrayList<>();
+    private ArrayList<TextView> selectedTransportGoogleDistance=new ArrayList<>();
+
+
+    private ArrayList<String> ListselectedTransportRegNum=new ArrayList<>();
+    private ArrayList<String> ListselectedTransportDriverName=new ArrayList<>();
+    private ArrayList<String> ListselectedTransportLicenceId=new ArrayList<>();
+    private ArrayList<String> ListselectedTransportNUmOfPeople=new ArrayList<>();
+    private ArrayList<String> ListselectedTransportDistanceManual=new ArrayList<>();
+    private ArrayList<String> ListselectedTransportFromLocation=new ArrayList<>();
+    private ArrayList<String> ListselectedTransportToLocation=new ArrayList<>();
+    private ArrayList<String> ListselectedTransportTypeOfVehicals=new ArrayList<>();
+    private ArrayList<String> ListselectedTransportGoogleDistance=new ArrayList<>();
 
     //Latitude and Longitudes
     private double latitudeFromLocation,longitudeFromLocation,latitudeToLocation,longitudeToLocation;
     private Location startPoint,endPoint;
     private boolean locationListener=false;
 
+    //Api calls
+    private ApiService apiService;
+    private List<ProgramIds> programIds;
+    private String programId;
+    private ProgramsIdAdapter programidsAdapter;
+    private ProgressDialog progressDialog,transportProgressDialog;
 
     public VbsTransportApplication() {
         // Required empty public constructor
@@ -90,6 +129,20 @@ public class VbsTransportApplication extends Fragment implements GoogleApiClient
         ((MainActivity)getActivity()).getSupportActionBar().setTitle("Transport Enroll");
         View view= inflater.inflate(R.layout.fragment_vbs_transport_application, container, false);
 
+
+        progressDialog=new ProgressDialog(getActivity());
+        progressDialog.setTitle("Getting Data");
+        progressDialog.setMessage("Please wait...,");
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
+
+
+        transportProgressDialog=new ProgressDialog(getActivity());
+        transportProgressDialog.setTitle("Transport Enroll");
+        transportProgressDialog.setMessage("Please wait, while we are submitting your details ");
+        transportProgressDialog.setCanceledOnTouchOutside(false);
+
+
         //Initializing google api client
         googleApiClient = new GoogleApiClient
                 .Builder(getActivity())
@@ -102,6 +155,48 @@ public class VbsTransportApplication extends Fragment implements GoogleApiClient
         dynamicVbsTransport=view.findViewById(R.id.dynamicVbsTransport);
         submitVbsTransportApplication=view.findViewById(R.id.submitVbsTransportApplication);
         VbsTransportAddMoreVendorDetails=view.findViewById(R.id.VbsTransportAddMoreVendorDetails);
+        transportProgramIdSpinner=view.findViewById(R.id.transportProgramIdSpinner);
+        addlayoutImageTransport=view.findViewById(R.id.addlayoutImageTransport);
+
+
+        //Spinner Dropdown for location
+        apiService= APIUrl.getApiClient().create(ApiService.class);
+        final retrofit2.Call<ProgramIdsStatus> call=apiService.getProgramids();
+        call.enqueue(new Callback<ProgramIdsStatus>() {
+            @Override
+            public void onResponse(retrofit2.Call<ProgramIdsStatus> call, Response<ProgramIdsStatus> response) {
+                if (response.body().getMessage().size()!=0) {
+                    programIds = response.body().getMessage();
+                    transportProgramIdSpinner.setPrompt("Select Location");
+                    programidsAdapter = new ProgramsIdAdapter(getActivity(), (ArrayList<ProgramIds>) programIds);
+                    transportProgramIdSpinner.setAdapter(programidsAdapter);
+                    progressDialog.dismiss();
+
+                    transportProgramIdSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            programId= String.valueOf(programidsAdapter.getItem(position).getProgram_id());
+                            VbsTransportAddMoreVendorDetails.setVisibility(View.VISIBLE);
+                            addlayoutImageTransport.setVisibility(View.VISIBLE);
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+                }
+                else {
+                    progressDialog.dismiss();
+                    Toast.makeText(getActivity(),"Programs not forund",Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(retrofit2.Call<ProgramIdsStatus> call, Throwable t) {
+                Toast.makeText(getActivity(),"error",Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
+            }
+        });
 
         //imageButton dynamic list
         VbsTransportLayout.setOnClickListener(new View.OnClickListener() {
@@ -114,12 +209,47 @@ public class VbsTransportApplication extends Fragment implements GoogleApiClient
                 if (dynamicVbsTransport.getChildCount()==0){
                     dynamicVbsTransport.addView(rowView);
                 }else {
+                    if (TextUtils.isEmpty(transportTypeOfVehical.getText().toString())){
+                        transportTypeOfVehical.setError("field cannot be empty");
+                        return;
+                    }
+                    if (TextUtils.isEmpty(transportRegNum.getText().toString())){
+                        transportRegNum.setError("field cannot be empty");
+                        return;
+                    }
+                    if (TextUtils.isEmpty(transportDriverName.getText().toString())){
+                        transportDriverName.setError("field cannot be empty");
+                        return;
+                    }
+                    if (TextUtils.isEmpty(transportLicenseId.getText().toString())){
+                        transportLicenseId.setError("field cannot be empty");
+                        return;
+                    }
+                    if (TextUtils.isEmpty(transportNumPeople.getText().toString())){
+                        transportNumPeople.setError("field cannot be empty");
+                        return;
+                    }
+                    if (TextUtils.isEmpty(transportDistanceManual.getText().toString())){
+                        transportDistanceManual.setError("field cannot be empty");
+                        return;
+                    }
+                    if (TextUtils.isEmpty(transportFromLocation.getText().toString())){
+                        transportFromLocation.setError("field cannot be empty");
+                        return;
+                    }
+                    if (TextUtils.isEmpty(transportToLocation.getText().toString())){
+                        transportToLocation.setError("field cannot be empty");
+                        return;
+                    }
+                    if (transportDistanceFromGoogle.getVisibility()==View.GONE){
+                        Toast.makeText(getActivity(),"Please get google distance",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
                     dynamicVbsTransport.addView(rowView);
                 }
 
                 transportTypeOfVehical=rowView.findViewById(R.id.transportTypeOfVehical);
-                transprotOthers=rowView.findViewById(R.id.transprotOthers);
                 transportRegNum=rowView.findViewById(R.id.transportRegNum);
                 transportDriverName=rowView.findViewById(R.id.transportDriverName);
                 transportLicenseId=rowView.findViewById(R.id.transportLicenseId);
@@ -161,7 +291,7 @@ public class VbsTransportApplication extends Fragment implements GoogleApiClient
                     }
                 });
 
-                selectedTransportOthers.add(transprotOthers);
+
                 selectedTransportRegNum.add(transportRegNum);
                 selectedTransportDriverName.add(transportDriverName);
                 selectedTransportLicenceId.add(transportLicenseId);
@@ -169,6 +299,8 @@ public class VbsTransportApplication extends Fragment implements GoogleApiClient
                 selectedTransportDistanceManual.add(transportDistanceManual);
                 selectedTransportFromLocation.add(transportFromLocation);
                 selectedTransportToLocation.add(transportToLocation);
+                selectedTransportTypeOfVehicals.add(transportTypeOfVehical);
+                selectedTransportGoogleDistance.add(transportDistanceFromGoogle);
 
 
 
@@ -176,7 +308,7 @@ public class VbsTransportApplication extends Fragment implements GoogleApiClient
                     @Override
                     public void onClick(View v) {
                         dynamicVbsTransport.removeView((View) v.getParent());
-                        selectedTransportOthers.remove(transprotOthers);
+
                         selectedTransportRegNum.remove(transportRegNum);
                         selectedTransportDriverName.remove(transportDriverName);
                         selectedTransportLicenceId.remove(transportLicenseId);
@@ -184,6 +316,8 @@ public class VbsTransportApplication extends Fragment implements GoogleApiClient
                         selectedTransportDistanceManual.remove(transportDistanceManual);
                         selectedTransportFromLocation.remove(transportFromLocation);
                         selectedTransportToLocation.remove(transportToLocation);
+                        selectedTransportTypeOfVehicals.remove(transportTypeOfVehical);
+                        selectedTransportGoogleDistance.remove(transportDistanceFromGoogle);
                     }
                 });
 
@@ -203,12 +337,48 @@ public class VbsTransportApplication extends Fragment implements GoogleApiClient
                 if (dynamicVbsTransport.getChildCount()==0){
                     dynamicVbsTransport.addView(rowView);
                 }else {
+                    if (TextUtils.isEmpty(transportTypeOfVehical.getText().toString())){
+                        transportTypeOfVehical.setError("field cannot be empty");
+                        return;
+                    }
+                    if (TextUtils.isEmpty(transportRegNum.getText().toString())){
+                        transportRegNum.setError("field cannot be empty");
+                        return;
+                    }
+                    if (TextUtils.isEmpty(transportDriverName.getText().toString())){
+                        transportDriverName.setError("field cannot be empty");
+                        return;
+                    }
+                    if (TextUtils.isEmpty(transportLicenseId.getText().toString())){
+                        transportLicenseId.setError("field cannot be empty");
+                        return;
+                    }
+                    if (TextUtils.isEmpty(transportNumPeople.getText().toString())){
+                        transportNumPeople.setError("field cannot be empty");
+                        return;
+                    }
+                    if (TextUtils.isEmpty(transportDistanceManual.getText().toString())){
+                        transportDistanceManual.setError("field cannot be empty");
+                        return;
+                    }
+                    if (TextUtils.isEmpty(transportFromLocation.getText().toString())){
+                        transportFromLocation.setError("field cannot be empty");
+                        return;
+                    }
+                    if (TextUtils.isEmpty(transportToLocation.getText().toString())){
+                        transportToLocation.setError("field cannot be empty");
+                        return;
+                    }
+                    if (transportDistanceFromGoogle.getVisibility()==View.GONE){
+                        Toast.makeText(getActivity(),"Please get google distance",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
 
                     dynamicVbsTransport.addView(rowView);
                 }
 
                 transportTypeOfVehical=rowView.findViewById(R.id.transportTypeOfVehical);
-                transprotOthers=rowView.findViewById(R.id.transprotOthers);
                 transportRegNum=rowView.findViewById(R.id.transportRegNum);
                 transportDriverName=rowView.findViewById(R.id.transportDriverName);
                 transportLicenseId=rowView.findViewById(R.id.transportLicenseId);
@@ -219,6 +389,7 @@ public class VbsTransportApplication extends Fragment implements GoogleApiClient
                 transportDistanceFromGoogle=rowView.findViewById(R.id.transportDistanceFromGoogle);
                 TransportDeleteVbs=rowView.findViewById(R.id.TransportDeleteVbs);
                 clickToGetDistance=rowView.findViewById(R.id.clickToGetDistance);
+
 
 
                 transportFromLocation.setOnItemClickListener(mAutoCompleteListenerFrom);
@@ -250,7 +421,6 @@ public class VbsTransportApplication extends Fragment implements GoogleApiClient
                     }
                 });
 
-                selectedTransportOthers.add(transprotOthers);
                 selectedTransportRegNum.add(transportRegNum);
                 selectedTransportDriverName.add(transportDriverName);
                 selectedTransportLicenceId.add(transportLicenseId);
@@ -258,13 +428,14 @@ public class VbsTransportApplication extends Fragment implements GoogleApiClient
                 selectedTransportDistanceManual.add(transportDistanceManual);
                 selectedTransportFromLocation.add(transportFromLocation);
                 selectedTransportToLocation.add(transportToLocation);
+                selectedTransportTypeOfVehicals.add(transportTypeOfVehical);
+                selectedTransportGoogleDistance.add(transportDistanceFromGoogle);
 
 
                 TransportDeleteVbs.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         dynamicVbsTransport.removeView((View) v.getParent());
-                        selectedTransportOthers.remove(transprotOthers);
                         selectedTransportRegNum.remove(transportRegNum);
                         selectedTransportDriverName.remove(transportDriverName);
                         selectedTransportLicenceId.remove(transportLicenseId);
@@ -272,9 +443,139 @@ public class VbsTransportApplication extends Fragment implements GoogleApiClient
                         selectedTransportDistanceManual.remove(transportDistanceManual);
                         selectedTransportFromLocation.remove(transportFromLocation);
                         selectedTransportToLocation.remove(transportToLocation);
+                        selectedTransportTypeOfVehicals.remove(transportTypeOfVehical);
+                        selectedTransportGoogleDistance.remove(transportDistanceFromGoogle);
                     }
                 });
+            }
+        });
 
+        submitVbsTransportApplication.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (dynamicVbsTransport.getChildCount()==0) {
+                    Toast.makeText(getActivity(),"Please Add Transport Details",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (TextUtils.isEmpty(transportTypeOfVehical.getText().toString())){
+                    transportTypeOfVehical.setError("field cannot be empty");
+                    return;
+                }
+                if (TextUtils.isEmpty(transportRegNum.getText().toString())){
+                    transportRegNum.setError("field cannot be empty");
+                    return;
+                }
+                if (TextUtils.isEmpty(transportDriverName.getText().toString())){
+                    transportDriverName.setError("field cannot be empty");
+                    return;
+                }
+                if (TextUtils.isEmpty(transportLicenseId.getText().toString())){
+                    transportLicenseId.setError("field cannot be empty");
+                    return;
+                }
+                if (TextUtils.isEmpty(transportNumPeople.getText().toString())){
+                    transportNumPeople.setError("field cannot be empty");
+                    return;
+                }
+                if (TextUtils.isEmpty(transportDistanceManual.getText().toString())){
+                    transportDistanceManual.setError("field cannot be empty");
+                    return;
+                }
+                if (TextUtils.isEmpty(transportFromLocation.getText().toString())){
+                    transportFromLocation.setError("field cannot be empty");
+                    return;
+                }
+                if (TextUtils.isEmpty(transportToLocation.getText().toString())){
+                    transportToLocation.setError("field cannot be empty");
+                    return;
+                }
+                if (transportDistanceFromGoogle.getVisibility()==View.GONE){
+                    Toast.makeText(getActivity(),"Please get google distance",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+
+                ListselectedTransportRegNum.clear();
+                ListselectedTransportDriverName.clear();
+                ListselectedTransportLicenceId.clear();
+                ListselectedTransportNUmOfPeople.clear();
+                ListselectedTransportDistanceManual.clear();
+                ListselectedTransportFromLocation.clear();
+                ListselectedTransportToLocation.clear();
+                ListselectedTransportTypeOfVehicals.clear();
+                ListselectedTransportGoogleDistance.clear();
+
+
+                    for (int i=0;i<selectedTransportRegNum.size();i++){
+                        ListselectedTransportRegNum.add(selectedTransportRegNum.get(i).getText().toString());
+                        ListselectedTransportDriverName.add(selectedTransportDriverName.get(i).getText().toString());
+                        ListselectedTransportLicenceId.add(selectedTransportLicenceId.get(i).getText().toString());
+                        ListselectedTransportNUmOfPeople.add(selectedTransportNUmOfPeople.get(i).getText().toString());
+                        ListselectedTransportDistanceManual.add(selectedTransportDistanceManual.get(i).getText().toString());
+                        ListselectedTransportFromLocation.add(selectedTransportFromLocation.get(i).getText().toString());
+                        ListselectedTransportToLocation.add(selectedTransportToLocation.get(i).getText().toString());
+                        ListselectedTransportTypeOfVehicals.add(selectedTransportTypeOfVehicals.get(i).getText().toString());
+                        ListselectedTransportGoogleDistance.add(selectedTransportGoogleDistance.get(i).getText().toString());
+
+                        Log.e("vehical name",ListselectedTransportTypeOfVehicals.toString());
+                        Log.e("RegNum",ListselectedTransportRegNum.toString());
+                        Log.e("DriverName",ListselectedTransportDriverName.toString());
+                        Log.e("LicenceId",ListselectedTransportLicenceId.toString());
+                        Log.e("NumOfPeople",ListselectedTransportNUmOfPeople.toString());
+                        Log.e("manual distance",ListselectedTransportDistanceManual.toString());
+                        Log.e("fromLocation",ListselectedTransportFromLocation.toString());
+                        Log.e("toLocation",ListselectedTransportToLocation.toString());
+                        Log.e("GoogleDistance",ListselectedTransportGoogleDistance.toString());
+
+                    }
+
+                TransPortApplication application=new TransPortApplication(
+                        ListselectedTransportTypeOfVehicals,
+                        ListselectedTransportRegNum,
+                        ListselectedTransportDriverName,
+                        ListselectedTransportLicenceId,
+                        ListselectedTransportNUmOfPeople,
+                        ListselectedTransportFromLocation,
+                        ListselectedTransportToLocation,
+                        ListselectedTransportGoogleDistance,
+                        ListselectedTransportDistanceManual);
+
+
+                Gson gson = new Gson();
+                String tranport_list = gson.toJson(application);
+                Log.e("program id ",programId);
+                Log.e("tranport_list ",tranport_list);
+
+
+                transportProgressDialog.show();
+                apiService= APIUrl.getApiClient().create(ApiService.class);
+                Call<FormStatus> transportCall=apiService.transportSubmission(
+                        programId,
+                        tranport_list);
+                transportCall.enqueue(new Callback<FormStatus>() {
+                    @Override
+                    public void onResponse(Call<FormStatus> call, Response<FormStatus> response) {
+                        if (response.body()==null){
+                            transportProgressDialog.dismiss();
+                            Toast.makeText(getActivity(),"responce null",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        Toast.makeText(getActivity(),response.body().getMessage(),Toast.LENGTH_SHORT).show();
+                        transportProgressDialog.dismiss();
+
+                        FragmentManager manager = getActivity().getSupportFragmentManager();
+                        FragmentTransaction transaction = manager.beginTransaction();
+                        HomeFragment fragment=new HomeFragment();
+                        transaction.replace(R.id.frameContainer, fragment);
+                        transaction.commit();
+
+                    }
+                    @Override
+                    public void onFailure(Call<FormStatus> call, Throwable t) {
+                        transportProgressDialog.dismiss();
+                        Toast.makeText(getActivity(),"Error",Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 

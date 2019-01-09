@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:scrollbars="none">
 
 <RelativeLayout
     android:layout_width="match_parent"
@@ -78,7 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Total Expenditure: "
-            android:layout_marginTop="15sp"
+            android:layout_marginTop="25sp"
             android:layout_marginStart="15sp"
             android:layout_marginEnd="15sp"
             android:textColor="@android:color/black"
@@ -131,16 +132,18 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/TotalExpenditure"
-            android:layout_marginStart="20dp"/>
+            android:layout_marginStart="20dp"
+            android:inputType="number"
+            android:imeOptions="actionDone"/>
 
-        <TextView
+        <EditText
             android:id="@+id/amountFromDb"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/TotalAmountYouGot"
-            android:layout_marginTop="15sp"
-            android:text="123000"
-            android:layout_marginStart="50dp"/>
+            android:layout_marginStart="50dp"
+            android:imeOptions="actionNext"
+            android:inputType="number"/>
 
         <TextView
             android:id="@+id/amountFr"
@@ -148,9 +151,10 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/Calculate"
             android:layout_marginTop="22dp"
-            android:text="123000"
-            android:layout_below="@+id/EnterAmountFinance"/>
+            android:layout_below="@+id/EnterAmountFinance"
+            android:visibility="gone"/>
         <Button
+            android:id="@+id/submitUpdatedFinanceReport"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/updatedQuotationFinance"
@@ -175,4 +179,4 @@
 
 </RelativeLayout>
 
-</ScrollView>
+</android.support.v4.widget.NestedScrollView>

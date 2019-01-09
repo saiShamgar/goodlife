@@ -1,6 +1,10 @@
 package com.example.sss.goodlife;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -19,6 +23,8 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.sss.goodlife.Api.APIUrl;
+import com.example.sss.goodlife.Api.ApiService;
 import com.example.sss.goodlife.Fragments.DayWiseReportFragment;
 import com.example.sss.goodlife.Fragments.EventFormFragment;
 import com.example.sss.goodlife.Fragments.HomeFragment;
@@ -27,8 +33,14 @@ import com.example.sss.goodlife.Fragments.VBSProgramApplication;
 import com.example.sss.goodlife.Fragments.VbsFinanceApplication;
 import com.example.sss.goodlife.Fragments.VbsFinanceReport;
 import com.example.sss.goodlife.Fragments.VbsTransportApplication;
+import com.example.sss.goodlife.Models.FormStatus;
+import com.example.sss.goodlife.Utils.SharedPreferenceConfig;
 
 import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     private TextView EventFormTxt,ReportFormTxt;
@@ -37,10 +49,22 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mToggle;
     private NavigationView nav_view;
 
+    //Api calls
+    private ApiService apiService;
+    private ProgressDialog progressDialog;
+
+    boolean doubleBackToExitPressedOnce = false;
+    private SharedPreferences.Editor editor;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SharedPreferences pref=getApplicationContext().getSharedPreferences("my_pref",MODE_PRIVATE);
+         editor=pref.edit();
 
 //        EventFormTxt=findViewById(R.id.EventFormTxt);
 //        ReportFormTxt=findViewById(R.id.ReportFormTxt);
@@ -179,6 +203,39 @@ public class MainActivity extends AppCompatActivity {
         if (mToggle.onOptionsItemSelected(item)){
             return true;
         }
+        if (item.getItemId()==R.id.menu_Logout){
+            progressDialog=new ProgressDialog(this);
+            progressDialog.setTitle("Logging out");
+            progressDialog.setMessage("Please wait....,");
+            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.show();
+            apiService= APIUrl.getApiClient().create(ApiService.class);
+            Call<FormStatus> financeCall=apiService.goodLifeLogOut();
+            financeCall.enqueue(new Callback<FormStatus>() {
+                @Override
+                public void onResponse(Call<FormStatus> call, Response<FormStatus> response) {
+                    if (response.body()==null){
+                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(),"responce null",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    Toast.makeText(getApplicationContext(),response.body().getMessage(),Toast.LENGTH_SHORT).show();
+                    editor.clear();
+                    editor.commit();
+                    progressDialog.dismiss();
+                    Intent agentLogin=new Intent(MainActivity.this, LoginPageActivity.class);
+                    startActivity(agentLogin);
+                    finish();
+
+                }
+                @Override
+                public void onFailure(Call<FormStatus> call, Throwable t) {
+                    progressDialog.dismiss();
+                    Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -193,6 +250,25 @@ public class MainActivity extends AppCompatActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
     }
 
 

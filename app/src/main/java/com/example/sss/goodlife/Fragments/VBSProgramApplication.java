@@ -220,9 +220,7 @@ public class VBSProgramApplication extends Fragment{
                 spinnerEndTimeEvent=(Spinner)rowView.findViewById(R.id.spinnerEndTimeEvent);
 
 
-                selectedEventDates.add(selectDateTxt);
-                selectedEventStartTime.add(selectStartTime);
-                selectedEventEndTime.add(selectEndTime);
+
 
 
                 //spinner data from time
@@ -272,13 +270,19 @@ public class VBSProgramApplication extends Fragment{
                     }
                 });
 
+                selectedEventDates.add(selectDateTxt);
+                selectedEventStartTime.add(selectStartTime);
+                selectedEventEndTime.add(selectEndTime);
+
                 delete_button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         VbsEventparentLinearLayout.removeView((View) v.getParent());
+
                         selectedEventDates.remove(selectDateTxt);
                         selectedEventStartTime.remove(selectStartTime);
                         selectedEventEndTime.remove(selectEndTime);
+
                     }
                 });
 
@@ -447,10 +451,26 @@ public class VBSProgramApplication extends Fragment{
                     }
                 });
 
+                selectedNumOfMen.add(participaints_num_men);
+                selectedNumOfWomen.add(participaints_num_women);
+                selectedNumOfChild.add(participaints_num_child);
+                selectedPar_names.add(participaintsName);
+                selectedPar_phone.add(participaintsPhone);
+                selectedPar_des.add(participaintsDescription);
+                participantDates.add(participaintDate);
+
                 delete_button_participaints.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         VbsParentLinearLayout2.removeView((View) v.getParent());
+
+                        selectedNumOfMen.remove(participaints_num_men);
+                        selectedNumOfWomen.remove(participaints_num_women);
+                        selectedNumOfChild.remove(participaints_num_child);
+                        selectedPar_names.remove(participaintsName);
+                        selectedPar_phone.remove(participaintsPhone);
+                        selectedPar_des.remove(participaintsDescription);
+                        participantDates.remove(participaintDate);
                     }
                 });
 
@@ -505,13 +525,19 @@ public class VBSProgramApplication extends Fragment{
 
                 progressDialog.show();
 
-                selectedNumOfMen.add(participaints_num_men);
-                selectedNumOfWomen.add(participaints_num_women);
-                selectedNumOfChild.add(participaints_num_child);
-                selectedPar_names.add(participaintsName);
-                selectedPar_phone.add(participaintsPhone);
-                selectedPar_des.add(participaintsDescription);
-                participantDates.add(participaintDate);
+                ListselectedEventDates.clear();
+                ListselectedEventStartTime.clear();
+                ListselectedEventEndTime.clear();
+
+                ListparticipantDates.clear();
+                ListselectedPar_ids.clear();
+                ListselectedPar_names.clear();
+                ListselectedPar_phone.clear();
+                ListselectedPar_des.clear();
+                ListselectedNumOfMen.clear();
+                ListselectedNumOfWomen.clear();
+                ListselectedNumOfChild.clear();
+
 
 
                 Log.e("Aim",VbsProgramAim.getText().toString());
@@ -541,7 +567,7 @@ public class VBSProgramApplication extends Fragment{
                       // Log.e("ListselectedPar_ids",ListselectedPar_ids.get(i).toString());
 
                         ListparticipantDates.add(participantDates.get(i).getText().toString());
-                        ListselectedPar_ids.add(participantsTypeAdapter.getItem(i).getParticipant_type_id());
+                        ListselectedPar_ids.add(participantsTypeAdapter.getItem(spinnerParticipaintsList.getSelectedItemPosition()).getParticipant_type_id());
                         ListselectedPar_names.add(selectedPar_names.get(i).getText().toString());
                         ListselectedPar_phone.add(selectedPar_phone.get(i).getText().toString());
                         ListselectedPar_des.add(selectedPar_des.get(i).getText().toString());

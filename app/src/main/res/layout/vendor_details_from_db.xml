@@ -1,35 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:id="@+id/financeLayout"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:visibility="visible"
-    android:layout_marginBottom="10dp"
-    android:layout_marginStart="8dp"
-    android:layout_marginEnd="8dp"
-    android:layout_marginTop="10dp"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:focusableInTouchMode="true">
-        <TextView
-            android:id="@+id/vendorDeleteVbs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textColor="@color/colorPrimaryDark"
-            android:textStyle="bold"
-            android:layout_margin="15sp"
-            android:layout_gravity="right"
-            android:drawableEnd="@android:drawable/ic_delete"/>
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardElevation="8dp"
+    android:layout_marginBottom="2dp">
 
-        <EditText
-            android:id="@+id/financeExpenditure"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:textSize="14sp"
-            android:hint="Enter Expenditure Description"
-            android:imeOptions="actionNext"
-            android:inputType="text"/>
+            android:orientation="horizontal"
+            android:weightSum="2">
+            <TextView
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textSize="14sp"
+                android:layout_weight="0.5"
+                android:text="Expenditure:"
+               android:textColor="@android:color/black"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/vendor_expenditure_from_db"
+                android:layout_width="0dp"
+                android:layout_weight="1.5"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+
 
         <TextView
             android:layout_width="match_parent"
@@ -55,21 +62,16 @@
                 android:textStyle="bold"
                 android:layout_weight="1"/>
 
-            <EditText
-                android:id="@+id/financeCompanyname"
+            <TextView
+                android:id="@+id/vendor_name_from_db"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:textColor="@android:color/black"
                 android:layout_margin="5dp"
                 android:textStyle="bold"
-                android:inputType="text"
-                android:imeOptions="actionNext"
                 android:layout_weight="1"/>
         </LinearLayout>
-
-
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -86,16 +88,14 @@
                 android:textStyle="bold"
                 android:layout_weight="1"/>
 
-            <AutoCompleteTextView
-                android:id="@+id/financeCompanyLocation"
+            <TextView
+                android:id="@+id/vendor_location_from_db"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:textColor="@android:color/black"
                 android:layout_margin="5dp"
                 android:textStyle="bold"
-                android:inputType="text"
-                android:imeOptions="actionNext"
                 android:layout_weight="1"/>
         </LinearLayout>
 
@@ -114,16 +114,14 @@
                 android:textStyle="bold"
                 android:layout_weight="1"/>
 
-            <EditText
-                android:id="@+id/financeCompanyPhone"
+            <TextView
+                android:id="@+id/vendor_phone_from_db"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:textColor="@android:color/black"
                 android:layout_margin="5dp"
                 android:textStyle="bold"
-                android:inputType="number"
-                android:imeOptions="actionNext"
                 android:layout_weight="1"/>
         </LinearLayout>
 
@@ -142,49 +140,48 @@
                 android:textStyle="bold"
                 android:layout_weight="1"/>
 
-            <EditText
-                android:id="@+id/financeTotalBidding"
+            <TextView
+                android:id="@+id/vendor_amount_from_db"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:textColor="@android:color/black"
                 android:layout_margin="5dp"
                 android:textStyle="bold"
-                android:inputType="numberDecimal"
-                android:imeOptions="actionNext"
                 android:layout_weight="1"/>
         </LinearLayout>
 
         <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-               android:weightSum="2">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:text="Account Name:"
-                    android:textColor="@android:color/black"
-                    android:layout_margin="5dp"
-                    android:textStyle="bold"
-                    android:layout_weight="1"/>
-
-                <Spinner
-                    android:id="@+id/financeAccountType"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:layout_margin="5dp"
-                    android:textStyle="bold"
-                    android:layout_weight="1"/>
-            </LinearLayout>
-
-    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-        android:weightSum="2">
+            android:weightSum="2">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="Account Name:"
+                android:textColor="@android:color/black"
+                android:layout_margin="5dp"
+                android:textStyle="bold"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/vendor_ac_name_from_db"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:layout_margin="5dp"
+                android:textStyle="bold"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -195,12 +192,14 @@
                 android:textStyle="bold"
                 android:layout_weight="1"/>
 
-            <Spinner
-                android:id="@+id/financePaymentProcess"
+            <TextView
+                android:id="@+id/vendor_payment_process_from_db"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="14sp"
                 android:textColor="@android:color/black"
                 android:layout_margin="5dp"
+                android:textStyle="bold"
                 android:layout_weight="1"/>
         </LinearLayout>
 
@@ -221,16 +220,14 @@
                 android:textStyle="bold"
                 android:layout_weight="1"/>
 
-            <EditText
-                android:id="@+id/financeCompanyBankNum"
+            <TextView
+                android:id="@+id/vendor_bank_ac_from_db"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:textColor="@android:color/black"
                 android:layout_margin="5dp"
                 android:textStyle="bold"
-                android:inputType="number"
-                android:imeOptions="actionNext"
                 android:layout_weight="1"/>
         </LinearLayout>
 
@@ -248,27 +245,24 @@
                 android:layout_margin="5dp"
                 android:textStyle="bold"
                 android:layout_weight="1"/>
-
-            <EditText
-                android:id="@+id/financeCompanyBankIfsc"
+            <TextView
+                android:id="@+id/vendor_banl_Ifsc_from_db"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:textColor="@android:color/black"
                 android:layout_margin="5dp"
                 android:textStyle="bold"
-                android:inputType="text"
-                android:imeOptions="actionDone"
                 android:layout_weight="1"/>
         </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Upload Quotation Image:"
-        android:textColor="@color/colorPrimaryDark"
-        android:layout_margin="10dp"
-        android:textStyle="bold" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Uploaded Quotation Image:"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_margin="10dp"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -277,23 +271,17 @@
             android:gravity="center">
 
             <ImageView
-                android:id="@+id/vbs_upload_quotation_image"
-                android:layout_width="200dp"
+                android:id="@+id/vendor_Quatation_from_db"
+                android:layout_width="250dp"
                 android:layout_height="200dp"
                 android:scaleType="fitXY"
                 android:background="@drawable/stroke_background_gray"
                 android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"/>
-
-            <Button
-                android:id="@+id/vbs_quotation_upload_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Upload"
-                android:textAllCaps="false"
-                android:gravity="center"
-                android:layout_marginTop="50dp"/>
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="15sp"
+                android:layout_marginEnd="15sp"/>
         </LinearLayout>
 
     </LinearLayout>
 
+</android.support.v7.widget.CardView>

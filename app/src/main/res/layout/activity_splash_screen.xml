@@ -28,7 +28,7 @@
    <TextView
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:text="CopyRights 2019@ Good Life Ministries,Developed By Shamgar(shamgar.org)"
+       android:text="CopyRights 2019@ Good Life Ministries\nDeveloped By Shamgar software solutions"
        android:gravity="center"
        android:textColor="#000"
        android:layout_marginBottom="10dp"

@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Base64;
@@ -20,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,13 +33,20 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.sss.goodlife.Adapters.BankAccountAdapter;
 import com.example.sss.goodlife.Adapters.LocationAdapter;
 import com.example.sss.goodlife.Adapters.PlaceAutocompleteAdapter;
 import com.example.sss.goodlife.Adapters.ProgramsIdAdapter;
 import com.example.sss.goodlife.Api.APIUrl;
 import com.example.sss.goodlife.Api.ApiService;
 import com.example.sss.goodlife.MainActivity;
+import com.example.sss.goodlife.Models.BankAccountIdStatus;
+import com.example.sss.goodlife.Models.BankAccountIds;
+import com.example.sss.goodlife.Models.FinanceApplication;
+import com.example.sss.goodlife.Models.FormStatus;
 import com.example.sss.goodlife.Models.Locations;
+import com.example.sss.goodlife.Models.ParticipantsList;
+import com.example.sss.goodlife.Models.ProgramEventDates;
 import com.example.sss.goodlife.Models.ProgramIds;
 import com.example.sss.goodlife.Models.ProgramIdsStatus;
 import com.example.sss.goodlife.Models.Status;
@@ -51,6 +61,7 @@ import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.gson.Gson;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -64,6 +75,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
@@ -80,7 +92,7 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
             ,financeTotalBidding,financeCompanyBankNum,financeCompanyBankIfsc;
     private Button submitVbsfinanceApplication,vbs_quotation_upload_button,addMoreVendorDetails;
     private ImageView vbs_upload_quotation_image;
-    private Spinner finance_program_spinner;
+    private Spinner finance_program_spinner,financeAccountType,financePaymentProcess;
 
     private ArrayList<EditText> selectedFinanceExpenditure=new ArrayList<>();
     private ArrayList<EditText> selectedFinanceCompanyName=new ArrayList<>();
@@ -89,6 +101,21 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
     private ArrayList<EditText> selectedFinanceCompanyTotalBidding=new ArrayList<>();
     private ArrayList<EditText> selectedFinanceCompanyBankNum=new ArrayList<>();
     private ArrayList<EditText> selectedFinanceCompanyBankIfsc=new ArrayList<>();
+    private ArrayList<Spinner> selectedFinanceBankAccountTypes=new ArrayList<>();
+    private ArrayList<ImageView> selectedFinanceQuataionImages=new ArrayList<>();
+    private ArrayList<Spinner> selectedFinancePaymentType=new ArrayList<>();
+
+    private ArrayList<String> ListselectedFinanceBankAccountTypes=new ArrayList<>();
+    private ArrayList<String> ListselectedFinanceTypeOfPayments=new ArrayList<>();
+    private ArrayList<String> ListselectedFinanceExpenditure=new ArrayList<>();
+    private ArrayList<String> ListselectedFinanceCompanyName=new ArrayList<>();
+    private ArrayList<String> ListselectedFinanceCompanyLocation=new ArrayList<>();
+    private ArrayList<String> ListselectedFinanceCompanyPhone=new ArrayList<>();
+    private ArrayList<String> ListselectedFinanceCompanyTotalBidding=new ArrayList<>();
+    private ArrayList<String> ListselectedFinanceCompanyBankNum=new ArrayList<>();
+    private ArrayList<String> ListselectedFinanceCompanyBankIfsc=new ArrayList<>();
+    private ArrayList<String> ListselectedFinanceQuatationImages=new ArrayList<>();
+    private ArrayList<String> ListselectedFinancePaymentType=new ArrayList<>();
 
 
     private int GALLERY = 1, CAMERA = 2;
@@ -110,8 +137,12 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
     //Api calls
     private ApiService apiService;
     private List<ProgramIds> programIds;
+    private List<BankAccountIds> bankAccountIds;
     private String programId;
     private ProgramsIdAdapter programidsAdapter;
+    private BankAccountAdapter bankAccountAdapter;
+    private ArrayAdapter arrayAdapter;
+    private ArrayList<String> paymentType=new ArrayList<>();
     private ProgressDialog progressDialog,financeSubmissionDialog;
 
 
@@ -132,7 +163,7 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
         progressDialog.show();
 
         financeSubmissionDialog=new ProgressDialog(getActivity());
-        financeSubmissionDialog.setTitle("Applying Program application");
+        financeSubmissionDialog.setTitle("Vendor Enroll");
         financeSubmissionDialog.setMessage("Please wait, while we are submitting your details ");
         financeSubmissionDialog.setCanceledOnTouchOutside(false);
 
@@ -196,6 +227,12 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
             }
         });
 
+        paymentType.add("Cheque");
+        paymentType.add("Cash");
+        paymentType.add("Online");
+        arrayAdapter=new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,paymentType);
+
+
 
 
         addMoreVendorDetails.setOnClickListener(new View.OnClickListener() {
@@ -248,9 +285,38 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
                 financeCompanyBankNum=rowView.findViewById(R.id.financeCompanyBankNum);
                 financeCompanyBankIfsc=rowView.findViewById(R.id.financeCompanyBankIfsc);
                 vendorDeleteVbs=rowView.findViewById(R.id.vendorDeleteVbs);
+                financeAccountType=rowView.findViewById(R.id.financeAccountType);
+                financePaymentProcess=rowView.findViewById(R.id.financePaymentProcess);
                 vbs_upload_quotation_image=rowView.findViewById(R.id.vbs_upload_quotation_image);
                 vbs_quotation_upload_button=rowView.findViewById(R.id.vbs_quotation_upload_button);
 
+                progressDialog.show();
+                //Spinner Dropdown for location
+                apiService= APIUrl.getApiClient().create(ApiService.class);
+                final retrofit2.Call<BankAccountIdStatus> call=apiService.getBankAccountNames();
+                call.enqueue(new Callback<BankAccountIdStatus>() {
+                    @Override
+                    public void onResponse(retrofit2.Call<BankAccountIdStatus> call, Response<BankAccountIdStatus> response) {
+                        if (response.body().getMessage().size()!=0) {
+                            bankAccountIds = response.body().getMessage();
+                            financeAccountType.setPrompt("Select Location");
+                            bankAccountAdapter = new BankAccountAdapter(getActivity(), (ArrayList<BankAccountIds>) bankAccountIds);
+                            financeAccountType.setAdapter(bankAccountAdapter);
+                            progressDialog.dismiss();
+
+                        }
+                        else {
+                            progressDialog.dismiss();
+                            Toast.makeText(getActivity(),"Programs not forund",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    @Override
+                    public void onFailure(retrofit2.Call<BankAccountIdStatus> call, Throwable t) {
+                        Toast.makeText(getActivity(),"error",Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
+                    }
+                });
+                financePaymentProcess.setAdapter(arrayAdapter);
 
                 financeCompanyLocation.setOnItemClickListener(mAutoCompleteListener);
                 autocompleteAdapter = new PlaceAutocompleteAdapter(getActivity(), googleApiClient, LAT_LNG_BOUNDS, null);
@@ -271,7 +337,9 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
                 selectedFinanceCompanyTotalBidding.add(financeTotalBidding);
                 selectedFinanceCompanyBankNum.add(financeCompanyBankNum);
                 selectedFinanceCompanyBankIfsc.add(financeCompanyBankIfsc);
-
+                selectedFinanceBankAccountTypes.add(financeAccountType);
+                selectedFinanceQuataionImages.add(vbs_upload_quotation_image);
+                selectedFinancePaymentType.add(financePaymentProcess);
 
 
                 vendorDeleteVbs.setOnClickListener(new View.OnClickListener() {
@@ -285,6 +353,10 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
                         selectedFinanceCompanyTotalBidding.remove(financeTotalBidding);
                         selectedFinanceCompanyBankNum.remove(financeCompanyBankNum);
                         selectedFinanceCompanyBankIfsc.remove(financeCompanyBankIfsc);
+                        selectedFinanceBankAccountTypes.remove(financeAccountType);
+                        selectedFinanceQuataionImages.remove(vbs_upload_quotation_image);
+                        selectedFinancePaymentType.remove(financePaymentProcess);
+
                     }
                 });
             }
@@ -339,9 +411,40 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
                 financeTotalBidding=rowView.findViewById(R.id.financeTotalBidding);
                 financeCompanyBankNum=rowView.findViewById(R.id.financeCompanyBankNum);
                 financeCompanyBankIfsc=rowView.findViewById(R.id.financeCompanyBankIfsc);
+                financeAccountType=rowView.findViewById(R.id.financeAccountType);
+                financePaymentProcess=rowView.findViewById(R.id.financePaymentProcess);
                 vendorDeleteVbs=rowView.findViewById(R.id.vendorDeleteVbs);
                 vbs_upload_quotation_image=rowView.findViewById(R.id.vbs_upload_quotation_image);
                 vbs_quotation_upload_button=rowView.findViewById(R.id.vbs_quotation_upload_button);
+
+                progressDialog.show();
+                //Spinner Dropdown for location
+                apiService= APIUrl.getApiClient().create(ApiService.class);
+                final retrofit2.Call<BankAccountIdStatus> call=apiService.getBankAccountNames();
+                call.enqueue(new Callback<BankAccountIdStatus>() {
+                    @Override
+                    public void onResponse(retrofit2.Call<BankAccountIdStatus> call, Response<BankAccountIdStatus> response) {
+                        if (response.body().getMessage().size()!=0) {
+                            bankAccountIds = response.body().getMessage();
+                            financeAccountType.setPrompt("Select Location");
+                            bankAccountAdapter = new BankAccountAdapter(getActivity(), (ArrayList<BankAccountIds>) bankAccountIds);
+                            financeAccountType.setAdapter(bankAccountAdapter);
+                            progressDialog.dismiss();
+
+                        }
+                        else {
+                            progressDialog.dismiss();
+                            Toast.makeText(getActivity(),"Programs not forund",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    @Override
+                    public void onFailure(retrofit2.Call<BankAccountIdStatus> call, Throwable t) {
+                        Toast.makeText(getActivity(),"error",Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
+                    }
+                });
+
+                financePaymentProcess.setAdapter(arrayAdapter);
 
                 //AutoCompleteTextViews from google places api
                 financeCompanyLocation.setOnItemClickListener(mAutoCompleteListener);
@@ -363,6 +466,9 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
                 selectedFinanceCompanyTotalBidding.add(financeTotalBidding);
                 selectedFinanceCompanyBankNum.add(financeCompanyBankNum);
                 selectedFinanceCompanyBankIfsc.add(financeCompanyBankIfsc);
+                selectedFinanceBankAccountTypes.add(financeAccountType);
+                selectedFinancePaymentType.add(financePaymentProcess);
+
 
 
 
@@ -377,6 +483,12 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
                         selectedFinanceCompanyTotalBidding.remove(financeTotalBidding);
                         selectedFinanceCompanyBankNum.remove(financeCompanyBankNum);
                         selectedFinanceCompanyBankIfsc.remove(financeCompanyBankIfsc);
+                        selectedFinanceBankAccountTypes.remove(financeAccountType);
+                        selectedFinancePaymentType.remove(financePaymentProcess);
+
+                        if (bmp!=null)
+                        ListselectedFinanceQuatationImages.remove(imageToString(bmp));
+
                     }
                 });
             }
@@ -419,15 +531,95 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
                     return;
                 }
 
+                ListselectedFinanceExpenditure.clear();
+                ListselectedFinanceCompanyName.clear();
+                ListselectedFinanceCompanyLocation.clear();
+                ListselectedFinanceCompanyPhone.clear();
+                ListselectedFinanceCompanyTotalBidding.clear();
+                ListselectedFinanceCompanyBankNum.clear();
+                ListselectedFinanceCompanyBankIfsc.clear();
+                ListselectedFinanceBankAccountTypes.clear();
+                ListselectedFinanceTypeOfPayments.clear();
+
                     for (int i=0;i<selectedFinanceExpenditure.size();i++){
-                        Log.e("FinanceExpenditure",selectedFinanceExpenditure.get(i).getText().toString());
-                        Log.e("financeCompanyname",selectedFinanceCompanyName.get(i).getText().toString());
-                        Log.e("financeCompanyLocation",selectedFinanceCompanyLocation.get(i).getText().toString());
-                        Log.e("financeCompanyPhone",selectedFinanceCompanyPhone.get(i).getText().toString());
-                        Log.e("financeTotalBidding",selectedFinanceCompanyTotalBidding.get(i).getText().toString());
-                        Log.e("financeCompanyBankNum",selectedFinanceCompanyBankNum.get(i).getText().toString());
-                        Log.e("financeCompanyBankIfsc",selectedFinanceCompanyBankIfsc.get(i).getText().toString());
+//                        Log.e("FinanceExpenditure",selectedFinanceExpenditure.get(i).getText().toString());
+//                        Log.e("financeCompanyname",selectedFinanceCompanyName.get(i).getText().toString());
+//                        Log.e("financeCompanyLocation",selectedFinanceCompanyLocation.get(i).getText().toString());
+//                        Log.e("financeCompanyPhone",selectedFinanceCompanyPhone.get(i).getText().toString());
+//                        Log.e("financeTotalBidding",selectedFinanceCompanyTotalBidding.get(i).getText().toString());
+//                        Log.e("financeCompanyBankNum",selectedFinanceCompanyBankNum.get(i).getText().toString());
+//                        Log.e("financeCompanyBankIfsc",selectedFinanceCompanyBankIfsc.get(i).getText().toString());
+
+                        ListselectedFinanceExpenditure.add(selectedFinanceExpenditure.get(i).getText().toString());
+                        ListselectedFinanceCompanyName.add(selectedFinanceCompanyName.get(i).getText().toString());
+                        ListselectedFinanceCompanyLocation.add(selectedFinanceCompanyLocation.get(i).getText().toString());
+                        ListselectedFinanceCompanyPhone.add(selectedFinanceCompanyPhone.get(i).getText().toString());
+                        ListselectedFinanceCompanyTotalBidding.add(selectedFinanceCompanyTotalBidding.get(i).getText().toString());
+                        ListselectedFinanceCompanyBankNum.add(selectedFinanceCompanyBankNum.get(i).getText().toString());
+                        ListselectedFinanceCompanyBankIfsc.add(selectedFinanceCompanyBankIfsc.get(i).getText().toString());
+                        ListselectedFinanceBankAccountTypes.add(bankAccountAdapter.getItem(financeAccountType.getSelectedItemPosition()).getBank_id());
+                        ListselectedFinanceTypeOfPayments.add(selectedFinancePaymentType.get(i).getSelectedItem().toString());
+
+
+                        Log.e("FinanceExpenditure",ListselectedFinanceExpenditure.toString());
+                        Log.e("financeCompanyname",ListselectedFinanceCompanyName.toString());
+                        Log.e("financeCompanyLocation",ListselectedFinanceCompanyLocation.toString());
+                        Log.e("financeCompanyPhone",ListselectedFinanceCompanyPhone.toString());
+                        Log.e("financeTotalBidding",ListselectedFinanceCompanyTotalBidding.toString());
+                        Log.e("financeCompanyBankNum",ListselectedFinanceCompanyBankNum.toString());
+                        Log.e("financeCompanyBankIfsc",ListselectedFinanceCompanyBankIfsc.toString());
+                        Log.e("BankAccountTypes",ListselectedFinanceBankAccountTypes.toString());
+                        Log.e("QuatationImages",ListselectedFinanceQuatationImages.toString());
+                        Log.e("TypeOfPayments",ListselectedFinanceTypeOfPayments.toString());
                     }
+
+                FinanceApplication financeList =new FinanceApplication(
+                        ListselectedFinanceCompanyName,
+                        ListselectedFinanceCompanyLocation,
+                        ListselectedFinanceCompanyPhone,
+                        ListselectedFinanceCompanyTotalBidding,
+                        ListselectedFinanceBankAccountTypes,
+                        ListselectedFinanceTypeOfPayments,
+                        ListselectedFinanceCompanyBankNum,
+                        ListselectedFinanceCompanyBankIfsc,
+                        ListselectedFinanceExpenditure,
+                        ListselectedFinanceQuatationImages);
+
+                Gson gson = new Gson();
+                String finan_list = gson.toJson(financeList);
+                Log.e("program id ",programId);
+                Log.e("participants ",finan_list);
+
+
+                financeSubmissionDialog.show();
+                apiService= APIUrl.getApiClient().create(ApiService.class);
+                Call<FormStatus> financeCall=apiService.financeSubmission(
+                        programId,
+                        finan_list);
+                financeCall.enqueue(new Callback<FormStatus>() {
+                    @Override
+                    public void onResponse(Call<FormStatus> call, Response<FormStatus> response) {
+                        if (response.body()==null){
+                            financeSubmissionDialog.dismiss();
+                            Toast.makeText(getActivity(),"responce null",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        Toast.makeText(getActivity(),response.body().getMessage(),Toast.LENGTH_SHORT).show();
+                        financeSubmissionDialog.dismiss();
+
+                        FragmentManager manager = getActivity().getSupportFragmentManager();
+                        FragmentTransaction transaction = manager.beginTransaction();
+                        HomeFragment fragment=new HomeFragment();
+                        transaction.replace(R.id.frameContainer, fragment);
+                        transaction.commit();
+
+                    }
+                    @Override
+                    public void onFailure(Call<FormStatus> call, Throwable t) {
+                        financeSubmissionDialog.dismiss();
+                        Toast.makeText(getActivity(),"Error",Toast.LENGTH_SHORT).show();
+                    }
+                });
 
             }
         });
@@ -495,6 +687,7 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
                      bmp = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), contentURI);
                     Toast.makeText(getActivity(), "Image Saved!", Toast.LENGTH_SHORT).show();
                     vbs_upload_quotation_image.setImageBitmap(bmp);
+                    ListselectedFinanceQuatationImages.add(imageToString(bmp));
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -505,6 +698,7 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
         } else if (requestCode == CAMERA) {
              bmp = (Bitmap) data.getExtras().get("data");
             vbs_upload_quotation_image.setImageBitmap(bmp);
+            ListselectedFinanceQuatationImages.add(imageToString(bmp));
             Toast.makeText(getActivity(), "Image Saved!", Toast.LENGTH_SHORT).show();
 
         }
