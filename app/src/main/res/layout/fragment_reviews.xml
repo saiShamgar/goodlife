@@ -36,7 +36,7 @@
         android:layout_marginStart="15sp"
         android:layout_marginEnd="15sp"
         android:background="@color/white"
-        android:hint="Enter Email(optional)"
+        android:hint="Enter Email/Username"
         android:textSize="14sp"
         android:padding="10dp"/>
 

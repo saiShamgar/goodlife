@@ -173,6 +173,14 @@ public class MainActivity extends AppCompatActivity {
                     transaction.replace(R.id.frameContainer, fragment);
                     transaction.commit();
                 }
+
+                if (id==R.id.menu_UploadsVideos){
+                    FragmentManager manager = getSupportFragmentManager();
+                    FragmentTransaction transaction = manager.beginTransaction();
+                    UploadVideos fragment=new UploadVideos();
+                    transaction.replace(R.id.frameContainer, fragment);
+                    transaction.commit();
+                }
                 return true;
             }
         });

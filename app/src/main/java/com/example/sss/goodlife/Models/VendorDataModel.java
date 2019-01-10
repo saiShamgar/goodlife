@@ -3,9 +3,12 @@ package com.example.sss.goodlife.Models;
 public class VendorDataModel {
 
     String vendor_name,location,phone,total_amount,account_name,payment_type,bank_acno,
-            bank_ifsc_code,expenditure_desc,quation_image;
+            bank_ifsc_code,expenditure_desc,quation_image,finance_id,vendor_id;
 
-    public VendorDataModel(String vendor_name, String location, String phone, String total_amount, String account_name, String payment_type, String bank_acno, String bank_ifsc_code, String expenditure_desc, String quation_image) {
+
+
+    public VendorDataModel(String vendor_name, String location, String phone, String total_amount, String account_name, String payment_type, String bank_acno, String bank_ifsc_code, String expenditure_desc, String quation_image, String finance_id, String vendor_id) {
+
         this.vendor_name = vendor_name;
         this.location = location;
         this.phone = phone;
@@ -16,8 +19,24 @@ public class VendorDataModel {
         this.bank_ifsc_code = bank_ifsc_code;
         this.expenditure_desc = expenditure_desc;
         this.quation_image = quation_image;
+        this.finance_id = finance_id;
+        this.vendor_id = vendor_id;
+    }
+    public String getFinance_id() {
+        return finance_id;
     }
 
+    public void setFinance_id(String finance_id) {
+        this.finance_id = finance_id;
+    }
+
+    public String getVendor_id() {
+        return vendor_id;
+    }
+
+    public void setVendor_id(String vendor_id) {
+        this.vendor_id = vendor_id;
+    }
     public String getVendor_name() {
         return vendor_name;
     }

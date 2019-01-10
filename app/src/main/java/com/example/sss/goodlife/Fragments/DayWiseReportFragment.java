@@ -103,11 +103,9 @@ public class DayWiseReportFragment extends Fragment {
 
         submitDailyReport=view.findViewById(R.id.submitDailyReport);
 
-
         daywise_report_selectDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                         calendar = Calendar.getInstance();
                         year = calendar.get(Calendar.YEAR);
                         month = calendar.get(Calendar.MONTH);

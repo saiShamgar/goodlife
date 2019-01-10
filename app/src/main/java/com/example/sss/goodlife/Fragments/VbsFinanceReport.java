@@ -106,6 +106,8 @@ public class VbsFinanceReport extends Fragment {
         financeReportSpinner=view.findViewById(R.id.financeReportSpinner);
         financeRecyclerView=view.findViewById(R.id.financeRecyclerView);
 
+
+
         //Spinner Dropdown for ProgramNames
         apiService= APIUrl.getApiClient().create(ApiService.class);
         final retrofit2.Call<ProgramIdsStatus> call=apiService.getProgramids();
@@ -165,7 +167,7 @@ public class VbsFinanceReport extends Fragment {
                         progressDialog.dismiss();
                         vendorList=response.body().getMessage();
                         Log.e("vender data",vendorList.toString());
-                        vendorListAdapter=new VendorListAdapter(getActivity(),vendorList);
+                        vendorListAdapter=new VendorListAdapter(getActivity(),vendorList,programId);
                         financeRecyclerView.setHasFixedSize(true);
                         financeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                         financeRecyclerView.setAdapter(vendorListAdapter);
@@ -177,6 +179,10 @@ public class VbsFinanceReport extends Fragment {
                         progressDialog.dismiss();
                     }
                 });
+
+
+
+
             }
         });
 
@@ -242,29 +248,5 @@ public class VbsFinanceReport extends Fragment {
 //        });
         return view;
     }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == getActivity().RESULT_CANCELED) {
-            return;
-        }
-        if (requestCode == GALLERY) {
-            if (data != null) {
-                Uri contentURI = data.getData();
-                vendorListAdapter.getSelectedUrl(contentURI);
-
-            }
-
-
-        } else if (requestCode == CAMERA) {
-
-
-        }
-
-    }
-
-
-
 
 }

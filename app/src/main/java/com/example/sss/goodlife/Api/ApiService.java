@@ -102,11 +102,17 @@ public interface ApiService {
         @FormUrlEncoded
         @POST("program_list/program_application/total_finance_report")
         Call<FormStatus> updateFinanceReport(
-                @Field("program_id") String email,
+                @Field("program_id") String program_id,
+                @Field("finance_id") String finance_id,
+                @Field("vendor_id") String vendor_id,
                 @Field("total_amount")String total_amount,
                 @Field("total_expenditure")String total_expenditure,
                 @Field("balance_amount")String balance_amount,
                 @Field("quation_image")String quation_image);
+
+
+
+
 
 
         @Headers("X-API-KEY:" + "Goodlife@&121%")

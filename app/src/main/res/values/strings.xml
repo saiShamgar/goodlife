@@ -31,6 +31,10 @@
         <item>Online</item>
     </string-array>
 
+    <string name="upload_video">UPLOAD VIDEO</string>
+    <string name="read_file">This app needs access to your file storage so that it can read video.</string>
+
+
     <string name="places_api_key">AIzaSyCKWcTivXnvmWkik7YXrHoHedLL4N2UCCw</string>
     <string name="login_preference">com.example.sss.goodlife.Utils.login_preference</string>
 </resources>
