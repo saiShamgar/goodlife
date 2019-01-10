@@ -29,7 +29,8 @@ import me.relex.circleindicator.CircleIndicator;
  */
 public class HomeFragment extends Fragment implements View.OnClickListener{
     private Button btn_home_vbsPro_app,btn_home_vbsVendor_enroll,btn_home_vbsTransport_enroll,btn_home_vbs_Reports,
-            btn_home_vbs_program_report,btn_home_vbs_finance_report,btn_home_vbs_reviews;
+            btn_home_vbs_program_report,btn_home_vbs_finance_report,btn_home_vbs_reviews,btn_home_vbs_successStories,
+            btn_home_vbs_UploadPhotos;
     private TextView btn_home_vbs_back;
     private ViewPager homePager;
     private CircleIndicator indicator;
@@ -60,7 +61,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         btn_home_vbs_program_report=view.findViewById(R.id.btn_home_vbs_program_report);
         btn_home_vbs_finance_report=view.findViewById(R.id.btn_home_vbs_finance_report);
         btn_home_vbs_reviews=view.findViewById(R.id.btn_home_vbs_reviews);
+        btn_home_vbs_successStories=view.findViewById(R.id.btn_home_vbs_successStories);
         btn_home_vbs_back=view.findViewById(R.id.btn_home_vbs_back);
+        btn_home_vbs_UploadPhotos=view.findViewById(R.id.btn_home_vbs_UploadPhotos);
          indicator = (CircleIndicator)view.findViewById(R.id.indicator);
 
         init();
@@ -73,6 +76,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         btn_home_vbs_finance_report.setOnClickListener(this);
         btn_home_vbs_reviews.setOnClickListener(this);
         btn_home_vbs_back.setOnClickListener(this);
+        btn_home_vbs_successStories.setOnClickListener(this);
+        btn_home_vbs_UploadPhotos.setOnClickListener(this);
 
 
 
@@ -108,11 +113,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             btn_home_vbsVendor_enroll.setVisibility(View.GONE);
             btn_home_vbsTransport_enroll.setVisibility(View.GONE);
             btn_home_vbs_Reports.setVisibility(View.GONE);
+            btn_home_vbs_UploadPhotos.setVisibility(View.GONE);
 
             btn_home_vbs_program_report.setVisibility(View.VISIBLE);
             btn_home_vbs_finance_report.setVisibility(View.VISIBLE);
             btn_home_vbs_reviews.setVisibility(View.VISIBLE);
             btn_home_vbs_back.setVisibility(View.VISIBLE);
+            btn_home_vbs_successStories.setVisibility(View.VISIBLE);
         }
         if (v.getId()==R.id.btn_home_vbs_program_report){
 
@@ -140,16 +147,32 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             transaction.replace(R.id.frameContainer, fragment);
             transaction.commit();
         }
+        if (v.getId()==R.id.btn_home_vbs_successStories){
+            FragmentManager manager = getActivity().getSupportFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
+            SuccessStories fragment=new SuccessStories();
+            transaction.replace(R.id.frameContainer, fragment);
+            transaction.commit();
+        }
+        if (v.getId()==R.id.btn_home_vbs_UploadPhotos){
+            FragmentManager manager = getActivity().getSupportFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
+            UploadVbsPhotos fragment=new UploadVbsPhotos();
+            transaction.replace(R.id.frameContainer, fragment);
+            transaction.commit();
+        }
         if (v.getId()==R.id.btn_home_vbs_back){
             btn_home_vbsPro_app.setVisibility(View.VISIBLE);
             btn_home_vbsVendor_enroll.setVisibility(View.VISIBLE);
             btn_home_vbsTransport_enroll.setVisibility(View.VISIBLE);
             btn_home_vbs_Reports.setVisibility(View.VISIBLE);
+            btn_home_vbs_UploadPhotos.setVisibility(View.VISIBLE);
 
             btn_home_vbs_program_report.setVisibility(View.GONE);
             btn_home_vbs_finance_report.setVisibility(View.GONE);
             btn_home_vbs_reviews.setVisibility(View.GONE);
             btn_home_vbs_back.setVisibility(View.GONE);
+            btn_home_vbs_successStories.setVisibility(View.GONE);
         }
 
     }

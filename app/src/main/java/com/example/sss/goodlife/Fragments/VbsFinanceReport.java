@@ -58,18 +58,18 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.app.Activity.RESULT_CANCELED;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class VbsFinanceReport extends Fragment {
-    private RelativeLayout updateFinanceLayout;
-    private TextView UpdateFinanceDetails,financeGetDetails,Calculate,amountFr;
-    private ImageView updatedQuotationFinance;
-    private TextView UploadButton;
+
+    private TextView financeGetDetails;
     private Spinner financeReportSpinner;
     private RecyclerView financeRecyclerView;
-    private EditText amountFromDb,EnterAmountFinance;
-    private Button submitUpdatedFinanceReport;
+
+
 
     private int GALLERY = 1, CAMERA = 2;
     private boolean permissionCheck=false;
@@ -102,48 +102,9 @@ public class VbsFinanceReport extends Fragment {
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
 
-
-
-        updateFinanceLayout=view.findViewById(R.id.updateFinanceLayout);
-        financeReportSpinner=view.findViewById(R.id.financeReportSpinner);
-        UpdateFinanceDetails=view.findViewById(R.id.UpdateFinanceDetails);
-        updatedQuotationFinance=view.findViewById(R.id.updatedQuotationFinance);
         financeGetDetails=view.findViewById(R.id.financeGetDetails);
-        UploadButton=view.findViewById(R.id.UploadButton);
+        financeReportSpinner=view.findViewById(R.id.financeReportSpinner);
         financeRecyclerView=view.findViewById(R.id.financeRecyclerView);
-        submitUpdatedFinanceReport=view.findViewById(R.id.submitUpdatedFinanceReport);
-
-        amountFromDb=view.findViewById(R.id.amountFromDb);
-        EnterAmountFinance=view.findViewById(R.id.EnterAmountFinance);
-        Calculate=view.findViewById(R.id.Calculate);
-        amountFr=view.findViewById(R.id.amountFr);
-
-        Calculate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (TextUtils.isEmpty(amountFromDb.getText().toString())){
-                    amountFromDb.setError("field cannot be empty");
-                    return;
-                }
-                if (TextUtils.isEmpty(EnterAmountFinance.getText().toString())){
-                    EnterAmountFinance.setError("field cannot be empty");
-                    return;
-                }
-                int totalamount= Integer.parseInt(amountFromDb.getText().toString());
-                int enteredAmount= Integer.parseInt(EnterAmountFinance.getText().toString());
-                String finalAmount= String.valueOf(totalamount-enteredAmount);
-                amountFr.setVisibility(View.VISIBLE);
-                amountFr.setText(finalAmount);
-            }
-        });
-
-
-
-        UpdateFinanceDetails.setVisibility(View.GONE);
-
-        if (!permissionCheck){
-            requestMultiplePermissions();
-        }
 
         //Spinner Dropdown for ProgramNames
         apiService= APIUrl.getApiClient().create(ApiService.class);
@@ -208,7 +169,6 @@ public class VbsFinanceReport extends Fragment {
                         financeRecyclerView.setHasFixedSize(true);
                         financeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                         financeRecyclerView.setAdapter(vendorListAdapter);
-                        UpdateFinanceDetails.setVisibility(View.VISIBLE);
 
                     }
 
@@ -217,141 +177,70 @@ public class VbsFinanceReport extends Fragment {
                         progressDialog.dismiss();
                     }
                 });
-
-
-
-
             }
         });
 
 
 
-        UpdateFinanceDetails.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (UpdateFinanceDetails.getText().equals("Update Finance Details")){
-                            updateFinanceLayout.setVisibility(View.VISIBLE);
-                            UpdateFinanceDetails.setText("Cancel Update");
-                    }
-                    else {
-                        updateFinanceLayout.setVisibility(View.GONE);
-                        UpdateFinanceDetails.setText("Update Finance Details");
-                    }
-                }
-            });
-
-        UploadButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPictureDialog();
-            }
-        });
-        submitUpdatedFinanceReport.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (TextUtils.isEmpty(amountFromDb.getText().toString())){
-                    amountFromDb.setError("field cannot be empty");
-                    return;
-                }
-                if (TextUtils.isEmpty(EnterAmountFinance.getText().toString())){
-                    EnterAmountFinance.setError("field cannot be empty");
-                    return;
-                }
-                if (amountFr.getVisibility()==View.GONE){
-                    Toast.makeText(getActivity(),"please tally amount",Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (bmp==null){
-                    Toast.makeText(getActivity(),"please upload quotation image",Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                progressDialog.setTitle("Updating finance report");
-                progressDialog.setMessage("Please wait...,while we are submitting your details");
-                progressDialog.setCanceledOnTouchOutside(false);
-                progressDialog.show();
-                apiService= APIUrl.getApiClient().create(ApiService.class);
-                Call<FormStatus> transportCall=apiService.updateFinanceReport(
-                        programId,
-                        amountFromDb.getText().toString(),
-                        EnterAmountFinance.getText().toString(),
-                        amountFr.getText().toString(),
-                        imageToString(bmp));
-                transportCall.enqueue(new Callback<FormStatus>() {
-                    @Override
-                    public void onResponse(Call<FormStatus> call, Response<FormStatus> response) {
-                        if (response.body()==null){
-                            progressDialog.dismiss();
-                            Toast.makeText(getActivity(),"responce null",Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        Toast.makeText(getActivity(),response.body().getMessage(),Toast.LENGTH_SHORT).show();
-                        progressDialog.dismiss();
-
-                        FragmentManager manager = getActivity().getSupportFragmentManager();
-                        FragmentTransaction transaction = manager.beginTransaction();
-                        HomeFragment fragment=new HomeFragment();
-                        transaction.replace(R.id.frameContainer, fragment);
-                        transaction.commit();
-
-                    }
-                    @Override
-                    public void onFailure(Call<FormStatus> call, Throwable t) {
-                        progressDialog.dismiss();
-                        Toast.makeText(getActivity(),"Error",Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-            }
-        });
+//        submitUpdatedFinanceReport.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (TextUtils.isEmpty(amountFromDb.getText().toString())){
+//                    amountFromDb.setError("field cannot be empty");
+//                    return;
+//                }
+//                if (TextUtils.isEmpty(EnterAmountFinance.getText().toString())){
+//                    EnterAmountFinance.setError("field cannot be empty");
+//                    return;
+//                }
+//                if (amountFr.getVisibility()==View.GONE){
+//                    Toast.makeText(getActivity(),"please tally amount",Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                if (bmp==null){
+//                    Toast.makeText(getActivity(),"please upload quotation image",Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//
+//                progressDialog.setTitle("Updating finance report");
+//                progressDialog.setMessage("Please wait...,while we are submitting your details");
+//                progressDialog.setCanceledOnTouchOutside(false);
+//                progressDialog.show();
+//                apiService= APIUrl.getApiClient().create(ApiService.class);
+//                Call<FormStatus> transportCall=apiService.updateFinanceReport(
+//                        programId,
+//                        amountFromDb.getText().toString(),
+//                        EnterAmountFinance.getText().toString(),
+//                        amountFr.getText().toString(),
+//                        imageToString(bmp));
+//                transportCall.enqueue(new Callback<FormStatus>() {
+//                    @Override
+//                    public void onResponse(Call<FormStatus> call, Response<FormStatus> response) {
+//                        if (response.body()==null){
+//                            progressDialog.dismiss();
+//                            Toast.makeText(getActivity(),"responce null",Toast.LENGTH_SHORT).show();
+//                            return;
+//                        }
+//                        Toast.makeText(getActivity(),response.body().getMessage(),Toast.LENGTH_SHORT).show();
+//                        progressDialog.dismiss();
+//
+//                        FragmentManager manager = getActivity().getSupportFragmentManager();
+//                        FragmentTransaction transaction = manager.beginTransaction();
+//                        HomeFragment fragment=new HomeFragment();
+//                        transaction.replace(R.id.frameContainer, fragment);
+//                        transaction.commit();
+//
+//                    }
+//                    @Override
+//                    public void onFailure(Call<FormStatus> call, Throwable t) {
+//                        progressDialog.dismiss();
+//                        Toast.makeText(getActivity(),"Error",Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//
+//            }
+//        });
         return view;
-    }
-
-    //Upload Image
-    private void showPictureDialog(){
-        AlertDialog.Builder pictureDialog = new AlertDialog.Builder(getActivity());
-        pictureDialog.setTitle("Select Action");
-        String[] pictureDialogItems = {
-                "Select photo from gallery",
-                "Capture photo from camera" };
-        pictureDialog.setItems(pictureDialogItems,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case 0:
-                                choosePhotoFromGallary();
-                                break;
-                            case 1:
-                                takePhotoFromCamera();
-                                break;
-                        }
-                    }
-                });
-        pictureDialog.show();
-    }
-
-    public void choosePhotoFromGallary() {
-        if (permissionCheck){
-            Intent galleryIntent = new Intent(Intent.ACTION_PICK,
-                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-            startActivityForResult(galleryIntent, GALLERY);
-        }else {
-            requestMultiplePermissions();
-        }
-
-    }
-
-    private void takePhotoFromCamera() {
-        if (permissionCheck){
-            Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-            startActivityForResult(intent, CAMERA);
-        }else {
-            requestMultiplePermissions();
-        }
-
-
     }
 
     @Override
@@ -363,72 +252,19 @@ public class VbsFinanceReport extends Fragment {
         if (requestCode == GALLERY) {
             if (data != null) {
                 Uri contentURI = data.getData();
-                try {
-                    bmp = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), contentURI);
-                    Toast.makeText(getActivity(), "Image Saved!", Toast.LENGTH_SHORT).show();
-                    updatedQuotationFinance.setImageBitmap(bmp);
+                vendorListAdapter.getSelectedUrl(contentURI);
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Toast.makeText(getActivity(), "Failed!", Toast.LENGTH_SHORT).show();
-                }
             }
 
+
         } else if (requestCode == CAMERA) {
-            bmp = (Bitmap) data.getExtras().get("data");
-            updatedQuotationFinance.setImageBitmap(bmp);
-            Toast.makeText(getActivity(), "Image Saved!", Toast.LENGTH_SHORT).show();
+
 
         }
+
     }
 
-    private void  requestMultiplePermissions(){
-        Dexter.withActivity(getActivity())
-                .withPermissions(
-                        Manifest.permission.CAMERA,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.READ_EXTERNAL_STORAGE)
-                .withListener(new MultiplePermissionsListener() {
-                    @Override
-                    public void onPermissionsChecked(MultiplePermissionsReport report) {
-                        // check if all permissions are granted
-                        if (report.areAllPermissionsGranted()) {
-                            permissionCheck=true;
-                            Toast.makeText(getActivity(), "All permissions are granted by user!", Toast.LENGTH_SHORT).show();
-                        }
 
-                        // check for permanent denial of any permission
-                        if (report.isAnyPermissionPermanentlyDenied()) {
-                            // show alert dialog navigating to Settings
-                            //openSettingsDialog();
-                            permissionCheck=false;
-                        }
-                    }
-
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-                        token.continuePermissionRequest();
-                    }
-
-                }).
-                withErrorListener(new PermissionRequestErrorListener() {
-                    @Override
-                    public void onError(DexterError error) {
-                        Toast.makeText(getActivity(), "Some Error! ", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .onSameThread()
-                .check();
-    }
-
-    //upload images
-    public String  imageToString(Bitmap bitmap)
-    {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 80, byteArrayOutputStream);
-        byte[] imgbyte=byteArrayOutputStream.toByteArray();
-        return Base64.encodeToString(imgbyte,Base64.DEFAULT);
-    }
 
 
 }

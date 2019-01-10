@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -15,7 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:weightSum="2"
+            android:visibility="visible">
             <TextView
 
                 android:layout_width="0dp"
@@ -51,7 +53,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:weightSum="2"
+            android:visibility="visible">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -77,7 +80,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:weightSum="2"
+            android:visibility="visible">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -103,7 +107,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:weightSum="2"
+            android:visibility="visible">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -129,7 +134,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:weightSum="2"
+            android:visibility="visible">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -155,7 +161,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:weightSum="2"
+            android:visibility="visible">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -181,7 +188,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:weightSum="2"
+            android:visibility="visible">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -209,7 +217,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:weightSum="2"
+            android:visibility="visible">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -235,7 +244,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:weightSum="2"
+            android:visibility="visible">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -268,7 +278,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center">
+            android:gravity="center"
+            android:visibility="visible">
 
             <ImageView
                 android:id="@+id/vendor_Quatation_from_db"
@@ -281,6 +292,145 @@
                 android:layout_marginStart="15sp"
                 android:layout_marginEnd="15sp"/>
         </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/UpdateFinanceDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Update Finance Details"
+                android:textSize="14sp"
+                android:background="@drawable/stroke_background"
+                android:textAllCaps="false"
+                android:layout_alignParentEnd="true"
+                android:paddingStart="15sp"
+                android:paddingEnd="15sp"
+                android:textColor="@color/colorPrimaryDark"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:textStyle="bold"
+                android:layout_marginTop="15sp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"/>
+
+            <RelativeLayout
+                android:id="@+id/updateFinanceLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_below="@+id/UpdateFinanceDetails"
+                android:layout_marginTop="15sp"
+                android:background="#cac6c6"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/TotalAmountYouGot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total Amount: "
+                    android:layout_marginTop="15sp"
+                    android:layout_marginStart="15sp"
+                    android:layout_marginEnd="15sp"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/TotalExpenditure"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total Expenditure: "
+                    android:layout_marginTop="25sp"
+                    android:layout_marginStart="15sp"
+                    android:layout_marginEnd="15sp"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
+                    android:layout_below="@+id/TotalAmountYouGot"/>
+
+                <TextView
+                    android:id="@+id/Calculate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Click here to tally amount "
+                    android:layout_marginTop="35sp"
+                    android:layout_marginStart="15sp"
+                    android:layout_marginEnd="15sp"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
+                    android:layout_below="@+id/TotalExpenditure"/>
+
+                <ImageView
+                    android:id="@+id/updatedQuotationFinance"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_below="@+id/Calculate"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginStart="15sp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/white_round_background"
+                    android:scaleType="fitXY"/>
+
+                <TextView
+                    android:id="@+id/UploadButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Upload Bill"
+                    android:background="@drawable/stroke_background_white"
+                    android:layout_below="@+id/Calculate"
+                    android:layout_toRightOf="@+id/updatedQuotationFinance"
+                    android:layout_marginTop="80dp"
+                    android:paddingStart="18dp"
+                    android:paddingBottom="8dp"
+                    android:paddingEnd="18sp"
+                    android:paddingTop="8dp"
+                    android:textSize="14sp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:layout_marginStart="20dp"
+                    android:textStyle="bold"/>
+                <EditText
+                    android:id="@+id/EnterAmountFinance"
+                    android:layout_below="@+id/amountFromDb"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/TotalExpenditure"
+                    android:layout_marginStart="20dp"
+                    android:inputType="number"
+                    android:imeOptions="actionDone"/>
+
+                <EditText
+                    android:id="@+id/amountFromDb"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/TotalAmountYouGot"
+                    android:layout_marginStart="50dp"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"/>
+
+                <TextView
+                    android:id="@+id/amountFr"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/Calculate"
+                    android:layout_marginTop="22dp"
+                    android:layout_below="@+id/EnterAmountFinance"
+                    android:visibility="gone"/>
+                <Button
+                    android:id="@+id/submitUpdatedFinanceReport"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/updatedQuotationFinance"
+                    android:background="@drawable/solid_background_primary"
+                    android:layout_margin="20dp"
+                    android:layout_alignParentEnd="true"
+                    android:text="Update"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"/>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
 
     </LinearLayout>
 

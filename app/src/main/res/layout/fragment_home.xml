@@ -61,12 +61,25 @@
         android:textColor="@color/white"
         android:textStyle="bold"
         android:textAllCaps="false"/>
+    <Button
+        android:id="@+id/btn_home_vbs_UploadPhotos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_home_vbsTransport_enroll"
+        android:text="VBS Upload photos"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/solid_background_primary"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textAllCaps="false"/>
 
     <Button
         android:id="@+id/btn_home_vbs_Reports"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_home_vbsTransport_enroll"
+        android:layout_below="@+id/btn_home_vbs_UploadPhotos"
         android:text="VBS Reports"
         android:layout_marginTop="5dp"
         android:layout_marginStart="20dp"
@@ -75,6 +88,8 @@
         android:textColor="@color/white"
         android:textStyle="bold"
         android:textAllCaps="false"/>
+
+
 
     <Button
         android:id="@+id/btn_home_vbs_program_report"
@@ -121,11 +136,26 @@
         android:visibility="gone"
         android:textAllCaps="false"/>
 
+    <Button
+        android:id="@+id/btn_home_vbs_successStories"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_home_vbs_reviews"
+        android:text="VBS Success Stories"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/solid_background_primary"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:visibility="gone"
+        android:textAllCaps="false"/>
+
     <TextView
         android:id="@+id/btn_home_vbs_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_home_vbs_reviews"
+        android:layout_below="@+id/btn_home_vbs_successStories"
         android:text="Back"
         android:layout_marginTop="20dp"
         android:layout_marginStart="20dp"

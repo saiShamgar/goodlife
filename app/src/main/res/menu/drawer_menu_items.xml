@@ -23,6 +23,18 @@
     </group>
 
     <item
+        android:title="Uploads">
+        <menu>
+            <group>
+                <item android:id="@+id/menu_UploadsPhotos"
+                    android:title="Upload Photos"
+                    android:icon="@drawable/ic_file_upload_black_24dp"/>
+
+            </group>
+        </menu>
+    </item>
+
+    <item
         android:title="Reports"
         android:id="@+id/menu_Reports">
         <menu>
@@ -38,9 +50,16 @@
                 <item android:id="@+id/menu_review_submit"
                     android:title="Review Submit"
                     android:icon="@drawable/ic_group_work_black_24dp"/>
+                <item android:id="@+id/menu_successStories_submit"
+                    android:title="Success Stories"
+                    android:icon="@drawable/ic_group_work_black_24dp"/>
             </group>
         </menu>
     </item>
+
+
+
+
 
 
 </menu>

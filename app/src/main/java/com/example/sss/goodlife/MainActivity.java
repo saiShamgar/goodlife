@@ -29,6 +29,8 @@ import com.example.sss.goodlife.Fragments.DayWiseReportFragment;
 import com.example.sss.goodlife.Fragments.EventFormFragment;
 import com.example.sss.goodlife.Fragments.HomeFragment;
 import com.example.sss.goodlife.Fragments.ReviewsFragment;
+import com.example.sss.goodlife.Fragments.SuccessStories;
+import com.example.sss.goodlife.Fragments.UploadVbsPhotos;
 import com.example.sss.goodlife.Fragments.VBSProgramApplication;
 import com.example.sss.goodlife.Fragments.VbsFinanceApplication;
 import com.example.sss.goodlife.Fragments.VbsFinanceReport;
@@ -154,6 +156,20 @@ public class MainActivity extends AppCompatActivity {
                     FragmentManager manager = getSupportFragmentManager();
                     FragmentTransaction transaction = manager.beginTransaction();
                     ReviewsFragment fragment=new ReviewsFragment();
+                    transaction.replace(R.id.frameContainer, fragment);
+                    transaction.commit();
+                }
+                if (id==R.id.menu_successStories_submit){
+                    FragmentManager manager = getSupportFragmentManager();
+                    FragmentTransaction transaction = manager.beginTransaction();
+                    SuccessStories fragment=new SuccessStories();
+                    transaction.replace(R.id.frameContainer, fragment);
+                    transaction.commit();
+                }
+                if (id==R.id.menu_UploadsPhotos){
+                    FragmentManager manager = getSupportFragmentManager();
+                    FragmentTransaction transaction = manager.beginTransaction();
+                    UploadVbsPhotos fragment=new UploadVbsPhotos();
                     transaction.replace(R.id.frameContainer, fragment);
                     transaction.commit();
                 }
