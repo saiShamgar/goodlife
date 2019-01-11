@@ -79,7 +79,7 @@ public class VbsFinanceReport extends Fragment {
     private ApiService apiService;
     private List<ProgramIds> programIds;
     private List<VendorDataModel> vendorList;
-    private String programId;
+    private String programId,locationid;
     private ProgramsIdAdapter programidsAdapter;
     private VendorListAdapter vendorListAdapter;
     private ProgressDialog progressDialog;
@@ -114,6 +114,10 @@ public class VbsFinanceReport extends Fragment {
         call.enqueue(new Callback<ProgramIdsStatus>() {
             @Override
             public void onResponse(retrofit2.Call<ProgramIdsStatus> call, Response<ProgramIdsStatus> response) {
+                if (response.body()==null){
+                    Toast.makeText(getActivity(),"responce null",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (response.body().getMessage().size()!=0) {
                     programIds = response.body().getMessage();
                     financeReportSpinner.setPrompt("Select Location");
@@ -125,6 +129,7 @@ public class VbsFinanceReport extends Fragment {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             programId= String.valueOf(programidsAdapter.getItem(position).getProgram_id());
+                            locationid= String.valueOf(programidsAdapter.getItem(position).getLocation_id());
                         }
 
                         @Override
@@ -155,7 +160,7 @@ public class VbsFinanceReport extends Fragment {
                 progressDialog.show();
 
                 apiService= APIUrl.getApiClient().create(ApiService.class);
-                retrofit2.Call<VendorDataFromDb> call=apiService.vendorData(programId);
+                retrofit2.Call<VendorDataFromDb> call=apiService.vendorData(programId,locationid);
                 call.enqueue(new Callback<VendorDataFromDb>() {
                     @Override
                     public void onResponse(Call<VendorDataFromDb> call, Response<VendorDataFromDb> response) {
@@ -167,7 +172,7 @@ public class VbsFinanceReport extends Fragment {
                         progressDialog.dismiss();
                         vendorList=response.body().getMessage();
                         Log.e("vender data",vendorList.toString());
-                        vendorListAdapter=new VendorListAdapter(getActivity(),vendorList,programId);
+                        vendorListAdapter=new VendorListAdapter(getActivity(),vendorList,programId,locationid);
                         financeRecyclerView.setHasFixedSize(true);
                         financeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                         financeRecyclerView.setAdapter(vendorListAdapter);

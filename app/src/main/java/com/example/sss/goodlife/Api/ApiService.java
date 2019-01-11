@@ -54,6 +54,7 @@ public interface ApiService {
         @POST("program_list/program_application/finance")
         Call<FormStatus> financeSubmission(
                 @Field("program_id") String program_id,
+                @Field("location_id") String location_id,
                 @Field("finance_list")String financeList);
 
         @Headers("X-API-KEY:" + "Goodlife@&121%")
@@ -61,6 +62,7 @@ public interface ApiService {
         @POST("program_list/program_application/transport")
         Call<FormStatus> transportSubmission(
                 @Field("program_id") String program_id,
+                @Field("location_id") String location_id,
                 @Field("transport_list")String financeList);
 
 
@@ -70,6 +72,7 @@ public interface ApiService {
         @POST("program_list/program_application/daywise_report")
         Call<FormStatus> daywiseReportSubmission(
                 @Field("program_id") String program_id,
+                @Field("location_id") String location_id,
                 @Field("date")String date,
                 @Field("men")String men,
                 @Field("women")String women,
@@ -84,7 +87,8 @@ public interface ApiService {
         @Headers("X-API-KEY:" + "Goodlife@&121%")
         @GET("program_list/program_application/finance_report")
         Call<VendorDataFromDb> vendorData(
-                @Query("program_id") String program_id);
+                @Query("program_id") String program_id,
+                @Query("location_id") String location_id);
 
         @Headers("X-API-KEY:" + "Goodlife@&121%")
         @FormUrlEncoded
@@ -105,6 +109,7 @@ public interface ApiService {
                 @Field("program_id") String program_id,
                 @Field("finance_id") String finance_id,
                 @Field("vendor_id") String vendor_id,
+                @Field("location_id") String location_id,
                 @Field("total_amount")String total_amount,
                 @Field("total_expenditure")String total_expenditure,
                 @Field("balance_amount")String balance_amount,
@@ -120,10 +125,22 @@ public interface ApiService {
         @POST("program_list/program_application/program_review")
         Call<FormStatus> submitReview(
                 @Field("program_id") String program_id,
+                @Field("location_id") String location_id,
                 @Field("email") String email,
                 @Field("phone")String phone,
                 @Field("review")String review,
                 @Field("review_image")String image);
+
+        @Headers("X-API-KEY:" + "Goodlife@&121%")
+        @FormUrlEncoded
+        @POST("program_list/program_application/program_images")
+        Call<FormStatus> multipleImages(
+                @Field("program_id") String program_id,
+                @Field("images_list") String program_img,
+                @Field("location_id") String location_id,
+                @Field("date")String date,
+                @Field("img_category")String img_category);
+
 
 
 

@@ -13,7 +13,7 @@
         android:id="@+id/TotalAmountYouGot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Total Amount: "
+        android:text="Actual Amount: "
         android:layout_marginTop="15sp"
         android:layout_marginStart="15sp"
         android:layout_marginEnd="15sp"
@@ -79,17 +79,21 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/TotalExpenditure"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"
         android:inputType="number"
         android:imeOptions="actionDone"/>
 
-    <EditText
+    <TextView
         android:id="@+id/amountFromDb"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/TotalAmountYouGot"
         android:layout_marginStart="50dp"
+        android:layout_marginTop="10dp"
         android:imeOptions="actionNext"
-        android:inputType="number"/>
+        android:inputType="number"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/amountFr"
@@ -110,5 +114,20 @@
         android:text="Update"
         android:textColor="@color/white"
         android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/sumbmittedFinanceReportTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/submitUpdatedFinanceReport"
+        android:layout_margin="20dp"
+        android:textSize="16sp"
+        android:text="Submitted your report"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:padding="5dp"
+        android:visibility="gone"/>
+
 
 </RelativeLayout>

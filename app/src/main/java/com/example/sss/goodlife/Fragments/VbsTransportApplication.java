@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sss.goodlife.Adapters.BankAccountAdapter;
+import com.example.sss.goodlife.Adapters.LocationAdapter;
 import com.example.sss.goodlife.Adapters.PlaceAutocompleteAdapter;
 import com.example.sss.goodlife.Adapters.ProgramsIdAdapter;
 import com.example.sss.goodlife.Api.APIUrl;
@@ -35,8 +36,10 @@ import com.example.sss.goodlife.MainActivity;
 import com.example.sss.goodlife.Models.BankAccountIdStatus;
 import com.example.sss.goodlife.Models.BankAccountIds;
 import com.example.sss.goodlife.Models.FormStatus;
+import com.example.sss.goodlife.Models.Locations;
 import com.example.sss.goodlife.Models.ProgramIds;
 import com.example.sss.goodlife.Models.ProgramIdsStatus;
+import com.example.sss.goodlife.Models.Status;
 import com.example.sss.goodlife.Models.TransPortApplication;
 import com.example.sss.goodlife.R;
 import com.google.android.gms.common.ConnectionResult;
@@ -113,7 +116,7 @@ public class VbsTransportApplication extends Fragment implements GoogleApiClient
     //Api calls
     private ApiService apiService;
     private List<ProgramIds> programIds;
-    private String programId;
+    private String programId,locationId;
     private ProgramsIdAdapter programidsAdapter;
     private ProgressDialog progressDialog,transportProgressDialog;
 
@@ -165,6 +168,10 @@ public class VbsTransportApplication extends Fragment implements GoogleApiClient
         call.enqueue(new Callback<ProgramIdsStatus>() {
             @Override
             public void onResponse(retrofit2.Call<ProgramIdsStatus> call, Response<ProgramIdsStatus> response) {
+                if (response.body()==null){
+                    Toast.makeText(getActivity(),"responce null",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (response.body().getMessage().size()!=0) {
                     programIds = response.body().getMessage();
                     transportProgramIdSpinner.setPrompt("Select Location");
@@ -175,6 +182,7 @@ public class VbsTransportApplication extends Fragment implements GoogleApiClient
                     transportProgramIdSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            locationId= String.valueOf(programidsAdapter.getItem(position).getLocation_id());
                             programId= String.valueOf(programidsAdapter.getItem(position).getProgram_id());
                             VbsTransportAddMoreVendorDetails.setVisibility(View.VISIBLE);
                             addlayoutImageTransport.setVisibility(View.VISIBLE);
@@ -191,12 +199,14 @@ public class VbsTransportApplication extends Fragment implements GoogleApiClient
                     Toast.makeText(getActivity(),"Programs not forund",Toast.LENGTH_SHORT).show();
                 }
             }
+
             @Override
             public void onFailure(retrofit2.Call<ProgramIdsStatus> call, Throwable t) {
                 Toast.makeText(getActivity(),"error",Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
             }
         });
+
 
         //imageButton dynamic list
         VbsTransportLayout.setOnClickListener(new View.OnClickListener() {
@@ -412,8 +422,15 @@ public class VbsTransportApplication extends Fragment implements GoogleApiClient
                             endPoint.setLatitude(latitudeToLocation);
                             endPoint.setLongitude(longitudeToLocation);
                             double distance=startPoint.distanceTo(endPoint);
-                            String dist = String.valueOf(distance/1000);
-                            transportDistanceFromGoogle.setText(dist+"Km");
+                            Log.e("distance", String.valueOf(distance));
+
+                            double C = Math.sin(latitudeFromLocation/57.3) * Math.sin(latitudeToLocation/57.3) +
+                                    Math.cos(latitudeFromLocation/57.3) * Math.cos(latitudeToLocation/57.3) *
+                                            Math.cos(longitudeToLocation/57.3 - longitudeFromLocation/57.3);
+                            String  distd = String.valueOf(3959 * Math.acos(C));
+
+                            Log.e("distance", distd);
+                            transportDistanceFromGoogle.setText(distd+"Km");
                         }else {
                             Toast.makeText(getActivity(),"Bad Connection",Toast.LENGTH_SHORT).show();
                         }
@@ -544,6 +561,7 @@ public class VbsTransportApplication extends Fragment implements GoogleApiClient
                 Gson gson = new Gson();
                 String tranport_list = gson.toJson(application);
                 Log.e("program id ",programId);
+                Log.e("location id ",locationId);
                 Log.e("tranport_list ",tranport_list);
 
 
@@ -551,6 +569,7 @@ public class VbsTransportApplication extends Fragment implements GoogleApiClient
                 apiService= APIUrl.getApiClient().create(ApiService.class);
                 Call<FormStatus> transportCall=apiService.transportSubmission(
                         programId,
+                        locationId,
                         tranport_list);
                 transportCall.enqueue(new Callback<FormStatus>() {
                     @Override

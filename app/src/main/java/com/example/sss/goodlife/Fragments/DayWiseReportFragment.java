@@ -60,7 +60,7 @@ public class DayWiseReportFragment extends Fragment {
     //Api calls
     private ApiService apiService;
     private List<ProgramIds> programIds;
-    private String programId;
+    private String programId,locationId;
     private ProgramsIdAdapter programidsAdapter;
     private ProgressDialog progressDialog,reportSubDialog;
 
@@ -132,6 +132,10 @@ public class DayWiseReportFragment extends Fragment {
         call.enqueue(new Callback<ProgramIdsStatus>() {
             @Override
             public void onResponse(retrofit2.Call<ProgramIdsStatus> call, Response<ProgramIdsStatus> response) {
+                if (response.body()==null){
+                    Toast.makeText(getActivity(),"responce null",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (response.body().getMessage().size()!=0) {
                     programIds = response.body().getMessage();
                     daywise_report_spinnerWork.setPrompt("Select Location");
@@ -143,6 +147,7 @@ public class DayWiseReportFragment extends Fragment {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             programId= String.valueOf(programidsAdapter.getItem(position).getProgram_id());
+                            locationId= String.valueOf(programidsAdapter.getItem(position).getLocation_id());
                         }
 
                         @Override
@@ -213,6 +218,7 @@ public class DayWiseReportFragment extends Fragment {
                 apiService= APIUrl.getApiClient().create(ApiService.class);
                 Call<FormStatus> transportCall=apiService.daywiseReportSubmission(
                         programId,
+                        locationId,
                         daywise_report_selectDate.getText().toString(),
                         edt_dayWise_men_count.getText().toString(),
                         edt_dayWise_Women_count.getText().toString(),

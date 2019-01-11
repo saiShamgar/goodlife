@@ -27,12 +27,29 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/reviewCategorySpinnerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_below="@+id/reviewSpinnerLayout"
+        android:layout_marginBottom="15sp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp">
+        <Spinner
+            android:id="@+id/review_Category_spinner_program_id"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+        </Spinner>
+
+    </LinearLayout>
+
 
     <EditText
         android:id="@+id/review_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/reviewSpinnerLayout"
+        android:layout_below="@+id/reviewCategorySpinnerLayout"
         android:layout_marginStart="15sp"
         android:layout_marginEnd="15sp"
         android:background="@color/white"

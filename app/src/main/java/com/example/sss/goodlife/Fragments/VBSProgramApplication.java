@@ -26,17 +26,22 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.sss.goodlife.Adapters.BankAccountAdapter;
 import com.example.sss.goodlife.Adapters.LocationAdapter;
 import com.example.sss.goodlife.Adapters.ParticipantsTypeAdapter;
+import com.example.sss.goodlife.Adapters.ProgramsIdAdapter;
 import com.example.sss.goodlife.Api.APIUrl;
 import com.example.sss.goodlife.Api.ApiService;
 import com.example.sss.goodlife.MainActivity;
+import com.example.sss.goodlife.Models.BankAccountIds;
 import com.example.sss.goodlife.Models.FormStatus;
 import com.example.sss.goodlife.Models.ParticipantsList;
 import com.example.sss.goodlife.Models.Locations;
 import com.example.sss.goodlife.Models.ParticipantsTypeIds;
 import com.example.sss.goodlife.Models.ParticipantsTypeStatus;
 import com.example.sss.goodlife.Models.ProgramEventDates;
+import com.example.sss.goodlife.Models.ProgramIds;
+import com.example.sss.goodlife.Models.ProgramIdsStatus;
 import com.example.sss.goodlife.Models.Status;
 import com.example.sss.goodlife.R;
 import com.google.gson.Gson;
@@ -86,6 +91,9 @@ public class VBSProgramApplication extends Fragment{
     private ArrayList<String> ListselectedPar_phone=new ArrayList<>();
     private ArrayList<String> ListselectedPar_des=new ArrayList<>();
     private ArrayList<String> ListparticipantDates=new ArrayList<>();
+
+
+    private ArrayList<String> programNamesDropDownArrayList=new ArrayList<>();
 
 
 
@@ -146,13 +154,16 @@ public class VBSProgramApplication extends Fragment{
         VbsApplicationSubmit=view.findViewById(R.id.VbsApplicationSubmit);
 
 
-
         //Spinner Dropdown for location
         apiService= APIUrl.getApiClient().create(ApiService.class);
         final retrofit2.Call<Status> call=apiService.getLocations();
         call.enqueue(new Callback<Status>() {
             @Override
             public void onResponse(retrofit2.Call<Status> call, Response<Status> response) {
+                if (response.body()==null){
+                    Toast.makeText(getActivity(),"rexponce null",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (response.body().getMessage().size()!=0) {
                     progressDialog1.dismiss();
                     locationTypes = response.body().getMessage();

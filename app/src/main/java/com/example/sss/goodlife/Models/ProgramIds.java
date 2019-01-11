@@ -2,11 +2,12 @@ package com.example.sss.goodlife.Models;
 
 public class ProgramIds {
 
-    String program_id,program_aim;
+    String program_id,location_id,area;
 
-    public ProgramIds(String program_id, String program_aim) {
+    public ProgramIds(String program_id, String location_id, String area) {
         this.program_id = program_id;
-        this.program_aim = program_aim;
+        this.location_id = location_id;
+        this.area = area;
     }
 
     public String getProgram_id() {
@@ -17,11 +18,21 @@ public class ProgramIds {
         this.program_id = program_id;
     }
 
-    public String getProgram_aim() {
-        return program_aim;
+    public String getLocation_id() {
+        return location_id;
     }
 
-    public void setProgram_aim(String program_aim) {
-        this.program_aim = program_aim;
+    public void setLocation_id(String location_id) {
+        this.location_id = location_id;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
     }
 }
+
+

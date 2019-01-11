@@ -48,15 +48,16 @@ import java.util.List;
 public class VendorListAdapter extends RecyclerView.Adapter<VendorListAdapter.VendorHoder> {
     private Context context;
     private List<VendorDataModel> vendorDataModels;
-    private String programId;
+    private String programId,locationId;
 
 
 
 
-    public VendorListAdapter(Context context, List<VendorDataModel> vendorDataModels, String programId) {
+    public VendorListAdapter(Context context, List<VendorDataModel> vendorDataModels, String programId,String locationId) {
         this.context=context;
         this.vendorDataModels=vendorDataModels;
         this.programId=programId;
+        this.locationId=locationId;
     }
 
     @NonNull
@@ -88,7 +89,9 @@ public class VendorListAdapter extends RecyclerView.Adapter<VendorListAdapter.Ve
                 Intent update=new Intent(context,UpDateFinanceReport.class);
                 update.putExtra("finance id",vendorDataModels.get(position).getFinance_id());
                 update.putExtra("vendor_id",vendorDataModels.get(position).getVendor_id());
+                update.putExtra("act_amount",vendorDataModels.get(position).getTotal_amount());
                 update.putExtra("program_id",programId);
+                update.putExtra("location_id",locationId);
                 context.startActivity(update);
             }
         });

@@ -9,9 +9,13 @@ public class Locations {
     @SerializedName("area")
     String area;
 
-    public Locations(int location_id, String area) {
+    @SerializedName("program_id")
+    String program_id;
+
+    public Locations(int location_id, String area, String program_id) {
         this.location_id = location_id;
         this.area = area;
+        this.program_id = program_id;
     }
 
     public int getLocation_id() {
@@ -28,5 +32,13 @@ public class Locations {
 
     public void setArea(String area) {
         this.area = area;
+    }
+
+    public String getProgram_id() {
+        return program_id;
+    }
+
+    public void setProgram_id(String program_id) {
+        this.program_id = program_id;
     }
 }

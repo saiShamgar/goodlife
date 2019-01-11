@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -54,7 +55,7 @@ import retrofit2.Response;
 public class ReviewsFragment extends Fragment {
     private ImageView ReveiwerImage;
     private TextView UploadButton;
-    private Spinner review_spinner_program_id;
+    private Spinner review_spinner_program_id,review_Category_spinner_program_id;
     private EditText review_email,review_phone,edt_review_description;
     private Button btn_submit_review;
 
@@ -66,9 +67,13 @@ public class ReviewsFragment extends Fragment {
     //Api calls
     private ApiService apiService;
     private List<ProgramIds> programIds;
-    private String programId;
+    private String programId,locationId;
     private ProgramsIdAdapter programidsAdapter;
     private ProgressDialog progressDialog;
+
+    private ArrayAdapter arrayAdapter;
+    private String Categories;
+    private ArrayList<String> categoryList=new ArrayList<>();
 
 
     public ReviewsFragment() {
@@ -104,6 +109,29 @@ public class ReviewsFragment extends Fragment {
         review_phone=view.findViewById(R.id.review_phone);
         edt_review_description=view.findViewById(R.id.edt_review_description);
         btn_submit_review=view.findViewById(R.id.btn_submit_review);
+        review_Category_spinner_program_id=view.findViewById(R.id.review_Category_spinner_program_id);
+
+        categoryList.add("Select Category");
+        categoryList.add("Testimonials");
+        categoryList.add("Teachers impression");
+        categoryList.add("General session-stage");
+        categoryList.add("Parents/Pastors");
+        categoryList.add("Individual/Children");
+        categoryList.add("Others");
+        arrayAdapter=new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,categoryList);
+        review_Category_spinner_program_id.setAdapter(arrayAdapter);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        review_Category_spinner_program_id.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Categories=parent.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         //Spinner Dropdown for ProgramNames
         apiService= APIUrl.getApiClient().create(ApiService.class);
@@ -111,6 +139,10 @@ public class ReviewsFragment extends Fragment {
         call.enqueue(new Callback<ProgramIdsStatus>() {
             @Override
             public void onResponse(retrofit2.Call<ProgramIdsStatus> call, Response<ProgramIdsStatus> response) {
+                if (response.body()==null){
+                    Toast.makeText(getActivity(),"responce null",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (response.body().getMessage().size()!=0) {
                     programIds = response.body().getMessage();
                     programidsAdapter = new ProgramsIdAdapter(getActivity(), (ArrayList<ProgramIds>) programIds);
@@ -121,6 +153,7 @@ public class ReviewsFragment extends Fragment {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             programId= String.valueOf(programidsAdapter.getItem(position).getProgram_id());
+                            locationId= String.valueOf(programidsAdapter.getItem(position).getLocation_id());
                         }
 
                         @Override
@@ -168,6 +201,7 @@ public class ReviewsFragment extends Fragment {
                 apiService= APIUrl.getApiClient().create(ApiService.class);
                 Call<FormStatus> transportCall=apiService.submitReview(
                         programId,
+                        locationId,
                         review_email.getText().toString(),
                         review_phone.getText().toString(),
                         edt_review_description.getText().toString(),

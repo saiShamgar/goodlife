@@ -46,12 +46,12 @@ import retrofit2.Response;
 public class UpDateFinanceReport extends Activity {
 
     private RelativeLayout updateFinanceLayout;
-    private TextView Calculate,amountFr;
+    private TextView Calculate,amountFr,sumbmittedFinanceReportTxt;
     private ImageView updatedQuotationFinance;
-    private TextView UploadButton;
+    private TextView UploadButton,amountFromDb;
 
 
-    private EditText amountFromDb,EnterAmountFinance;
+    private EditText EnterAmountFinance;
     private Button submitUpdatedFinanceReport;
 
     private int GALLERY = 1, CAMERA = 2;
@@ -61,7 +61,7 @@ public class UpDateFinanceReport extends Activity {
     private ProgressDialog progressDialog;
     private ApiService apiService;
 
-    private String financeId,Program_id,vendorId;
+    private String financeId,Program_id,vendorId,locatioId,act_amount;
 
 
     @Override
@@ -72,12 +72,15 @@ public class UpDateFinanceReport extends Activity {
         financeId=getIntent().getExtras().getString("finance id");
         vendorId=getIntent().getExtras().getString("vendor_id");
         Program_id=getIntent().getExtras().getString("program_id");
+        locatioId=getIntent().getExtras().getString("location_id");
+        act_amount=getIntent().getExtras().getString("act_amount");
 
         progressDialog=new ProgressDialog(this);
 
         updateFinanceLayout=findViewById(R.id.updateFinanceLayout);
         updatedQuotationFinance=findViewById(R.id.updatedQuotationFinance);
         UploadButton=findViewById(R.id.UploadButtonFinanceReport);
+        sumbmittedFinanceReportTxt=findViewById(R.id.sumbmittedFinanceReportTxt);
 
         submitUpdatedFinanceReport=findViewById(R.id.submitUpdatedFinanceReport);
 
@@ -85,6 +88,8 @@ public class UpDateFinanceReport extends Activity {
         EnterAmountFinance=findViewById(R.id.EnterAmountFinance);
         Calculate=findViewById(R.id.Calculate);
         amountFr=findViewById(R.id.amountFr);
+
+        amountFromDb.setText(act_amount);
 
         Calculate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,6 +150,7 @@ public class UpDateFinanceReport extends Activity {
                         Program_id,
                         financeId,
                         vendorId,
+                        locatioId,
                         amountFromDb.getText().toString(),
                         EnterAmountFinance.getText().toString(),
                         amountFr.getText().toString(),
@@ -159,9 +165,9 @@ public class UpDateFinanceReport extends Activity {
                         }
                         Toast.makeText(getApplicationContext(),response.body().getMessage(),Toast.LENGTH_SHORT).show();
                         progressDialog.dismiss();
+                        sumbmittedFinanceReportTxt.setVisibility(View.VISIBLE);
+                        submitUpdatedFinanceReport.setVisibility(View.GONE);
 
-                        Intent Main=new Intent(UpDateFinanceReport.this,MainActivity.class);
-                        startActivity(Main);
                     }
                     @Override
                     public void onFailure(Call<FormStatus> call, Throwable t) {

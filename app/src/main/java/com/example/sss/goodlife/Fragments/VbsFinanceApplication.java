@@ -138,7 +138,7 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
     private ApiService apiService;
     private List<ProgramIds> programIds;
     private List<BankAccountIds> bankAccountIds;
-    private String programId;
+    private String programId,locationId;
     private ProgramsIdAdapter programidsAdapter;
     private BankAccountAdapter bankAccountAdapter;
     private ArrayAdapter arrayAdapter;
@@ -194,17 +194,23 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
         call.enqueue(new Callback<ProgramIdsStatus>() {
             @Override
             public void onResponse(retrofit2.Call<ProgramIdsStatus> call, Response<ProgramIdsStatus> response) {
+                if (response.body()==null){
+                    Toast.makeText(getActivity(),"responce null",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (response.body().getMessage().size()!=0) {
                     programIds = response.body().getMessage();
                     finance_program_spinner.setPrompt("Select Location");
                     programidsAdapter = new ProgramsIdAdapter(getActivity(), (ArrayList<ProgramIds>) programIds);
                     finance_program_spinner.setAdapter(programidsAdapter);
+                    programidsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     progressDialog.dismiss();
 
                     finance_program_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             programId= String.valueOf(programidsAdapter.getItem(position).getProgram_id());
+                            locationId= String.valueOf(programidsAdapter.getItem(position).getLocation_id());
                             addMoreLayout.setVisibility(View.VISIBLE);
                             addMoreVendorDetails.setVisibility(View.VISIBLE);
                         }
@@ -498,6 +504,7 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
             @Override
             public void onClick(View v) {
 
+
                 if (TextUtils.isEmpty(financeExpenditure.getText().toString())){
                     financeExpenditure.setError("fields Cannot be Empty");
                     return;
@@ -595,6 +602,7 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
                 apiService= APIUrl.getApiClient().create(ApiService.class);
                 Call<FormStatus> financeCall=apiService.financeSubmission(
                         programId,
+                        locationId,
                         finan_list);
                 financeCall.enqueue(new Callback<FormStatus>() {
                     @Override

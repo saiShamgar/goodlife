@@ -43,7 +43,7 @@ public class ProgramsIdAdapter extends ArrayAdapter<ProgramIds> {
 
         View rowView = inflater.inflate(R.layout.spinner_list_item, parent, false);
         TextView textView = (TextView) rowView.findViewById(R.id.label);
-        textView.setText(values.get(position).getProgram_aim());
+        textView.setText(values.get(position).getArea());
         // Change icon based on name
         return rowView;
     }
@@ -55,7 +55,7 @@ public class ProgramsIdAdapter extends ArrayAdapter<ProgramIds> {
 
         View rowView = inflater.inflate(R.layout.spinner_list_item, parent, false);
         TextView textView = (TextView) rowView.findViewById(R.id.label);
-        textView.setText(values.get(position).getProgram_aim());
+        textView.setText(values.get(position).getArea());
         // Change icon based on name
         return rowView;
     }
