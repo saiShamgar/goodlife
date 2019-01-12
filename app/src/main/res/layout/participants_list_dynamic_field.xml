@@ -65,21 +65,24 @@
         android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:inputType="number"
-        android:imeOptions="actionNext"/>
+        android:imeOptions="actionNext"
+        android:gravity="center"/>
 
     <EditText
         android:id="@+id/num_women"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:inputType="number"
-        android:imeOptions="actionNext"/>
+        android:imeOptions="actionNext"
+        android:gravity="center"/>
 
     <EditText
         android:id="@+id/num_child"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:inputType="number"
-        android:imeOptions="actionDone"/>
+        android:imeOptions="actionDone"
+        android:gravity="center"/>
 
     <ImageButton
         android:id="@+id/delete_button_participaints"

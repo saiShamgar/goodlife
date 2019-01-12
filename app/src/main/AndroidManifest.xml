@@ -18,10 +18,13 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait">
+        </activity>
         <activity
             android:name=".SplashScreenActivity"
-            android:theme="@style/AppTheme1">
+            android:theme="@style/AppTheme1"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,14 +33,17 @@
         </activity>
         <activity
             android:name=".LoginPageActivity"
-            android:theme="@style/AppTheme1"></activity>
+            android:theme="@style/AppTheme1"
+            android:screenOrientation="portrait">
+        </activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/places_api_key" />
-
+            android:value="@string/places_api_key"/>
         <activity android:name=".UpDateFinanceReport"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>

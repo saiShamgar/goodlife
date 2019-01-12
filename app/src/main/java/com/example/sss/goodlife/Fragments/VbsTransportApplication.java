@@ -565,6 +565,7 @@ public class VbsTransportApplication extends Fragment implements GoogleApiClient
                 Log.e("tranport_list ",tranport_list);
 
 
+                submitVbsTransportApplication.setClickable(false);
                 transportProgressDialog.show();
                 apiService= APIUrl.getApiClient().create(ApiService.class);
                 Call<FormStatus> transportCall=apiService.transportSubmission(
@@ -576,6 +577,7 @@ public class VbsTransportApplication extends Fragment implements GoogleApiClient
                     public void onResponse(Call<FormStatus> call, Response<FormStatus> response) {
                         if (response.body()==null){
                             transportProgressDialog.dismiss();
+                            submitVbsTransportApplication.setClickable(true);
                             Toast.makeText(getActivity(),"responce null",Toast.LENGTH_SHORT).show();
                             return;
                         }
@@ -592,6 +594,7 @@ public class VbsTransportApplication extends Fragment implements GoogleApiClient
                     @Override
                     public void onFailure(Call<FormStatus> call, Throwable t) {
                         transportProgressDialog.dismiss();
+                        submitVbsTransportApplication.setClickable(true);
                         Toast.makeText(getActivity(),"Error",Toast.LENGTH_SHORT).show();
                     }
                 });

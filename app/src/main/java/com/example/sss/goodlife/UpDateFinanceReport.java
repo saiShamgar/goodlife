@@ -140,7 +140,7 @@ public class UpDateFinanceReport extends Activity {
                     Toast.makeText(getApplicationContext(),"please upload quotation image",Toast.LENGTH_SHORT).show();
                     return;
                 }
-
+                submitUpdatedFinanceReport.setClickable(false);
                 progressDialog.setTitle("Updating finance report");
                 progressDialog.setMessage("Please wait...,while we are submitting your details");
                 progressDialog.setCanceledOnTouchOutside(false);
@@ -160,6 +160,7 @@ public class UpDateFinanceReport extends Activity {
                     public void onResponse(Call<FormStatus> call, Response<FormStatus> response) {
                         if (response.body()==null){
                             progressDialog.dismiss();
+                            submitUpdatedFinanceReport.setClickable(true);
                             Toast.makeText(getApplicationContext(),"responce null",Toast.LENGTH_SHORT).show();
                             return;
                         }
@@ -167,11 +168,11 @@ public class UpDateFinanceReport extends Activity {
                         progressDialog.dismiss();
                         sumbmittedFinanceReportTxt.setVisibility(View.VISIBLE);
                         submitUpdatedFinanceReport.setVisibility(View.GONE);
-
                     }
                     @Override
                     public void onFailure(Call<FormStatus> call, Throwable t) {
                         progressDialog.dismiss();
+                        submitUpdatedFinanceReport.setClickable(true);
                         Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_SHORT).show();
                     }
                 });

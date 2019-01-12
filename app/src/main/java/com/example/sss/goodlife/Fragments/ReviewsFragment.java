@@ -186,6 +186,10 @@ public class ReviewsFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+                if (Categories.equals("Select Category")){
+                    Toast.makeText(getActivity(),"please select category",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (TextUtils.isEmpty(review_phone.getText().toString())){
                     review_phone.setError("field cannot be empty");
                     return;
@@ -194,6 +198,7 @@ public class ReviewsFragment extends Fragment {
                     edt_review_description.setError("field cannot be empty");
                     return;
                 }
+                btn_submit_review.setClickable(false);
                 progressDialog.setTitle("Submitting your review");
                 progressDialog.setMessage("Please wait...,while we are submitting your details");
                 progressDialog.setCanceledOnTouchOutside(false);
@@ -202,6 +207,7 @@ public class ReviewsFragment extends Fragment {
                 Call<FormStatus> transportCall=apiService.submitReview(
                         programId,
                         locationId,
+                        Categories,
                         review_email.getText().toString(),
                         review_phone.getText().toString(),
                         edt_review_description.getText().toString(),
@@ -211,6 +217,7 @@ public class ReviewsFragment extends Fragment {
                     public void onResponse(Call<FormStatus> call, Response<FormStatus> response) {
                         if (response.body()==null){
                             progressDialog.dismiss();
+                            btn_submit_review.setClickable(true);
                             Toast.makeText(getActivity(),"responce null",Toast.LENGTH_SHORT).show();
                             return;
                         }
@@ -227,6 +234,7 @@ public class ReviewsFragment extends Fragment {
                     @Override
                     public void onFailure(Call<FormStatus> call, Throwable t) {
                         progressDialog.dismiss();
+                        btn_submit_review.setClickable(true);
                         Toast.makeText(getActivity(),"Error",Toast.LENGTH_SHORT).show();
                     }
                 });

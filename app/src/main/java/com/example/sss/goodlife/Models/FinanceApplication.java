@@ -4,11 +4,12 @@ import java.util.ArrayList;
 
 public class FinanceApplication {
 
-    ArrayList<String> vendor_name,location,phone,total_amount,account_name,payment_type,
-            bank_acno,bank_ifsc_code,expenditure_desc,quation_image;
+    ArrayList<String> vendor_name,userAccountName,location,phone,total_amount,account_name,payment_type,
+            bank_acno,bank_ifsc_code,expenditure_desc,quation_image,finance_category;
 
-    public FinanceApplication(ArrayList<String> vendor_name, ArrayList<String> location, ArrayList<String> phone, ArrayList<String> total_amount, ArrayList<String> account_name, ArrayList<String> payment_type, ArrayList<String> bank_acno, ArrayList<String> bank_ifsc_code, ArrayList<String> expenditure_desc, ArrayList<String> quation_image) {
+    public FinanceApplication(ArrayList<String> vendor_name, ArrayList<String> userAccountName, ArrayList<String> location, ArrayList<String> phone, ArrayList<String> total_amount, ArrayList<String> account_name, ArrayList<String> payment_type, ArrayList<String> bank_acno, ArrayList<String> bank_ifsc_code, ArrayList<String> expenditure_desc, ArrayList<String> quation_image, ArrayList<String> finance_category) {
         this.vendor_name = vendor_name;
+        this.userAccountName = userAccountName;
         this.location = location;
         this.phone = phone;
         this.total_amount = total_amount;
@@ -18,6 +19,24 @@ public class FinanceApplication {
         this.bank_ifsc_code = bank_ifsc_code;
         this.expenditure_desc = expenditure_desc;
         this.quation_image = quation_image;
+        this.finance_category = finance_category;
+    }
+
+
+    public ArrayList<String> getFinance_category() {
+        return finance_category;
+    }
+
+    public void setFinance_category(ArrayList<String> finance_category) {
+        this.finance_category = finance_category;
+    }
+
+    public ArrayList<String> getUserAccountName() {
+        return userAccountName;
+     }
+
+    public void setUserAccountName(ArrayList<String> userAccountName) {
+        this.userAccountName = userAccountName;
     }
 
     public ArrayList<String> getVendor_name() {

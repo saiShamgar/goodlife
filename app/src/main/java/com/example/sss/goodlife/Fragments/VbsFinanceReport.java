@@ -158,7 +158,6 @@ public class VbsFinanceReport extends Fragment {
                 progressDialog.setMessage("Please wait...,");
                 progressDialog.setCanceledOnTouchOutside(false);
                 progressDialog.show();
-
                 apiService= APIUrl.getApiClient().create(ApiService.class);
                 retrofit2.Call<VendorDataFromDb> call=apiService.vendorData(programId,locationid);
                 call.enqueue(new Callback<VendorDataFromDb>() {

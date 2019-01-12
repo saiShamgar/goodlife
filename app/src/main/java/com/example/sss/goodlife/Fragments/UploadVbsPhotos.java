@@ -264,6 +264,10 @@ public class UploadVbsPhotos extends Fragment {
         uploadPicsSumitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (Categories.equals("Select Category")){
+                    Toast.makeText(getActivity(),"please Select Category",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (uploadPicsSelectDate.getText().toString().equals("Select Date")){
                     Toast.makeText(getActivity(),"please Select date",Toast.LENGTH_SHORT).show();
                     return;
@@ -287,7 +291,7 @@ public class UploadVbsPhotos extends Fragment {
                     String Images = gson.toJson(multipleImages);
                   //  Log.e("Images",Images);
 
-
+                    uploadPicsSumitButton.setClickable(false);
                     progressDialog=new ProgressDialog(getActivity());
                     progressDialog.setTitle("Uploading images");
                     progressDialog.setMessage("Please wait...,");
@@ -299,7 +303,8 @@ public class UploadVbsPhotos extends Fragment {
                                 Images,
                                 locationId,
                             uploadPicsSelectDate.getText().toString(),
-                            Categories
+                            Categories,
+                            uploadPicsDescription.getText().toString()
 
                     );
                     call1.enqueue(new Callback<FormStatus>() {
@@ -307,6 +312,7 @@ public class UploadVbsPhotos extends Fragment {
                         public void onResponse(Call<FormStatus> call, Response<FormStatus> response) {
                             if (response.body()==null){
                                 progressDialog.dismiss();
+                                uploadPicsSumitButton.setClickable(true);
                                 Toast.makeText(getActivity(),"responce null",Toast.LENGTH_SHORT).show();
                                 return;
                             }
@@ -323,6 +329,7 @@ public class UploadVbsPhotos extends Fragment {
                         @Override
                         public void onFailure(Call<FormStatus> call, Throwable t) {
                             progressDialog.dismiss();
+                            uploadPicsSumitButton.setClickable(true);
                             Toast.makeText(getActivity(),"error",Toast.LENGTH_SHORT).show();
                         }
                     });

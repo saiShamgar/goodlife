@@ -10,6 +10,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Base64;
@@ -28,6 +30,7 @@ import com.example.sss.goodlife.Adapters.ProgramsIdAdapter;
 import com.example.sss.goodlife.Api.APIUrl;
 import com.example.sss.goodlife.Api.ApiService;
 import com.example.sss.goodlife.MainActivity;
+import com.example.sss.goodlife.Models.FormStatus;
 import com.example.sss.goodlife.Models.ProgramIds;
 import com.example.sss.goodlife.Models.ProgramIdsStatus;
 import com.example.sss.goodlife.R;
@@ -45,6 +48,7 @@ import java.net.SocketImpl;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
@@ -150,6 +154,49 @@ public class SuccessStories extends Fragment {
                     edt_SuccessStories_description.setError("Field cannot be empty");
                     return;
                 }
+                btn_submit_SuccessStories.setClickable(false);
+                progressDialog=new ProgressDialog(getActivity());
+                progressDialog.setTitle("Submitting Success Story");
+                progressDialog.setMessage("Please wait...,While we are submitting your details");
+                progressDialog.setCanceledOnTouchOutside(false);
+                progressDialog.show();
+                apiService= APIUrl.getApiClient().create(ApiService.class);
+                final retrofit2.Call<FormStatus> call=apiService.successStory(
+                            programId,
+                        locationId,
+                        SuccessStories_email.getText().toString(),
+                        SuccessStories_phone.getText().toString(),
+                        edt_SuccessStories_description.getText().toString(),
+                        imageToString(bmp));
+
+                call.enqueue(new Callback<FormStatus>() {
+                    @Override
+                    public void onResponse(Call<FormStatus> call, Response<FormStatus> response) {
+                        if (response.body()==null){
+                            progressDialog.dismiss();
+                            btn_submit_SuccessStories.setClickable(true);
+                            Toast.makeText(getActivity(),"responce null",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        Toast.makeText(getActivity(),response.body().getMessage(),Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
+
+                        FragmentManager manager = getActivity().getSupportFragmentManager();
+                        FragmentTransaction transaction = manager.beginTransaction();
+                        HomeFragment fragment=new HomeFragment();
+                        transaction.replace(R.id.frameContainer, fragment);
+                        transaction.commit();
+                    }
+
+                    @Override
+                    public void onFailure(Call<FormStatus> call, Throwable t) {
+                        progressDialog.dismiss();
+                        btn_submit_SuccessStories.setClickable(true);
+                        Toast.makeText(getActivity(),"Error",Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
 
             }
         });

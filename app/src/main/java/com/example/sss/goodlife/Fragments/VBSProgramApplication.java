@@ -612,6 +612,7 @@ public class VBSProgramApplication extends Fragment{
                 Log.e("participants ",participants);
 
 
+                VbsApplicationSubmit.setClickable(false);
                 apiService= APIUrl.getApiClient().create(ApiService.class);
                 Call<FormStatus> formStatusCall=apiService.FormSubmission(
                         VbsProgramAim.getText().toString(),
@@ -623,6 +624,7 @@ public class VBSProgramApplication extends Fragment{
                     public void onResponse(Call<FormStatus> call, Response<FormStatus> response) {
                         if (response.body()==null){
                             progressDialog.dismiss();
+                            VbsApplicationSubmit.setClickable(true);
                             Toast.makeText(getActivity(),"responce null",Toast.LENGTH_SHORT).show();
                             return;
                         }
@@ -639,6 +641,7 @@ public class VBSProgramApplication extends Fragment{
                     @Override
                     public void onFailure(Call<FormStatus> call, Throwable t) {
                         progressDialog.dismiss();
+                        VbsApplicationSubmit.setClickable(true);
                         Toast.makeText(getActivity(),"Error",Toast.LENGTH_SHORT).show();
                     }
                 });

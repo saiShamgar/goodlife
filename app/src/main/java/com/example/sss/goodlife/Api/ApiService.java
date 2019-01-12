@@ -126,6 +126,7 @@ public interface ApiService {
         Call<FormStatus> submitReview(
                 @Field("program_id") String program_id,
                 @Field("location_id") String location_id,
+                @Field("review_category") String review_category,
                 @Field("email") String email,
                 @Field("phone")String phone,
                 @Field("review")String review,
@@ -139,7 +140,20 @@ public interface ApiService {
                 @Field("images_list") String program_img,
                 @Field("location_id") String location_id,
                 @Field("date")String date,
-                @Field("img_category")String img_category);
+                @Field("img_category")String img_category,
+                @Field("img_desc")String uploadPicsDescription);
+
+        @Headers("X-API-KEY:" + "Goodlife@&121%")
+        @FormUrlEncoded
+        @POST("program_list/program_application/success_report")
+        Call<FormStatus> successStory(
+                @Field("program_id") String program_id,
+                @Field("location_id") String location_id,
+                @Field("email") String email,
+                @Field("phone")String phone,
+                @Field("success_story")String success_story,
+                @Field("story_image")String story_image);
+
 
 
 

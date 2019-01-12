@@ -89,12 +89,13 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
     private TextView vendorDeleteVbs;
     private LinearLayout dynamicFinanceLayout,addMoreLayout;
     private EditText financeExpenditure,financeCompanyname,financeCompanyPhone
-            ,financeTotalBidding,financeCompanyBankNum,financeCompanyBankIfsc;
+            ,financeTotalBidding,financeCompanyBankNum,financeCompanyBankIfsc,financeBankAccountName;
     private Button submitVbsfinanceApplication,vbs_quotation_upload_button,addMoreVendorDetails;
     private ImageView vbs_upload_quotation_image;
-    private Spinner finance_program_spinner,financeAccountType,financePaymentProcess;
+    private Spinner finance_program_spinner,financeAccountType,financePaymentProcess,financeCategorySpinner;
 
     private ArrayList<EditText> selectedFinanceExpenditure=new ArrayList<>();
+    private ArrayList<EditText> selectedFinanceBankAccountName=new ArrayList<>();
     private ArrayList<EditText> selectedFinanceCompanyName=new ArrayList<>();
     private ArrayList<EditText> selectedFinanceCompanyLocation=new ArrayList<>();
     private ArrayList<EditText> selectedFinanceCompanyPhone=new ArrayList<>();
@@ -104,8 +105,10 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
     private ArrayList<Spinner> selectedFinanceBankAccountTypes=new ArrayList<>();
     private ArrayList<ImageView> selectedFinanceQuataionImages=new ArrayList<>();
     private ArrayList<Spinner> selectedFinancePaymentType=new ArrayList<>();
+    private ArrayList<Spinner> selectedfinanceCategorySpinner=new ArrayList<>();
 
     private ArrayList<String> ListselectedFinanceBankAccountTypes=new ArrayList<>();
+    private ArrayList<String>ListselectedFinanceBankAccountName=new ArrayList<>();
     private ArrayList<String> ListselectedFinanceTypeOfPayments=new ArrayList<>();
     private ArrayList<String> ListselectedFinanceExpenditure=new ArrayList<>();
     private ArrayList<String> ListselectedFinanceCompanyName=new ArrayList<>();
@@ -116,6 +119,7 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
     private ArrayList<String> ListselectedFinanceCompanyBankIfsc=new ArrayList<>();
     private ArrayList<String> ListselectedFinanceQuatationImages=new ArrayList<>();
     private ArrayList<String> ListselectedFinancePaymentType=new ArrayList<>();
+    private ArrayList<String> ListselectedfinanceCategorySpinner=new ArrayList<>();
 
 
     private int GALLERY = 1, CAMERA = 2;
@@ -141,9 +145,11 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
     private String programId,locationId;
     private ProgramsIdAdapter programidsAdapter;
     private BankAccountAdapter bankAccountAdapter;
-    private ArrayAdapter arrayAdapter;
+    private ArrayAdapter arrayAdapter,categoryAdapter;
     private ArrayList<String> paymentType=new ArrayList<>();
+    private ArrayList<String> categoryList=new ArrayList<>();
     private ProgressDialog progressDialog,financeSubmissionDialog;
+    private String Categories;
 
 
     public VbsFinanceApplication() {
@@ -271,12 +277,8 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
                         financeTotalBidding.setError("fields Cannot be Empty");
                         return;
                     }
-                    if (TextUtils.isEmpty(financeCompanyBankNum.getText().toString())){
-                        financeCompanyBankNum.setError("fields Cannot be Empty");
-                        return;
-                    }
-                    if (TextUtils.isEmpty(financeCompanyBankIfsc.getText().toString())){
-                        financeCompanyBankIfsc.setError("fields Cannot be Empty");
+                    if (bmp==null){
+                        Toast.makeText(getActivity(),"please upload quotation image",Toast.LENGTH_SHORT).show();
                         return;
                     }
 
@@ -295,6 +297,36 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
                 financePaymentProcess=rowView.findViewById(R.id.financePaymentProcess);
                 vbs_upload_quotation_image=rowView.findViewById(R.id.vbs_upload_quotation_image);
                 vbs_quotation_upload_button=rowView.findViewById(R.id.vbs_quotation_upload_button);
+                financeBankAccountName=rowView.findViewById(R.id.financeBankAccountName);
+                financeCategorySpinner=rowView.findViewById(R.id.financeCategorySpinner);
+
+                categoryList.add("sound and lighting");
+                categoryList.add("tents house");
+                categoryList.add("catering");
+                categoryList.add("transportation");
+                categoryList.add("Kids Transportations");
+                categoryList.add("food and vessels transportation");
+                categoryList.add("communication");
+                categoryList.add("hired workers renumaration");
+                categoryList.add("volenteers honourorium");
+                categoryList.add("Stationary and craft items");
+                categoryList.add("Venues");
+                categoryList.add("hospitality for temp staff");
+                categoryList.add("Publicity");
+                categoryList.add("hired items");
+                categoryList.add("Food and Waters");
+                categoryList.add("hired items");
+                categoryList.add("Staff and Temporary staff food vehicle gas & maintanance");
+                categoryList.add("VBS Gas");
+                categoryList.add("medical");
+                categoryList.add("hospitality for temp staff");
+                categoryList.add("Legel Permissions");
+                categoryList.add("printing and promotions");
+                categoryList.add("clothing");
+                categoryList.add("general");
+                categoryAdapter=new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,categoryList);
+                financeCategorySpinner.setAdapter(categoryAdapter);
+                arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
                 progressDialog.show();
                 //Spinner Dropdown for location
@@ -337,6 +369,7 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
                 });
 
                 selectedFinanceExpenditure.add(financeExpenditure);
+                selectedFinanceBankAccountName.add(financeBankAccountName);
                 selectedFinanceCompanyName.add(financeCompanyname);
                 selectedFinanceCompanyLocation.add(financeCompanyLocation);
                 selectedFinanceCompanyPhone.add(financeCompanyPhone);
@@ -346,6 +379,7 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
                 selectedFinanceBankAccountTypes.add(financeAccountType);
                 selectedFinanceQuataionImages.add(vbs_upload_quotation_image);
                 selectedFinancePaymentType.add(financePaymentProcess);
+                selectedfinanceCategorySpinner.add(financeCategorySpinner);
 
 
                 vendorDeleteVbs.setOnClickListener(new View.OnClickListener() {
@@ -362,6 +396,8 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
                         selectedFinanceBankAccountTypes.remove(financeAccountType);
                         selectedFinanceQuataionImages.remove(vbs_upload_quotation_image);
                         selectedFinancePaymentType.remove(financePaymentProcess);
+                        selectedFinanceBankAccountName.remove(financeBankAccountName);
+                        selectedfinanceCategorySpinner.remove(financeCategorySpinner);
 
                     }
                 });
@@ -398,12 +434,8 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
                         financeTotalBidding.setError("fields Cannot be Empty");
                         return;
                     }
-                    if (TextUtils.isEmpty(financeCompanyBankNum.getText().toString())){
-                        financeCompanyBankNum.setError("fields Cannot be Empty");
-                        return;
-                    }
-                    if (TextUtils.isEmpty(financeCompanyBankIfsc.getText().toString())){
-                        financeCompanyBankIfsc.setError("fields Cannot be Empty");
+                    if (bmp==null){
+                        Toast.makeText(getActivity(),"please upload quotation image",Toast.LENGTH_SHORT).show();
                         return;
                     }
 
@@ -422,6 +454,36 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
                 vendorDeleteVbs=rowView.findViewById(R.id.vendorDeleteVbs);
                 vbs_upload_quotation_image=rowView.findViewById(R.id.vbs_upload_quotation_image);
                 vbs_quotation_upload_button=rowView.findViewById(R.id.vbs_quotation_upload_button);
+                financeBankAccountName=rowView.findViewById(R.id.financeBankAccountName);
+                financeCategorySpinner=rowView.findViewById(R.id.financeCategorySpinner);
+
+                categoryList.add("sound and lighting");
+                categoryList.add("tents house");
+                categoryList.add("catering");
+                categoryList.add("transportation");
+                categoryList.add("Kids Transportations");
+                categoryList.add("food and vessels transportation");
+                categoryList.add("communication");
+                categoryList.add("hired workers renumaration");
+                categoryList.add("volenteers honourorium");
+                categoryList.add("Stationary and craft items");
+                categoryList.add("Venues");
+                categoryList.add("hospitality for temp staff");
+                categoryList.add("Publicity");
+                categoryList.add("hired items");
+                categoryList.add("Food and Waters");
+                categoryList.add("hired items");
+                categoryList.add("Staff and Temporary staff food vehicle gas & maintanance");
+                categoryList.add("VBS Gas");
+                categoryList.add("medical");
+                categoryList.add("hospitality for temp staff");
+                categoryList.add("Legel Permissions");
+                categoryList.add("printing and promotions");
+                categoryList.add("clothing");
+                categoryList.add("general");
+                categoryAdapter=new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,categoryList);
+                financeCategorySpinner.setAdapter(categoryAdapter);
+                arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
                 progressDialog.show();
                 //Spinner Dropdown for location
@@ -436,7 +498,6 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
                             bankAccountAdapter = new BankAccountAdapter(getActivity(), (ArrayList<BankAccountIds>) bankAccountIds);
                             financeAccountType.setAdapter(bankAccountAdapter);
                             progressDialog.dismiss();
-
                         }
                         else {
                             progressDialog.dismiss();
@@ -474,8 +535,8 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
                 selectedFinanceCompanyBankIfsc.add(financeCompanyBankIfsc);
                 selectedFinanceBankAccountTypes.add(financeAccountType);
                 selectedFinancePaymentType.add(financePaymentProcess);
-
-
+                selectedFinanceBankAccountName.add(financeBankAccountName);
+                selectedfinanceCategorySpinner.add(financeCategorySpinner);
 
 
                 vendorDeleteVbs.setOnClickListener(new View.OnClickListener() {
@@ -491,6 +552,8 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
                         selectedFinanceCompanyBankIfsc.remove(financeCompanyBankIfsc);
                         selectedFinanceBankAccountTypes.remove(financeAccountType);
                         selectedFinancePaymentType.remove(financePaymentProcess);
+                        selectedFinanceBankAccountName.remove(financeBankAccountName);
+                        selectedfinanceCategorySpinner.remove(financeCategorySpinner);
 
                         if (bmp!=null)
                         ListselectedFinanceQuatationImages.remove(imageToString(bmp));
@@ -503,7 +566,6 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
         submitVbsfinanceApplication.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
                 if (TextUtils.isEmpty(financeExpenditure.getText().toString())){
                     financeExpenditure.setError("fields Cannot be Empty");
@@ -525,19 +587,10 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
                     financeTotalBidding.setError("fields Cannot be Empty");
                     return;
                 }
-                if (TextUtils.isEmpty(financeCompanyBankNum.getText().toString())){
-                    financeCompanyBankNum.setError("fields Cannot be Empty");
-                    return;
-                }
-                if (TextUtils.isEmpty(financeCompanyBankIfsc.getText().toString())){
-                    financeCompanyBankIfsc.setError("fields Cannot be Empty");
-                    return;
-                }
                 if (bmp==null){
                     Toast.makeText(getActivity(),"please upload quotation image",Toast.LENGTH_SHORT).show();
                     return;
                 }
-
                 ListselectedFinanceExpenditure.clear();
                 ListselectedFinanceCompanyName.clear();
                 ListselectedFinanceCompanyLocation.clear();
@@ -547,6 +600,7 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
                 ListselectedFinanceCompanyBankIfsc.clear();
                 ListselectedFinanceBankAccountTypes.clear();
                 ListselectedFinanceTypeOfPayments.clear();
+                ListselectedfinanceCategorySpinner.clear();
 
                     for (int i=0;i<selectedFinanceExpenditure.size();i++){
 //                        Log.e("FinanceExpenditure",selectedFinanceExpenditure.get(i).getText().toString());
@@ -558,6 +612,7 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
 //                        Log.e("financeCompanyBankIfsc",selectedFinanceCompanyBankIfsc.get(i).getText().toString());
 
                         ListselectedFinanceExpenditure.add(selectedFinanceExpenditure.get(i).getText().toString());
+                        ListselectedFinanceBankAccountName.add(selectedFinanceBankAccountName.get(i).getText().toString());
                         ListselectedFinanceCompanyName.add(selectedFinanceCompanyName.get(i).getText().toString());
                         ListselectedFinanceCompanyLocation.add(selectedFinanceCompanyLocation.get(i).getText().toString());
                         ListselectedFinanceCompanyPhone.add(selectedFinanceCompanyPhone.get(i).getText().toString());
@@ -565,6 +620,7 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
                         ListselectedFinanceCompanyBankNum.add(selectedFinanceCompanyBankNum.get(i).getText().toString());
                         ListselectedFinanceCompanyBankIfsc.add(selectedFinanceCompanyBankIfsc.get(i).getText().toString());
                         ListselectedFinanceBankAccountTypes.add(bankAccountAdapter.getItem(financeAccountType.getSelectedItemPosition()).getBank_id());
+                        ListselectedfinanceCategorySpinner.add(selectedfinanceCategorySpinner.get(i).getSelectedItem().toString());
                         ListselectedFinanceTypeOfPayments.add(selectedFinancePaymentType.get(i).getSelectedItem().toString());
 
 
@@ -578,10 +634,12 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
                         Log.e("BankAccountTypes",ListselectedFinanceBankAccountTypes.toString());
                         Log.e("QuatationImages",ListselectedFinanceQuatationImages.toString());
                         Log.e("TypeOfPayments",ListselectedFinanceTypeOfPayments.toString());
+                        Log.e("finance category",ListselectedfinanceCategorySpinner.toString());
                     }
 
                 FinanceApplication financeList =new FinanceApplication(
                         ListselectedFinanceCompanyName,
+                        ListselectedFinanceBankAccountName,
                         ListselectedFinanceCompanyLocation,
                         ListselectedFinanceCompanyPhone,
                         ListselectedFinanceCompanyTotalBidding,
@@ -590,14 +648,15 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
                         ListselectedFinanceCompanyBankNum,
                         ListselectedFinanceCompanyBankIfsc,
                         ListselectedFinanceExpenditure,
-                        ListselectedFinanceQuatationImages);
+                        ListselectedFinanceQuatationImages,
+                        ListselectedfinanceCategorySpinner);
 
                 Gson gson = new Gson();
                 String finan_list = gson.toJson(financeList);
                 Log.e("program id ",programId);
                 Log.e("participants ",finan_list);
 
-
+                submitVbsfinanceApplication.setClickable(false);
                 financeSubmissionDialog.show();
                 apiService= APIUrl.getApiClient().create(ApiService.class);
                 Call<FormStatus> financeCall=apiService.financeSubmission(
@@ -609,6 +668,7 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
                     public void onResponse(Call<FormStatus> call, Response<FormStatus> response) {
                         if (response.body()==null){
                             financeSubmissionDialog.dismiss();
+                            submitVbsfinanceApplication.setClickable(true);
                             Toast.makeText(getActivity(),"responce null",Toast.LENGTH_SHORT).show();
                             return;
                         }
@@ -625,6 +685,7 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
                     @Override
                     public void onFailure(Call<FormStatus> call, Throwable t) {
                         financeSubmissionDialog.dismiss();
+                        submitVbsfinanceApplication.setClickable(true);
                         Toast.makeText(getActivity(),"Error",Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -663,7 +724,6 @@ public class VbsFinanceApplication extends Fragment implements GoogleApiClient.O
         if (permissionCheck){
             Intent galleryIntent = new Intent(Intent.ACTION_PICK,
                     android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
             startActivityForResult(galleryIntent, GALLERY);
         }else {
             requestMultiplePermissions();

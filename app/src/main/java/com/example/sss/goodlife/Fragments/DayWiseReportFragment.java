@@ -212,8 +212,7 @@ public class DayWiseReportFragment extends Fragment {
                     edt_dayWise_Challenges.setError("field cannot be empty");
                     return;
                 }
-
-
+                submitDailyReport.setClickable(false);
                 reportSubDialog.show();
                 apiService= APIUrl.getApiClient().create(ApiService.class);
                 Call<FormStatus> transportCall=apiService.daywiseReportSubmission(
@@ -234,6 +233,7 @@ public class DayWiseReportFragment extends Fragment {
                     public void onResponse(Call<FormStatus> call, Response<FormStatus> response) {
                         if (response.body()==null){
                             reportSubDialog.dismiss();
+                            submitDailyReport.setClickable(true);
                             Toast.makeText(getActivity(),"responce null",Toast.LENGTH_SHORT).show();
                             return;
                         }
@@ -250,6 +250,7 @@ public class DayWiseReportFragment extends Fragment {
                     @Override
                     public void onFailure(Call<FormStatus> call, Throwable t) {
                         reportSubDialog.dismiss();
+                        submitDailyReport.setClickable(true);
                         Toast.makeText(getActivity(),"Error",Toast.LENGTH_SHORT).show();
                     }
                 });
