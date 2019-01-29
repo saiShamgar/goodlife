@@ -238,8 +238,6 @@ public class UploadVbsPhotos extends Fragment {
 
                 vbs_upload_quotation_image=rowView.findViewById(R.id.mul_image_layout);
 
-
-
                 vbs_upload_quotation_image.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

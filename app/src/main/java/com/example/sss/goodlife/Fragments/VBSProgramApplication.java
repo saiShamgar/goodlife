@@ -622,7 +622,7 @@ public class VBSProgramApplication extends Fragment{
                 formStatusCall.enqueue(new Callback<FormStatus>() {
                     @Override
                     public void onResponse(Call<FormStatus> call, Response<FormStatus> response) {
-                        if (response.body()==null){
+                        if (response.body().getStatus()==null){
                             progressDialog.dismiss();
                             VbsApplicationSubmit.setClickable(true);
                             Toast.makeText(getActivity(),"responce null",Toast.LENGTH_SHORT).show();
